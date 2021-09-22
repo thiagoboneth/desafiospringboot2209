@@ -1,29 +1,18 @@
 package com.meli.desafiospringboot2209.entity;
 
 public class Paciente {
-    public String especie;
-    public String raca;
-    public String cor;
-    public String dataNascimento;
-    public String nome;
-    public String sexo;
-    public Proprietario proprietario;
 
-    public Paciente(String especie, String raca, String cor, String dataNascimento, String nome, String sexo, Proprietario proprietario) {
-
-        this.especie = especie;
-        this.raca = raca;
-        this.cor = cor;
-        this.dataNascimento = dataNascimento;
-        this.nome = nome;
-        this.sexo = sexo;
-        this.proprietario = proprietario;
-    }
+    private String especie;
+    private String raca;
+    private String cor;
+    private String dataNascimento;
+    private String nome;
+    private Character sexo;
+    private Proprietario proprietario;
 
     public Paciente() {
 
     }
-
 
     public String getEspecie() {
         return especie;
@@ -45,12 +34,44 @@ public class Paciente {
         return nome;
     }
 
-    public String getSexo() {
+    public Character getSexo() {
         return sexo;
     }
 
-    public Proprietario getProprietario() {
-        return proprietario;
+    // Interfaces fluentes
+    public Paciente comEspecie(String especie) {
+        this.especie = especie;
+        return this;
+    }
+
+    public Paciente comRaca(String raca) {
+        this.raca = raca;
+        return this;
+    }
+
+    public Paciente comCor(String cor) {
+        this.cor = cor;
+        return this;
+    }
+
+    public Paciente comDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
+        return this;
+    }
+
+    public Paciente comNome(String nome) {
+        this.nome = nome;
+        return this;
+    }
+
+    public Paciente comSexo(Character sexo) {
+        this.sexo = sexo;
+        return this;
+    }
+
+    public Paciente comProprietario(Proprietario proprietario) {
+        this.proprietario = proprietario;
+        return this;
     }
 
     @Override
@@ -61,7 +82,7 @@ public class Paciente {
                 ", cor='" + cor + '\'' +
                 ", dataNascimento='" + dataNascimento + '\'' +
                 ", nome='" + nome + '\'' +
-                ", sexo='" + sexo + '\'' +
+                ", sexo=" + sexo +
                 ", proprietario=" + proprietario +
                 '}';
     }

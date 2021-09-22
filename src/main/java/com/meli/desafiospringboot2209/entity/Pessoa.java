@@ -1,10 +1,11 @@
 package com.meli.desafiospringboot2209.entity;
 
 public class Pessoa {
-    public String cpf;
-    public String nome;
-    public String sobrenome;
-    public String dataNascimento;
+
+    private String cpf;
+    private String nome;
+    private String sobrenome;
+    private String dataNascimento;
 
     public Pessoa(String cpf, String nome, String sobrenome, String dataNascimento) {
         this.cpf = cpf;
@@ -51,7 +52,11 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{cpf='" + cpf + ", nome=" + nome + ", sobrenome=" + sobrenome + ", dataNascimento=" + dataNascimento +  "}";
+        return "Pessoa{" +
+                "cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
+                '}';
     }
-
 }

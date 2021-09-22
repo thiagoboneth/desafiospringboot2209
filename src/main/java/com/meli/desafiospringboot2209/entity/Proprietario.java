@@ -1,15 +1,10 @@
 package com.meli.desafiospringboot2209.entity;
 
-public class Proprietario extends Pessoa {
-    public String endereco;
-    public String telefone;
+public class Proprietario{
 
-    public Proprietario(String cpf, String nome, String sobrenome, String dataNascimento ,String endereco, String telefone) {
-        super(cpf,nome,sobrenome,dataNascimento);
-        this.endereco = endereco;
-        this.telefone = telefone;
-    }
-
+    private Pessoa pessoa;
+    private String endereco;
+    private String telefone;
 
     public Proprietario() {
 
@@ -31,8 +26,28 @@ public class Proprietario extends Pessoa {
         this.telefone = telefone;
     }
 
-    public String toString() {
-        return "Proprietario{proprietario='" + ", endereco=" + endereco + ", telefone=" + telefone +  "}";
+    // Interfaces fluentes
+    public Proprietario comPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+        return this;
     }
 
+    public Proprietario comEndereco(String endereco) {
+        this.endereco = endereco;
+        return this;
+    }
+
+    public Proprietario comTelefone(String telefone) {
+        this.telefone = telefone;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Proprietario{" +
+                "pessoa=" + pessoa +
+                ", endereco='" + endereco + '\'' +
+                ", telefone='" + telefone + '\'' +
+                '}';
+    }
 }

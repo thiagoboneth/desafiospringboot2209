@@ -3,21 +3,13 @@ package com.meli.desafiospringboot2209.entity;
 import java.time.LocalDate;
 
 public class Consulta {
-    LocalDate dataHora;
-    public Paciente paciente;
-    public String motivo;
-    public Veterinario veterinario;
-    public String diagnostico;
-    public String tratamento;
 
-    public Consulta(LocalDate dataHora, Paciente paciente, String motivo, Veterinario veterinario, String diagnostico, String tratamento) {
-        this.dataHora = dataHora;
-        this.paciente = paciente;
-        this.motivo = motivo;
-        this.veterinario = veterinario;
-        this.diagnostico = diagnostico;
-        this.tratamento = tratamento;
-    }
+    private LocalDate dataHora;
+    private Paciente paciente;
+    private String motivo;
+    private Veterinario veterinario;
+    private String diagnostico;
+    private String tratamento;
 
     public Consulta() {
 
@@ -45,6 +37,37 @@ public class Consulta {
 
     public String getTratamento() {
         return tratamento;
+    }
+
+    // Interfaces fluentes
+    public Consulta comDataHora(LocalDate dataHora) {
+        this.dataHora = dataHora;
+        return this;
+    }
+
+    public Consulta comPaciente(Paciente paciente) {
+        this.paciente = paciente;
+        return this;
+    }
+
+    public Consulta comMotivo(String motivo) {
+        this.motivo = motivo;
+        return this;
+    }
+
+    public Consulta comVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
+        return this;
+    }
+
+    public Consulta comDiagnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+        return this;
+    }
+
+    public Consulta comTratamento(String tratamento) {
+        this.tratamento = tratamento;
+        return this;
     }
 
     @Override
