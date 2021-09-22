@@ -1,6 +1,6 @@
 package com.meli.desafiospringboot2209;
 
-import com.meli.desafiospringboot2209.ArquivoUtil.Listagem;
+import com.meli.desafiospringboot2209.util.Listagem;
 
 import java.io.IOException;
 

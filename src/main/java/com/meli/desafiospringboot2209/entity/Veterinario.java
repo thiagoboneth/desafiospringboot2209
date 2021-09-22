@@ -1,4 +1,4 @@
-package com.meli.desafiospringboot2209.model;
+package com.meli.desafiospringboot2209.entity;
 
 public class Veterinario extends Pessoa{
     public int idMedico;

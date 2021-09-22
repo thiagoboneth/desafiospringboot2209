@@ -1,9 +1,9 @@
-package com.meli.desafiospringboot2209.ArquivoUtil;
+package com.meli.desafiospringboot2209.util;
 
-import com.meli.desafiospringboot2209.model.Consulta;
-import com.meli.desafiospringboot2209.model.Paciente;
-import com.meli.desafiospringboot2209.model.Proprietario;
-import com.meli.desafiospringboot2209.model.Veterinario;
+import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Paciente;
+import com.meli.desafiospringboot2209.entity.Proprietario;
+import com.meli.desafiospringboot2209.entity.Veterinario;
 
 import java.io.IOException;
 import java.io.Writer;
