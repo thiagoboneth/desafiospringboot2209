@@ -2,7 +2,10 @@ package com.meli.desafiospringboot2209.entity;
 
 public class Proprietario{
 
-    private Pessoa pessoa;
+    private String cpf;
+    private String nome;
+    private String sobrenome;
+    private String dataNascimento;
     private String endereco;
     private String telefone;
 
@@ -10,25 +13,48 @@ public class Proprietario{
 
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public String getEndereco() {
+        return endereco;
     }
 
     public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    // Interfaces fluentes
+    public Proprietario comCpf(String cpf) {
+        this.cpf = cpf;
+        return this;
     }
 
-    // Interfaces fluentes
-    public Proprietario comPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public Proprietario comNome(String nome) {
+        this.nome = nome;
+        return this;
+    }
+
+    public Proprietario comSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+        return this;
+    }
+
+    public Proprietario comDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
         return this;
     }
 
@@ -45,7 +71,10 @@ public class Proprietario{
     @Override
     public String toString() {
         return "Proprietario{" +
-                "pessoa=" + pessoa +
+                "cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
                 ", endereco='" + endereco + '\'' +
                 ", telefone='" + telefone + '\'' +
                 '}';

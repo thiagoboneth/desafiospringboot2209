@@ -7,7 +7,7 @@ public class Paciente {
     private String cor;
     private String dataNascimento;
     private String nome;
-    private Character sexo;
+    private String sexo;
     private Proprietario proprietario;
 
     public Paciente() {
@@ -34,7 +34,7 @@ public class Paciente {
         return nome;
     }
 
-    public Character getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
@@ -64,7 +64,7 @@ public class Paciente {
         return this;
     }
 
-    public Paciente comSexo(Character sexo) {
+    public Paciente comSexo(String sexo) {
         this.sexo = sexo;
         return this;
     }

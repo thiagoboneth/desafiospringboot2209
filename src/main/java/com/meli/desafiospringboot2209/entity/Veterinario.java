@@ -1,8 +1,11 @@
 package com.meli.desafiospringboot2209.entity;
 
-public class Veterinario extends Pessoa{
+public class Veterinario {
 
-    public Pessoa pessoa;
+    private String cpf;
+    private String nome;
+    private String sobrenome;
+    private String dataNascimento;
     public Integer idMedico;
     public String numeroRegistro;
     public String especialidade;
@@ -20,8 +23,23 @@ public class Veterinario extends Pessoa{
     }
 
     //Interfaces fluentes
-    public Veterinario comPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public Veterinario comCpf(String cpf) {
+        this.cpf = cpf;
+        return this;
+    }
+
+    public Veterinario comNome(String nome) {
+        this.nome = nome;
+        return this;
+    }
+
+    public Veterinario comSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+        return this;
+    }
+
+    public Veterinario dataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
         return this;
     }
 
@@ -43,7 +61,10 @@ public class Veterinario extends Pessoa{
     @Override
     public String toString() {
         return "Veterinario{" +
-                "pessoa=" + pessoa +
+                "cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
                 ", idMedico=" + idMedico +
                 ", numeroRegistro='" + numeroRegistro + '\'' +
                 ", especialidade='" + especialidade + '\'' +
