@@ -6,7 +6,7 @@ public class Veterinario {
     private String nome;
     private String sobrenome;
     private String dataNascimento;
-    public Integer idMedico;
+    public static Integer idMedico;
     public String numeroRegistro;
     public String especialidade;
 
@@ -20,6 +20,14 @@ public class Veterinario {
 
     public String getEspecialidade() {
         return especialidade;
+    }
+
+    public void setIdMedico(Integer idMedico) {
+        this.idMedico = idMedico;
+    }
+
+    public static Integer getIdMedico() {
+        return idMedico;
     }
 
     //Interfaces fluentes
@@ -38,7 +46,7 @@ public class Veterinario {
         return this;
     }
 
-    public Veterinario dataNascimento(String dataNascimento) {
+    public Veterinario comDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
         return this;
     }
