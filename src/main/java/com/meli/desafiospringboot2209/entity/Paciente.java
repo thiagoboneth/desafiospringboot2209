@@ -38,6 +38,10 @@ public class Paciente {
         return sexo;
     }
 
+    public Proprietario getProprietario() {
+        return proprietario;
+    }
+
     // Interfaces fluentes
     public Paciente comEspecie(String especie) {
         this.especie = especie;
