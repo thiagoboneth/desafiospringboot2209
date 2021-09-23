@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
-import com.meli.desafiospringboot2209.service.VeterinarioService;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
