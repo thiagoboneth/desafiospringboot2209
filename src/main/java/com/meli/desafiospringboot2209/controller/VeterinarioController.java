@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/Veterinario")
+@RequestMapping("/veterinario")
 public class VeterinarioController {
 
     @Autowired
