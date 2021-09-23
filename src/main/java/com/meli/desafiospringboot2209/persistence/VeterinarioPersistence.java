@@ -1,94 +1,70 @@
 package com.meli.desafiospringboot2209.persistence;
 
-import com.meli.desafiospringboot2209.entity.Veterinario;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.service.VeterinarioService;
+import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class VeterinarioPersistence {
 
-    private File arquivo = new File("Veterinario.csv");
+    List<VeterinarioDTO> listaVeterinarios = new ArrayList<>();
 
-    public void cadastro(Veterinario veterinario, boolean manter) throws IOException{
-        String registro = veterinario.toString();
+    ObjectMapper objectMapper = new ObjectMapper();
 
-
-        FileOutputStream fos = new FileOutputStream(arquivo, manter);
-        OutputStreamWriter osw = new OutputStreamWriter(fos);
-        BufferedWriter bw = new BufferedWriter(osw);
-        bw.append(registro);
-        bw.newLine();
-        bw.close();
+    private void mapearObjeto() {
+        objectMapper.findAndRegisterModules();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public void cadastro(List<Veterinario> veterinarios) throws IOException {
-        FileOutputStream x = new FileOutputStream(arquivo);
-        OutputStreamWriter y = new OutputStreamWriter(x);
-        BufferedWriter z = new BufferedWriter(y);
-        z.write("");
-        z.close();
+    public VeterinarioDTO salvarVeterinarioNoArquivo(VeterinarioDTO veterinarioDTO) {
+        mapearObjeto();
+        listaVeterinarios = buscarVeterinario();
 
-
-        FileOutputStream fos = new FileOutputStream(arquivo, true);
-        OutputStreamWriter osw = new OutputStreamWriter(fos);
-        BufferedWriter bw = new BufferedWriter(osw);
-
-        for (Veterinario veterinario : veterinarios) {
-            String registro = veterinario.toString();
-            bw.append(registro);
-            bw.newLine();
-        }
-        bw.close();
-    }
-
-    public List<Veterinario> listagem() {
-        List<Veterinario> veterinariosExistentes = new ArrayList<>();
-
-        List<String> registros = retornaRegistros();
-        registros.forEach(registro -> {
-            Veterinario veterinario = converte(registro);
-            veterinariosExistentes.add(veterinario);
-        });
-        return veterinariosExistentes;
-
-    }
-    // Utilizando conversão a partir de interfaces fluentes
-    private Veterinario converte(String registro) {
-        String[] campos = registro.split(";");
-        new Veterinario().comCpf(campos[0])
-                .comNome(campos[1])
-                .comSobrenome(campos[2])
-                .comDataNascimento(campos[3])
-                .comIdMedico(Integer.valueOf(campos[4]))
-                .comNumeroRegistro(campos[5])
-                .comEspecialidade(campos[6]);
-        Veterinario veterinario = new Veterinario();
-        return veterinario;
-    }
-
-    private List<String> retornaRegistros() {
-        FileInputStream fis;
-        List<String> registros = new ArrayList<String>();
         try {
-            fis = new FileInputStream(arquivo);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            registros = new ArrayList<String>();
-            while(true) {
-                String linha = br.readLine();
-                if(linha==null) {
-                    break;
-                }
-                registros.add(linha);
+            if (veterinarioJaCadastrado(veterinarioDTO.getNumeroRegistro())) {
+                throw new RuntimeException("Veterinario já cadastrado");
             }
-            br.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Arquivo nao encontrado");
+            listaVeterinarios.add(veterinarioDTO);
+            objectMapper.writeValue(new File("db/veterinario.json"), listaVeterinarios);
         } catch(IOException e) {
             e.printStackTrace();
         }
-        return registros;
+        return veterinarioDTO;
+    }
+
+    public List<VeterinarioDTO> buscarVeterinario() {
+        mapearObjeto();
+        try {
+            listaVeterinarios = objectMapper.readValue(new File("db/veterinario.json"), new TypeReference<List<VeterinarioDTO>>() {});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listaVeterinarios;
+    }
+
+    public boolean veterinarioJaCadastrado(String numeroRegistro) throws IOException {
+       listaVeterinarios = buscarVeterinario();
+        System.out.println(numeroRegistro);
+        if (listaVeterinarios.size() > 0) {
+            System.out.println(numeroRegistro);
+            for (VeterinarioDTO veterinarioDTO : listaVeterinarios) {
+                if (veterinarioDTO.getNumeroRegistro().equals(numeroRegistro)) {
+                    return true;
+                }
+                System.out.println(veterinarioDTO.getNumeroRegistro());
+            }
+            return false;
+        } else {
+            return false;
+        }
+
     }
 }
