@@ -95,10 +95,7 @@ public class Crud {
 
         }
 
-
         br.close();
-
-
 
     }
 

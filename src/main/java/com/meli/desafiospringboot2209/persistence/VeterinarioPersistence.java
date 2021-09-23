@@ -89,7 +89,6 @@ public class VeterinarioPersistence {
         } catch(IOException e) {
             e.printStackTrace();
         }
-
         return registros;
     }
 }

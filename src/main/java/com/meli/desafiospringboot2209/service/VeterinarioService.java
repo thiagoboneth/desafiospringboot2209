@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class VeterinarioService {
 
-
     private VeterinarioPersistence persistence = new VeterinarioPersistence();
     private boolean novoMedico(String numeroRegistro){
         for (Veterinario veterinario : persistence.listagem()){
