@@ -11,7 +11,6 @@ public class Veterinario {
     public String especialidade;
 
     public Veterinario() {
-
     }
 
     public String getNumeroRegistro() {
@@ -68,14 +67,6 @@ public class Veterinario {
 
     @Override
     public String toString() {
-        return "Veterinario{" +
-                "cpf='" + cpf + '\'' +
-                ", nome='" + nome + '\'' +
-                ", sobrenome='" + sobrenome + '\'' +
-                ", dataNascimento='" + dataNascimento + '\'' +
-                ", idMedico=" + idMedico +
-                ", numeroRegistro='" + numeroRegistro + '\'' +
-                ", especialidade='" + especialidade + '\'' +
-                '}';
+        return   cpf + ';' +  nome + ';' + sobrenome + ';' + dataNascimento + ';' +idMedico +";" + numeroRegistro + ';'+ especialidade;
     }
 }

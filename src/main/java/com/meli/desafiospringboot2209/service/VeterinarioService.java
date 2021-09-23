@@ -1,16 +1,20 @@
 package com.meli.desafiospringboot2209.service;
 
+import com.meli.desafiospringboot2209.crudteste.Crud;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.IIOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
 public class VeterinarioService {
+
 
     private VeterinarioPersistence persistence = new VeterinarioPersistence();
     private boolean novoMedico(String numeroRegistro){
@@ -48,5 +52,17 @@ public class VeterinarioService {
             e.printStackTrace();
             throw new RuntimeException("Erro ao Persistir os veterinários");
         }
+    }
+
+    public void cadastraMedico(Veterinario registro) throws IOException {
+        String[] campos = registro.toString().split(";");
+
+        BufferedWriter bw  = new BufferedWriter(new FileWriter("db/medico.csv", true));
+
+        bw.write(campos[0]+";"+campos[1]+";"+campos[2]+";"+campos[3]+";"+campos[4]+";"+campos[5]+";"+campos[6]);
+        bw.flush();
+        bw.newLine();
+        bw.close();
+
     }
 }

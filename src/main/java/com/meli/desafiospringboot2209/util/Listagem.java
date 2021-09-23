@@ -113,44 +113,44 @@ public class Listagem {
         consulta.forEach(x -> System.out.println(mapearParaConsultas(x).toString()));
     }
 
-    public void retornaObjetoVeterinario() {
-        veterinario.forEach(System.out::println);
-        veterinario.forEach(x -> System.out.println(mapearParaVeterinario(x).toString()));
-    }
+  //  public void retornaObjetoVeterinario() {
+  ///      veterinario.forEach(System.out::println);
+  //      veterinario.forEach(x -> System.out.println(mapearParaVeterinario(x).toString()));
+   // }
 
-    public void retornaObjetoProprietario() {
-        proprietario.forEach(System.out::println);
-        proprietario.forEach(x -> System.out.println(mapearParaProprietario(x).toString()));
-    }
-    public void retornaObjetoPaciente() {
-        paciente.forEach(System.out::println);
-        paciente.forEach(x -> System.out.println(mapearParaPaciente(x).toString()));
-    }
+   // public void retornaObjetoProprietario() {
+   //     proprietario.forEach(System.out::println);
+   //     proprietario.forEach(x -> System.out.println(mapearParaProprietario(x).toString()));
+   // }
+   // public void retornaObjetoPaciente() {
+   //     paciente.forEach(System.out::println);
+   //     paciente.forEach(x -> System.out.println(mapearParaPaciente(x).toString()));
+   // }
 
     public Consulta mapearParaConsultas(String linha) {
         String[] valores = linha.replaceAll("\"","").split(",");
         Consulta consulta = new Consulta();
         Veterinario veterinario = new Veterinario();
-        Consulta consulta1 = new Consulta(consulta.getDataHora(), consulta.getPaciente(), consulta.getMotivo(), consulta.getVeterinario(), consulta.getDiagnostico(), consulta.getTratamento());
-        consultasObjeto.add(consulta1);
+        //Consulta consulta1 = new Consulta(consulta.getDataHora(), consulta.getPaciente(), consulta.getMotivo(), consulta.getVeterinario(), consulta.getDiagnostico(), consulta.getTratamento());
+        //consultasObjeto.add(consulta1);
         return consulta;
     }
 
-    public Veterinario mapearParaVeterinario(String linha) {
-        String[] valores = linha.replaceAll("\"","").split(",");
-        Veterinario veterinario = new Veterinario(valores[0],valores[1],valores[2],valores[3],Integer.valueOf(valores[4]),valores[5],valores[6]);
-        return veterinario;
-    }
-    public Paciente mapearParaPaciente(String linha) {
-        String[] valores = linha.replaceAll("\"","").split(",");
-        Paciente paciente = new Paciente();
-        Paciente animal = new Paciente(paciente.getEspecie(), paciente.getRaca(), paciente.getCor(), paciente.getDataNascimento(), paciente.getNome(), paciente.getSexo(), paciente.getProprietario());
-        return animal;
-    }
-    public Proprietario mapearParaProprietario(String linha) {
-        String[] valores = linha.replaceAll("\"","").split(",");
-        Proprietario proprietario = new Proprietario(valores[0],valores[1],valores[2],valores[3],valores[4],valores[5] );
-        return proprietario;
+//    public Veterinario mapearParaVeterinario(String linha) {
+//        String[] valores = linha.replaceAll("\"","").split(",");
+        //Veterinario veterinario = new Veterinario(valores[0],valores[1],valores[2],valores[3],Integer.valueOf(valores[4]),valores[5],valores[6]);
+        //return veterinario;
+//    }
+   // public Paciente mapearParaPaciente(String linha) {
+     //   String[] valores = linha.replaceAll("\"","").split(",");
+       // Paciente paciente = new Paciente();
+        //Paciente animal = new Paciente(paciente.getEspecie(), paciente.getRaca(), paciente.getCor(), paciente.getDataNascimento(), paciente.getNome(), paciente.getSexo(), paciente.getProprietario());
+        //return animal;
+    //}
+    //public Proprietario mapearParaProprietario(String linha) {
+      //  String[] valores = linha.replaceAll("\"","").split(",");
+      //  Proprietario proprietario = new Proprietario(valores[0],valores[1],valores[2],valores[3],valores[4],valores[5] );
+      //  return proprietario;
 
-    }
+    //}
 }
