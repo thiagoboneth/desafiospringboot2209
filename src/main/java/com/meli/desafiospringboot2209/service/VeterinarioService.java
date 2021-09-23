@@ -63,7 +63,7 @@ public class VeterinarioService {
         }
     }
 
-    public void cadastraMedico(Veterinario veterinario) throws IOException {
+    public void cadastraMedico(Veterinario veterinario) {
 
         if (numeroRegistroNaoUtilizado(veterinario.getNumeroRegistro())) {
             try {
