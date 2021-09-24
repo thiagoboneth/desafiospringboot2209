@@ -4,8 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.entity.Veterinario;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -87,6 +91,35 @@ public class VeterinarioPersistence {
             }
         }
 
+    public void alterarVeterinario(VeterinarioDTO payLoad) {
+        try {
+            String json = readFile("db/veterinario.json");
+            Gson gson = new Gson();
+
+            VeterinarioDTO registros = payLoad;
+            String NumeroRegistro = registros.getNumeroRegistro();
+
+            List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
+            for (VeterinarioDTO item: veterinarioDTOS) {
+                if (item.getNumeroRegistro().equals(NumeroRegistro)){
+                    item.comCpf(registros.getCpf());
+                    item.comNome(registros.getNome());
+                    item.comSobrenome(registros.getSobrenome());
+                    item.comDataNascimento(registros.getDataNascimento());
+                    item.comEspecialidade(registros.getEspecialidade());
+
+                    break;
+                }
+            }
+            objectMapper.writeValue(new File("db/veterinario.json"),veterinarioDTOS );
+        }catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao alterar ID");
+        }
+    }
+
+
+
     private String readFile(String file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader (file));
         String         line = null;
@@ -104,4 +137,6 @@ public class VeterinarioPersistence {
             reader.close();
         }
     }
+
+
 }
