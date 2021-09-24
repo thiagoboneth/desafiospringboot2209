@@ -2,7 +2,6 @@ package com.meli.desafiospringboot2209.controller;
 
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.persistence.ProprietarioPersistence;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -14,15 +13,13 @@ import java.util.List;
 @RequestMapping("/proprietario")
 public class ProprietarioController {
 
-    @Autowired
-    private ProprietarioPersistence proprietarioPersistence;
+    private ProprietarioPersistence proprietarioPersistence = new ProprietarioPersistence();
 
     @GetMapping("/listar") //---->ok<------
     public List<ProprietarioDTO> mostrarVeterinarios() {
 
         return proprietarioPersistence.buscarProprietario();
     }
-
 
     @PostMapping("/cadastrar") //---->ok<------
     public ResponseEntity<ProprietarioDTO> cadastraProprietario(@RequestBody ProprietarioDTO payLoad, UriComponentsBuilder uriBuilder) {
@@ -31,13 +28,13 @@ public class ProprietarioController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @DeleteMapping("/deletar/{cpf}")
+    @DeleteMapping("/deletar/{cpf}") //---->ok<------
 
     public void cadastro(@PathVariable String cpf) {
         proprietarioPersistence.removerProprietarioPorCpf(cpf);
     }
 
-    @PutMapping("/alterar/{cpf}")
+    @PutMapping("/alterar/{cpf}") //---->ok<------
     public ResponseEntity<ProprietarioDTO> alterarVeterinario(@RequestBody ProprietarioDTO payLoad, UriComponentsBuilder uriBuilder) {
         proprietarioPersistence.atualizarProprietario(payLoad);
         URI uri = uriBuilder.path("/alterado/{cpf}").buildAndExpand(payLoad.getCpf()).toUri();

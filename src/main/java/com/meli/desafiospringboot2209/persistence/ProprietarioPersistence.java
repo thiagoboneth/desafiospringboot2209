@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 public class ProprietarioPersistence {
 
     List<ProprietarioDTO> listaProprietarios = new ArrayList<>();
