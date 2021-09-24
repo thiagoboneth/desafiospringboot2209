@@ -44,12 +44,4 @@ public class ProprietarioPersistence {
         return listaProprietarios;
     }
 
-    public void excluirProprietario(String cpf) throws IOException {
-        listaProprietarios = buscarproprietario();
-            for (ProprietarioDTO veterinarioDTO : listaProprietarios) {
-                if (veterinarioDTO.getCpf().equals(cpf)) {
-                   listaProprietarios.remove(this.veterinarioDTO);
-                }
-        }
-    }
 }

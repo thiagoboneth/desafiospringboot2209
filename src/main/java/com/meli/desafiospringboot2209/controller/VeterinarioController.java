@@ -28,13 +28,10 @@ public class VeterinarioController {
         veterinarioPersistence.removerMedicoPorId(codigo);
     }
 
-    @PutMapping("/alterar/{codigo}")
+    @PutMapping("/alterar/{codigo}")//---->ok<------
     public ResponseEntity<VeterinarioDTO> alterarVeterinario(@RequestBody VeterinarioDTO payLoad, UriComponentsBuilder uriBuilder) {
         veterinarioPersistence.alterarVeterinario(payLoad);
         URI uri = uriBuilder.path("/alterado/{codigo}").buildAndExpand(payLoad.getNumeroRegistro()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
     }
-
-
-
 }

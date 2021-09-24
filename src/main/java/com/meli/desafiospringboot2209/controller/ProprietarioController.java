@@ -20,14 +20,5 @@ public class ProprietarioController {
         URI uri = uriBuilder.path("/proprietarios/{codigo}").buildAndExpand(payLoad.getCpf()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
     }
-    @DeleteMapping("/delete/{cpf}")
-    public String remover(@PathVariable String cpf){
-        System.out.println(cpf);
-        try {
-            proprietarioPersistence.excluirProprietario(cpf);
-            return "Deletado com Sucesso";
-        }catch (Exception e){
-            return "Erro" + e.getLocalizedMessage();
-        }
-    }
+
 }
