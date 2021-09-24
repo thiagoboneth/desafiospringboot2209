@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -75,7 +76,7 @@ public class PacientePersistence {
 
     public void removerPacientePorId(String id){
         try {
-            String json = readFile(cC);
+            String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
             List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>(){}.getType());
             for (PacienteDTO item: pacienteDTOS) {
@@ -91,28 +92,10 @@ public class PacientePersistence {
         }
     }
 
-    private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String         line = null;
-        StringBuilder  stringBuilder = new StringBuilder();
-        String         ls = System.getProperty("line.separator");
-
-        try {
-            while((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
-
-            return stringBuilder.toString();
-        } finally {
-            reader.close();
-        }
-    }
-
 
     public void alterarPaciente(PacienteDTO payLoad) {
         try {
-            String json = readFile(cC);
+            String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
 
             PacienteDTO registros = payLoad;
