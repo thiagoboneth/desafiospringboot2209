@@ -107,7 +107,6 @@ public class VeterinarioPersistence {
                     item.comSobrenome(registros.getSobrenome());
                     item.comDataNascimento(registros.getDataNascimento());
                     item.comEspecialidade(registros.getEspecialidade());
-
                     break;
                 }
             }
