@@ -8,12 +8,18 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/veterinario")
 public class VeterinarioController {
 
     private VeterinarioPersistence veterinarioPersistence = new VeterinarioPersistence();
+
+    @GetMapping("listarVeterinario") //---->ok<------
+    public List<VeterinarioDTO> mostrarVeterinario() {
+        return veterinarioPersistence.buscarVeterinario();
+    }
 
     @PostMapping("/cadastra") //---->ok<------
     public ResponseEntity<VeterinarioDTO> cadastraVeterinario(@RequestBody VeterinarioDTO payLoad, UriComponentsBuilder uriBuilder) {

@@ -8,6 +8,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 
@@ -136,6 +137,4 @@ public class VeterinarioPersistence {
             reader.close();
         }
     }
-
-
 }
