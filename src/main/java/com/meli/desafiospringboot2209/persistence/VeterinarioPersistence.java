@@ -15,6 +15,11 @@ import java.util.List;
 
 public class VeterinarioPersistence {
 
+    // caminho doa arquivos
+    String arquivo = "veterinario.json";
+    String caminho = "db";
+    String cC = caminho+"/"+arquivo;
+
     List<VeterinarioDTO> listaVeterinarios = new ArrayList<>();
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -33,7 +38,7 @@ public class VeterinarioPersistence {
                 throw new RuntimeException("Veterinario já cadastrado");
             }
             listaVeterinarios.add(veterinarioDTO);
-            objectMapper.writeValue(new File("db/veterinario.json"), listaVeterinarios);
+            objectMapper.writeValue(new File(cC), listaVeterinarios);
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -43,7 +48,7 @@ public class VeterinarioPersistence {
     public List<VeterinarioDTO> buscarVeterinario() {
         mapearObjeto();
         try {
-            listaVeterinarios = objectMapper.readValue(new File("db/veterinario.json"), new TypeReference<List<VeterinarioDTO>>() {});
+            listaVeterinarios = objectMapper.readValue(new File(cC), new TypeReference<List<VeterinarioDTO>>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,7 +74,7 @@ public class VeterinarioPersistence {
 
     public void removerMedicoPorId(String id){
         try {
-            String json = ReadFileUtil.readFile("db/veterinario.json");
+            String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
             List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
             for (VeterinarioDTO item: veterinarioDTOS) {
@@ -78,7 +83,7 @@ public class VeterinarioPersistence {
                     break;
                 }
             }
-            objectMapper.writeValue(new File("db/veterinario.json"),veterinarioDTOS );
+            objectMapper.writeValue(new File(cC),veterinarioDTOS );
             }catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Erro ao deletar ID");
@@ -87,7 +92,7 @@ public class VeterinarioPersistence {
 
     public void alterarVeterinario(VeterinarioDTO payLoad) {
         try {
-            String json = ReadFileUtil.readFile("db/veterinario.json");
+            String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
 
             VeterinarioDTO registros = payLoad;
@@ -104,7 +109,7 @@ public class VeterinarioPersistence {
                     break;
                 }
             }
-            objectMapper.writeValue(new File("db/veterinario.json"),veterinarioDTOS );
+            objectMapper.writeValue(new File(cC),veterinarioDTOS );
         }catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao alterar ID");
