@@ -20,6 +20,8 @@ public class VeterinarioDTO {
         this.especialidade = especialidade;
     }
 
+
+
     public String getCpf() {
         return cpf;
     }
@@ -42,6 +44,11 @@ public class VeterinarioDTO {
 
     public String getEspecialidade() {
         return especialidade;
+    }
+
+    public VeterinarioDTO comNumeroRegistro(String numeroRegistro) {
+        this.numeroRegistro = numeroRegistro;
+        return this;
     }
 
     public static Veterinario converte(VeterinarioDTO veterinarioDTO) {

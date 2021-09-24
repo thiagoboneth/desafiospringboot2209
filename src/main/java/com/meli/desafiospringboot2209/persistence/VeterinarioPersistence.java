@@ -3,13 +3,17 @@ package com.meli.desafiospringboot2209.persistence;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
 
 public class VeterinarioPersistence {
 
@@ -63,6 +67,41 @@ public class VeterinarioPersistence {
         } else {
             return false;
         }
+    }
 
+    public void removerMedicoPorId(String id){
+        try {
+            String json = readFile("db/veterinario.json");
+            Gson gson = new Gson();
+            List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
+            for (VeterinarioDTO item: veterinarioDTOS) {
+                if (item.getNumeroRegistro().equals(id)){
+                    veterinarioDTOS.remove(item);
+                    break;
+                }
+            }
+            objectMapper.writeValue(new File("db/veterinario.json"),veterinarioDTOS );
+            }catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro ao deletar ID");
+            }
+        }
+
+    private String readFile(String file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader (file));
+        String         line = null;
+        StringBuilder  stringBuilder = new StringBuilder();
+        String         ls = System.getProperty("line.separator");
+
+        try {
+            while((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+                stringBuilder.append(ls);
+            }
+
+            return stringBuilder.toString();
+        } finally {
+            reader.close();
+        }
     }
 }

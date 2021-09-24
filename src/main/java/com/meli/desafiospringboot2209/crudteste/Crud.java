@@ -1,6 +1,5 @@
 package com.meli.desafiospringboot2209.crudteste;
 
-import com.meli.desafiospringboot2209.entity.Veterinario;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -10,36 +9,6 @@ import java.util.StringTokenizer;
 
 @Service
 public class Crud {
-
-    //public void cadastraMedico(Veterinario registro) throws IOException {
-      //  String[] campos = registro.toString().split(";");
-
-        //BufferedWriter bw  = new BufferedWriter(new FileWriter("db/medico.csv", true));
-
-        //bw.write(campos[0]+";"+campos[1]+";"+campos[2]+";"+campos[3]+";"+campos[4]+";"+campos[5]+";"+campos[6]);
-        //bw.flush();
-//        bw.newLine();
-  //      bw.close();
-
-    //}
-
-
-    public static void ViewAllRecord() throws IOException {
-        BufferedReader br = new BufferedReader( new FileReader("db/Funcionario.csv") );
-
-        String record;
-
-        while( ( record = br.readLine() ) != null ) {
-
-            StringTokenizer st = new StringTokenizer(record,";");
-
-            System.out.println(st.nextToken()+"	"+st.nextToken()+" 		"+st.nextToken()+"			"+st.nextToken());
-
-        }
-
-        br.close();
-
-    }
 
     public static void DeleteRecordByID() throws IOException {
         Scanner strInput =  new Scanner(System.in);

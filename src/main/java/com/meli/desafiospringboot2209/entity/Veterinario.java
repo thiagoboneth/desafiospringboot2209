@@ -11,7 +11,6 @@ public class Veterinario {
     private String especialidade;
 
     public Veterinario() {
-
     }
 
     public String getCpf() {
@@ -44,7 +43,7 @@ public class Veterinario {
     }
 
     public Integer getIdMedico() {
-        return idMedico;
+        return this.idMedico;
     }
 
     //Interfaces fluentes
