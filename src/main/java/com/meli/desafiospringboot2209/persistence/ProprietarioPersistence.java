@@ -15,7 +15,7 @@ import java.util.List;
 public class ProprietarioPersistence {
 
     List<ProprietarioDTO> listaProprietarios = new ArrayList<>();
-    ProprietarioDTO ProprietarioDTO = new ProprietarioDTO();
+    ProprietarioDTO proprietarioDTO = new ProprietarioDTO();
     ObjectMapper objectMapper = new ObjectMapper();
 
     private void mapearObjeto() {
@@ -48,7 +48,7 @@ public class ProprietarioPersistence {
         listaProprietarios = buscarproprietario();
             for (ProprietarioDTO veterinarioDTO : listaProprietarios) {
                 if (veterinarioDTO.getCpf().equals(cpf)) {
-                   listaProprietarios.remove(this.ProprietarioDTO);
+                   listaProprietarios.remove(this.veterinarioDTO);
                 }
         }
     }
