@@ -1,34 +1,28 @@
 package com.meli.desafiospringboot2209.dto;
 
-import com.meli.desafiospringboot2209.entity.Paciente;
-import com.meli.desafiospringboot2209.entity.Veterinario;
-
 public class ConsultaDTO {
 
-    private Paciente paciente;
+    private String numeroConsulta;
+    private String numeroColeira;
     private String motivo;
-    private Veterinario veterinario;
     private String diagnostico;
     private String tratamento;
+    private String numeroRegistroVeterinario;
 
-    public ConsultaDTO(Paciente paciente, String motivo, Veterinario veterinario, String diagnostico, String tratamento) {
-        this.paciente = paciente;
-        this.motivo = motivo;
-        this.veterinario = veterinario;
-        this.diagnostico = diagnostico;
-        this.tratamento = tratamento;
+    public ConsultaDTO() {
+
     }
 
-    public Paciente getPaciente() {
-        return paciente;
+    public String getNumeroConsulta() {
+        return numeroConsulta;
+    }
+
+    public String getNumeroColeira() {
+        return numeroColeira;
     }
 
     public String getMotivo() {
         return motivo;
-    }
-
-    public Veterinario getVeterinario() {
-        return veterinario;
     }
 
     public String getDiagnostico() {
@@ -39,4 +33,32 @@ public class ConsultaDTO {
         return tratamento;
     }
 
+    public String getNumeroRegistroVeterinario() {
+        return numeroRegistroVeterinario;
+    }
+
+    public ConsultaDTO comNumeroColeira(String numeroColeira) {
+        this.numeroColeira = numeroColeira;
+        return this;
+    }
+
+    public ConsultaDTO comMotivo(String motivo) {
+        this.motivo = motivo;
+        return this;
+    }
+
+    public ConsultaDTO comDiagnnostico(String diagnostico) {
+        this.diagnostico = diagnostico;
+        return this;
+    }
+
+    public ConsultaDTO comTratamento(String tratamento) {
+        this.tratamento = tratamento;
+        return this;
+    }
+
+    public ConsultaDTO comNumeroConsulta(String numeroConsulta) {
+        this.numeroConsulta = numeroConsulta;
+        return this;
+    }
 }
