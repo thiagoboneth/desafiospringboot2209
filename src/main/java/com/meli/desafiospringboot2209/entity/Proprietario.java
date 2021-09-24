@@ -10,7 +10,6 @@ public class Proprietario{
     private String telefone;
 
     public Proprietario() {
-
     }
 
     public String getCpf() {
