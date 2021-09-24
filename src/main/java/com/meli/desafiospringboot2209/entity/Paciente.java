@@ -10,8 +10,18 @@ public class Paciente {
     private String sexo;
     private Proprietario proprietario;
 
-    public Paciente() {
+    // indentificacao do animal
+    private String numeroColeira;
+    //variavel para definir se o paciente4e ests em uma consulta
+    private boolean consutado = false;
 
+
+
+    public Paciente() {
+    }
+
+    public String getNumeroColeira() {
+        return numeroColeira;
     }
 
     public String getEspecie() {
@@ -42,6 +52,7 @@ public class Paciente {
         return proprietario;
     }
 
+    // Interfaces fluentes
     public Paciente comEspecie(String especie) {
         this.especie = especie;
         return this;
