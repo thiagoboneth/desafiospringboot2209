@@ -111,7 +111,7 @@ public class PacientePersistence {
                     item.comDataNascimento(registros.getDataNascimento());
                     item.comNome(registros.getNome());
                     item.comSexo(registros.getSexo());
-                    item.comProprietario(registros.getProprietario());
+                    item.comCpfProprietario(registros.getCpfProprietario());
                     break;
                 }
             }

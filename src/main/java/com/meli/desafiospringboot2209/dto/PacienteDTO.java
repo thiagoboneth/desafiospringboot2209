@@ -1,7 +1,5 @@
 package com.meli.desafiospringboot2209.dto;
 
-import com.meli.desafiospringboot2209.entity.Proprietario;
-
 public class PacienteDTO {
 
     private String especie;
@@ -10,24 +8,11 @@ public class PacienteDTO {
     private String dataNascimento;
     private String nome;
     private String sexo;
-    //  private Proprietario proprietario;
-    private String proprietario;
-
-    // indentificacao do animal
+    private String cpfProprietario;
     private String numeroColeira;
-    //variavel para definir se o paciente4e ests em uma consulta
-    private boolean consutado = false;
 
-    // estou passando uma string do proprietario nao o objeto
-    public PacienteDTO(String especie, String raca, String cor, String dataNascimento, String nome, String sexo, String proprietario) {
-        this.especie = especie;
-        this.raca = raca;
-        this.cor = cor;
-        this.dataNascimento = dataNascimento;
-        this.nome = nome;
-        this.sexo = sexo;
-        this.proprietario = proprietario;
-      //  this.proprietario = proprietario;
+    public PacienteDTO() {
+
     }
 
     public PacienteDTO comEspecie(String especie) {
@@ -60,8 +45,13 @@ public class PacienteDTO {
         return this;
     }
 
-    public PacienteDTO comProprietario(String proprietario) {
-        this.proprietario = proprietario;
+    public PacienteDTO comCpfProprietario(String cpfProprietario) {
+        this.cpfProprietario = cpfProprietario;
+        return this;
+    }
+
+    public PacienteDTO comNumeroColeira(String numeroColeira) {
+        this.numeroColeira = numeroColeira;
         return this;
     }
 
@@ -89,8 +79,8 @@ public class PacienteDTO {
         return sexo;
     }
 
-    public String getProprietario() {
-        return proprietario;
+    public String getCpfProprietario() {
+        return cpfProprietario;
     }
 
     public String getNumeroColeira() {
