@@ -8,14 +8,17 @@ import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProprietarioPersistence {
+
+    // caminho doa arquivos
+    String arquivo = "proprietario.json";
+    String caminho = "db";
+    String cC = caminho+"/"+arquivo;
 
     List<ProprietarioDTO> listaProprietarios = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
@@ -32,7 +35,7 @@ public class ProprietarioPersistence {
                 throw new RuntimeException("Proprietario já cadastrado");
             }
             listaProprietarios.add(proprietarioDTO);
-            objectMapper.writeValue(new File("db/proprietario.json"), listaProprietarios);
+            objectMapper.writeValue(new File(cC), listaProprietarios);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +59,7 @@ public class ProprietarioPersistence {
     public List<ProprietarioDTO> buscarProprietario() {
         mapearObjeto();
         try {
-            listaProprietarios = objectMapper.readValue(new File("db/proprietario.json"), new TypeReference<List<ProprietarioDTO>>() {
+            listaProprietarios = objectMapper.readValue(new File(cC), new TypeReference<List<ProprietarioDTO>>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,7 +69,7 @@ public class ProprietarioPersistence {
 
     public void removerProprietarioPorCpf(String cpf) {
         try {
-            String json = ReadFileUtil.readFile("db/proprietario.json");
+            String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
             List<ProprietarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
             }.getType());
@@ -76,7 +79,7 @@ public class ProprietarioPersistence {
                     break;
                 }
             }
-            objectMapper.writeValue(new File("db/proprietario.json"), veterinarioDTOS);
+            objectMapper.writeValue(new File(cC), veterinarioDTOS);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao deletar ID");
@@ -85,7 +88,7 @@ public class ProprietarioPersistence {
 
     public void atualizarProprietario(ProprietarioDTO payLoad) {
         try {
-            String json = ReadFileUtil.readFile("db/proprietario.json");
+            String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
 
             ProprietarioDTO registro = payLoad;
@@ -103,7 +106,7 @@ public class ProprietarioPersistence {
                     break;
                 }
             }
-            objectMapper.writeValue(new File("db/proprietario.json"), proprietarioDTOS);
+            objectMapper.writeValue(new File(cC), proprietarioDTOS);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao alterar ID");
