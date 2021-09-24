@@ -36,7 +36,7 @@ public class ConsultaController {
     }
 
     @DeleteMapping("/deleta/{codigo}")
-    public void cadastro(@PathVariable String codigo){
+    public void deletarConsulta (@PathVariable String codigo){
         consultaPersistence.removerConsultaPorId(codigo);
     }
 }

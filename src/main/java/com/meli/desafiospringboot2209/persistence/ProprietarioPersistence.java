@@ -86,6 +86,7 @@ public class ProprietarioPersistence {
         }
     }
 
+
     public void atualizarProprietario(ProprietarioDTO payLoad) {
         try {
             String json = ReadFileUtil.readFile(cC);

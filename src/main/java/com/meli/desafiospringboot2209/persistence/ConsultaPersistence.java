@@ -20,11 +20,12 @@ public class ConsultaPersistence {
     // caminho doa arquivos
     String arquivo = "consultas.json";
     String caminho = "db";
-    String cC = caminho+"/"+arquivo;
+    String cC = caminho + "/" + arquivo;
 
     List<ConsultaDTO> listaConsultas = new ArrayList<>();
 
     ObjectMapper objectMapper = new ObjectMapper();
+    Gson gson = new Gson();
 
     private void mapearObjeto() {
         objectMapper.findAndRegisterModules();
@@ -41,7 +42,7 @@ public class ConsultaPersistence {
             }
             listaConsultas.add(consultaDTO);
             objectMapper.writeValue(new File(cC), listaConsultas);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error na escrita do arquivo");
         }
@@ -66,7 +67,8 @@ public class ConsultaPersistence {
     public List<ConsultaDTO> buscarConsulta() {
         mapearObjeto();
         try {
-            listaConsultas = objectMapper.readValue(new File(cC), new TypeReference<List<ConsultaDTO>>() {});
+            listaConsultas = objectMapper.readValue(new File(cC), new TypeReference<List<ConsultaDTO>>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,9 +83,10 @@ public class ConsultaPersistence {
             ConsultaDTO registros = payLoad;
             String numeroConsulta = registros.getNumeroConsulta();
 
-            List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>(){}.getType());
-            for (ConsultaDTO item: consultaDTOS) {
-                if (item.getNumeroConsulta().equals(numeroConsulta)){
+            List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>() {
+            }.getType());
+            for (ConsultaDTO item : consultaDTOS) {
+                if (item.getNumeroConsulta().equals(numeroConsulta)) {
                     item.comNumeroColeira(registros.getNumeroColeira());
                     item.comMotivo(registros.getMotivo());
                     item.comDiagnnostico(registros.getDiagnostico());
@@ -93,45 +96,63 @@ public class ConsultaPersistence {
                 }
             }
             objectMapper.writeValue(new File(cC), consultaDTOS);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao alterar ID");
         }
     }
 
-    public void removerConsultaPorId(String id){
+    /*public boolean proprietarioRegistradoEmConsulta(String cpf){
+        try {
+            String proprietarioArquivo = ReadFileUtil.readFile("db/proprietario.json");
+            List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(proprietarioArquivo, new TypeToken<List<ProprietarioDTO>>(){}.getType());
+            for (ProprietarioDTO item: proprietarioDTOS) {
+                if (item.getCpf().equals(cpf)){
+                    return true;
+                }else {
+                    return false;
+                }
+
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+    public boolean veterinarioRegistradoEmConsulta(String numeroRegistro){
+        try {
+            String veterinarioArquivo = ReadFileUtil.readFile("db/veterinario.json");
+            List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(veterinarioArquivo, new TypeToken<List<ProprietarioDTO>>(){}.getType());
+            for (VeterinarioDTO item: veterinarioDTOS) {
+                if (item.getNumeroRegistro().equals(numeroRegistro)){
+                    return true;
+                }else {
+                    return false;
+                }
+
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
+    }*/
+    public void removerConsultaPorId(String id) {
         try {
             String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
-            Gson gson = new Gson();
+            List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>() {
+            }.getType());
 
-            List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
-            for (ConsultaDTO item: consultaDTOS) {
-                if (item.getNumeroConsulta().equals(id)){
+            for (ConsultaDTO item : consultaDTOS) {
+                if (item.getNumeroConsulta().equals(id)) {
                     consultaDTOS.remove(item);
                     break;
                 }
             }
 
-            String proprietarioArquivo = ReadFileUtil.readFile("db/proprietario.json");
-            List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(proprietarioArquivo, new TypeToken<List<ProprietarioDTO>>(){}.getType());
-            for (ProprietarioDTO item: proprietarioDTOS) {
-                if (item.getCpf().equals(id)){
-                    proprietarioDTOS.remove(item);
-                    break;
-                }
-            }
-
-            String veterinarioArquivo = ReadFileUtil.readFile("db/proprietario.json");
-            List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(veterinarioArquivo, new TypeToken<List<VeterinarioDTO>>(){}.getType());
-            for (VeterinarioDTO item: veterinarioDTOS) {
-                if (item.getNumeroRegistro().equals(id)){
-                    veterinarioDTOS.remove(item);
-                    break;
-                }
-            }
-
-            objectMapper.writeValue(new File(cC), consultaDTOS );
-        }catch (IOException e) {
+            objectMapper.writeValue(new File(cC), consultaDTOS);
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao deletar ID");
         }
