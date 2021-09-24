@@ -46,7 +46,7 @@ public class Veterinario {
         return this.idMedico;
     }
 
-    //Interfaces fluentes
+
     public Veterinario comCpf(String cpf) {
         this.cpf = cpf;
         return this;

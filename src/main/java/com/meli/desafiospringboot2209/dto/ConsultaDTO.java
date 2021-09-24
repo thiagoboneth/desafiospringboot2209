@@ -1,6 +1,5 @@
 package com.meli.desafiospringboot2209.dto;
 
-import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 
@@ -40,22 +39,4 @@ public class ConsultaDTO {
         return tratamento;
     }
 
-    public static Consulta converte(ConsultaDTO consultaDTO) {
-        return new Consulta()
-                .comPaciente(consultaDTO.getPaciente())
-                .comMotivo(consultaDTO.getMotivo())
-                .comVeterinario(consultaDTO.getVeterinario())
-                .comDiagnostico(consultaDTO.getDiagnostico())
-                .comTratamento(consultaDTO.getTratamento());
-    }
-
-    public static ConsultaDTO converte(Consulta consulta) {
-        PacienteDTO pacienteDTO = PacienteDTO.converte(consulta.getPaciente());
-        return new ConsultaDTO(
-                consulta.getPaciente(),
-                consulta.getMotivo(),
-                consulta.getVeterinario(),
-                consulta.getDiagnostico(),
-                consulta.getTratamento());
-    }
 }

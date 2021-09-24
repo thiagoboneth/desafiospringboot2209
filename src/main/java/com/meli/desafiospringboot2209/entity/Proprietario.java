@@ -36,7 +36,6 @@ public class Proprietario{
         return telefone;
     }
 
-    // Interfaces fluentes
     public Proprietario comCpf(String cpf) {
         this.cpf = cpf;
         return this;

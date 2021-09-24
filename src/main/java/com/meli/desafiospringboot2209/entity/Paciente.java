@@ -42,7 +42,6 @@ public class Paciente {
         return proprietario;
     }
 
-    // Interfaces fluentes
     public Paciente comEspecie(String especie) {
         this.especie = especie;
         return this;

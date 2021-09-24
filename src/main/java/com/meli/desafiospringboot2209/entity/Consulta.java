@@ -39,7 +39,6 @@ public class Consulta {
         return tratamento;
     }
 
-    // Interfaces fluentes
     public Consulta comDataHora(LocalDate dataHora) {
         this.dataHora = dataHora;
         return this;

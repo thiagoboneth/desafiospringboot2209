@@ -16,25 +16,24 @@ public class VeterinarioController {
 
     private VeterinarioPersistence veterinarioPersistence = new VeterinarioPersistence();
 
-    @GetMapping("listarVeterinario") //---->ok<------
+    @GetMapping("listarVeterinario")
     public List<VeterinarioDTO> mostrarVeterinario() {
         return veterinarioPersistence.buscarVeterinario();
     }
 
-    @PostMapping("/cadastra") //---->ok<------
+    @PostMapping("/cadastra")
     public ResponseEntity<VeterinarioDTO> cadastraVeterinario(@RequestBody VeterinarioDTO payLoad, UriComponentsBuilder uriBuilder) {
         veterinarioPersistence.salvarVeterinarioNoArquivo(payLoad);
         URI uri = uriBuilder.path("/veterinarios/{codigo}").buildAndExpand(payLoad.getNumeroRegistro()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-
-    @DeleteMapping("/deleta/{codigo}")//---->ok<------
+    @DeleteMapping("/deleta/{codigo}")
     public void cadastro(@PathVariable String codigo){
         veterinarioPersistence.removerMedicoPorId(codigo);
     }
 
-    @PutMapping("/alterar/{codigo}")//---->ok<------
+    @PutMapping("/alterar/{codigo}")
     public ResponseEntity<VeterinarioDTO> alterarVeterinario(@RequestBody VeterinarioDTO payLoad, UriComponentsBuilder uriBuilder) {
         veterinarioPersistence.alterarVeterinario(payLoad);
         URI uri = uriBuilder.path("/alterado/{codigo}").buildAndExpand(payLoad.getNumeroRegistro()).toUri();
