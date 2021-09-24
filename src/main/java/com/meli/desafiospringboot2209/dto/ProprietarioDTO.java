@@ -12,13 +12,34 @@ public class ProprietarioDTO {
     public ProprietarioDTO() {
     }
 
-    public ProprietarioDTO(String nome, String sobrenome, String dataNascimento,String endereco,String telefone) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
-        this.telefone = telefone;
+    public ProprietarioDTO comCpf(String cpf) {
+        this.cpf = cpf;
+        return this;
+    }
 
+    public ProprietarioDTO comNome(String nome) {
+        this.nome = nome;
+        return this;
+    }
+
+    public ProprietarioDTO comSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+        return this;
+    }
+
+    public ProprietarioDTO comDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
+        return this;
+    }
+
+    public ProprietarioDTO comEndereco(String endereco) {
+        this.endereco = endereco;
+        return this;
+    }
+
+    public ProprietarioDTO comTelefone(String telefone) {
+        this.telefone = telefone;
+        return this;
     }
 
     public String getCpf() {
