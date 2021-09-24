@@ -46,8 +46,31 @@ public class VeterinarioDTO {
         return especialidade;
     }
 
-    public VeterinarioDTO comNumeroRegistro(String numeroRegistro) {
-        this.numeroRegistro = numeroRegistro;
+
+
+    public VeterinarioDTO comCpf(String cpf) {
+        this.cpf = cpf;
+        return this;
+    }
+
+    public VeterinarioDTO comNome(String nome) {
+        this.nome = nome;
+        return this;
+    }
+
+    public VeterinarioDTO comSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+        return this;
+    }
+
+    public VeterinarioDTO comDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
+        return this;
+    }
+
+
+    public VeterinarioDTO comEspecialidade(String especialidade) {
+        this.especialidade = especialidade;
         return this;
     }
 
