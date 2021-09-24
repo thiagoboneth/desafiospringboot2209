@@ -6,10 +6,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +69,7 @@ public class VeterinarioPersistence {
 
     public void removerMedicoPorId(String id){
         try {
-            String json = readFile("db/veterinario.json");
+            String json = ReadFileUtil.readFile("db/veterinario.json");
             Gson gson = new Gson();
             List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
             for (VeterinarioDTO item: veterinarioDTOS) {
@@ -88,7 +87,7 @@ public class VeterinarioPersistence {
 
     public void alterarVeterinario(VeterinarioDTO payLoad) {
         try {
-            String json = readFile("db/veterinario.json");
+            String json = ReadFileUtil.readFile("db/veterinario.json");
             Gson gson = new Gson();
 
             VeterinarioDTO registros = payLoad;
@@ -109,26 +108,6 @@ public class VeterinarioPersistence {
         }catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao alterar ID");
-        }
-    }
-
-
-
-    private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader (file));
-        String         line = null;
-        StringBuilder  stringBuilder = new StringBuilder();
-        String         ls = System.getProperty("line.separator");
-
-        try {
-            while((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
-
-            return stringBuilder.toString();
-        } finally {
-            reader.close();
         }
     }
 }

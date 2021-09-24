@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.springframework.stereotype.Service;
+import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,7 +66,7 @@ public class ProprietarioPersistence {
 
     public void removerProprietarioPorCpf(String cpf) {
         try {
-            String json = readFile("db/proprietario.json");
+            String json = ReadFileUtil.readFile("db/proprietario.json");
             Gson gson = new Gson();
             List<ProprietarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
             }.getType());
@@ -85,7 +85,7 @@ public class ProprietarioPersistence {
 
     public void atualizarProprietario(ProprietarioDTO payLoad) {
         try {
-            String json = readFile("db/proprietario.json");
+            String json = ReadFileUtil.readFile("db/proprietario.json");
             Gson gson = new Gson();
 
             ProprietarioDTO registro = payLoad;
@@ -109,23 +109,4 @@ public class ProprietarioPersistence {
             throw new RuntimeException("Erro ao alterar ID");
         }
     }
-
-    private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        String ls = System.getProperty("line.separator");
-
-        try {
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
-
-            return stringBuilder.toString();
-        } finally {
-            reader.close();
-        }
-    }
-
 }

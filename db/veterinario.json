@@ -19,4 +19,11 @@
   "dataNascimento" : "25/10/1992",
   "numeroRegistro" : "7562",
   "especialidade" : "Animais Domesticos"
+}, {
+  "cpf" : "001.000.000-10",
+  "nome" : "Filipe",
+  "sobrenome" : "Gomes",
+  "dataNascimento" : "18/09/1991",
+  "numeroRegistro" : "1010",
+  "especialidade" : "Animais de Fazenda"
 } ]
