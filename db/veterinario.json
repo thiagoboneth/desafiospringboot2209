@@ -1,12 +1,5 @@
 [ {
-  "cpf" : "256.124.123-20",
-  "nome" : "Luiza",
-  "sobrenome" : "Soares",
-  "dataNascimento" : "10/10/1992",
-  "numeroRegistro" : "4060",
-  "especialidade" : "Animais de Fazenda"
-}, {
-  "cpf" : "xxx",
+  "cpf" : "223.456.789-20",
   "nome" : "Thiago",
   "sobrenome" : "Boneth",
   "dataNascimento" : "25/10/92",
