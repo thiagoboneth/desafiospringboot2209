@@ -40,11 +40,10 @@ public class ConsultaPersistence {
                 throw new RuntimeException("Consulta já cadastrada");
             }
             listaConsultas.add(consultaDTO);
-            objectMapper.writeValue(new File(cC), listaConsultas);
 
             String coleira =  consultaDTO.getNumeroColeira();
 
-            String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
             List<PacienteDTO> pacienteDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<PacienteDTO>>() {
             }.getType());
 
