@@ -5,7 +5,8 @@
   "diagnostico" : "Localizado infestacao de pulgas no corpo inteiro do cachorro",
   "tratamento" : "Necessário raspar os pelos e dar banho 2 vezes na semana",
   "numeroRegistroVeterinario" : "1010",
-  "cpfProprietario" : "123.456.789-582"
+  "cpfProprietario" : "123.456.789-582",
+  "dataHora" : [ 2021, 9, 25, 17, 28, 18, 820758000 ]
 }, {
   "numeroConsulta" : "2",
   "numeroColeira" : "2",
@@ -13,7 +14,8 @@
   "diagnostico" : "Localizado excesso de remela nos olhos devido a conjuntivite felina",
   "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
   "numeroRegistroVeterinario" : "8511",
-  "cpfProprietario" : "123.456.789-582"
+  "cpfProprietario" : "001.002.003-00",
+  "dataHora" : [ 2021, 9, 25, 17, 28, 31, 602337000 ]
 }, {
   "numeroConsulta" : "3",
   "numeroColeira" : "1",
@@ -21,7 +23,8 @@
   "diagnostico" : "Localizado infestacao de pulgas no corpo inteiro do cachorro",
   "tratamento" : "Necessário raspar os pelos e dar banho 2 vezes na semana",
   "numeroRegistroVeterinario" : "1010",
-  "cpfProprietario" : "123.456.789-582"
+  "cpfProprietario" : "123.456.789-582",
+  "dataHora" : [ 2021, 9, 25, 17, 28, 42, 21114000 ]
 }, {
   "numeroConsulta" : "4",
   "numeroColeira" : "2",
@@ -29,5 +32,6 @@
   "diagnostico" : "Localizado excesso de remela nos olhos devido a conjuntivite felina",
   "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
   "numeroRegistroVeterinario" : "8511",
-  "cpfProprietario" : "123.456.789-582"
+  "cpfProprietario" : "001.002.003-00",
+  "dataHora" : [ 2021, 9, 25, 17, 29, 2, 973386000 ]
 } ]
