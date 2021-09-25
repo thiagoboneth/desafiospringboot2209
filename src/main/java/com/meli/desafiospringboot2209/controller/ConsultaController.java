@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,6 +27,11 @@ public class ConsultaController {
     @GetMapping("listar") //---->ok<------
     public List<ConsultaDTO> mostrarConsulta() {
         return consultaPersistence.buscarConsulta();
+    }
+
+    @GetMapping("listarPorDia/{data}") //---->ok<------
+    public List<ConsultaDTO> mostrarConsultaPorDia(@PathVariable ("data") String data) throws IOException {
+        return consultaPersistence.consultasDoDia(data);
     }
 
     @PutMapping("/alterar/{codigo}")  //---->ok<------

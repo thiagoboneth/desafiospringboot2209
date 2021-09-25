@@ -7,12 +7,21 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConsultaPersistence {
 
@@ -89,6 +98,34 @@ public class ConsultaPersistence {
         }
     }
 
+    public void ordemListaConsultaDescrescente(){
+        Collections.sort(listaConsultas,((o1, o2) -> o2.getDataHora().compareTo(o1.getDataHora())));
+    }
+ //trabalhando
+    public List<ConsultaDTO> consultasDoDia(String data) throws IOException {
+
+        String[] diaConvertida = data.split("-");
+
+        int ano = Integer.parseInt(diaConvertida[2]);
+        int mes = Integer.parseInt(diaConvertida[1]);
+        int dia = Integer.parseInt(diaConvertida[0]);
+
+        LocalDate dataConvertida = LocalDate.of(ano,mes,dia);
+
+        String json = readFile("db/consultas.json");
+        Gson gson = new Gson();
+
+        List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>(){}.getType());
+
+        List<ConsultaDTO> consultas = consultaDTOS.stream()
+                .filter(item -> item.getDataHora().toLocalDate().equals(dataConvertida))
+                .sorted(Comparator.comparing(ConsultaDTO::getDataHora))
+                .collect(Collectors.toList());
+
+        return consultas;
+    }
+
+
     public List<ConsultaDTO> buscarConsulta() {
         mapearObjeto();
         try {
@@ -97,6 +134,7 @@ public class ConsultaPersistence {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ordemListaConsultaDescrescente();
         return listaConsultas;
     }
 
@@ -144,6 +182,24 @@ public class ConsultaPersistence {
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao deletar ID");
+        }
+    }
+
+    private String readFile(String file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String         line = null;
+        StringBuilder  stringBuilder = new StringBuilder();
+        String         ls = System.getProperty("line.separator");
+
+        try {
+            while((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+                stringBuilder.append(ls);
+            }
+
+            return stringBuilder.toString();
+        } finally {
+            reader.close();
         }
     }
 }

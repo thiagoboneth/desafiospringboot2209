@@ -12,6 +12,7 @@ import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PacientePersistence {
@@ -50,6 +51,10 @@ public class PacientePersistence {
         return pacienteDTO;
     }
 
+    public void ordemListaPacienteCrescente(){
+        Collections.sort(listaPacientes,((o1, o2) -> o1.getCpfProprietario().compareTo(o2.getCpfProprietario())));
+    }
+
     public List<PacienteDTO> buscarPaciente() {
         mapearObjeto();
         try {
@@ -57,6 +62,7 @@ public class PacientePersistence {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ordemListaPacienteCrescente();
         return listaPacientes;
     }
 

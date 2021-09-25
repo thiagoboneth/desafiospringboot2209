@@ -12,6 +12,7 @@ import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VeterinarioPersistence {
@@ -51,6 +52,11 @@ public class VeterinarioPersistence {
         return veterinarioDTO;
     }
 
+    public void ordemListaConsultaDescrescente(){
+        Collections.sort(listaVeterinarios,((o1, o2) -> o1.getNumeroRegistro().compareTo(o2.getNumeroRegistro())));
+    }
+
+
     public List<VeterinarioDTO> buscarVeterinario() {
         mapearObjeto();
         try {
@@ -58,6 +64,7 @@ public class VeterinarioPersistence {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ordemListaConsultaDescrescente();
         return listaVeterinarios;
     }
 
