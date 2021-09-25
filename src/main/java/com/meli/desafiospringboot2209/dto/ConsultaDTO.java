@@ -8,6 +8,7 @@ public class ConsultaDTO {
     private String diagnostico;
     private String tratamento;
     private String numeroRegistroVeterinario;
+    private String cpfProprietario;
 
     public ConsultaDTO() {
 
@@ -35,6 +36,25 @@ public class ConsultaDTO {
 
     public String getNumeroRegistroVeterinario() {
         return numeroRegistroVeterinario;
+    }
+
+
+    public String getCpfProprietario() {
+        return cpfProprietario;
+    }
+
+    public ConsultaDTO(String cpfProprietario) {
+        this.cpfProprietario = cpfProprietario;
+    }
+
+    public ConsultaDTO comCpfProprietario(String cpfProprietario) {
+        this.cpfProprietario = cpfProprietario;
+        return this;
+    }
+
+    public ConsultaDTO comConsultaDTO(String cpfProprietario) {
+        this.cpfProprietario = cpfProprietario;
+        return this;
     }
 
     public ConsultaDTO comNumeroColeira(String numeroColeira) {

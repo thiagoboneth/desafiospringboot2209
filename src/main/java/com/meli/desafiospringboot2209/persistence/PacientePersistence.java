@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -21,6 +23,7 @@ public class PacientePersistence {
     String arquivo = "paciente.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;
+    Gson gson = new Gson();
 
     List<PacienteDTO> listaPacientes = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
@@ -81,6 +84,9 @@ public class PacientePersistence {
             List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>(){}.getType());
             for (PacienteDTO item: pacienteDTOS) {
                 if (item.getNumeroColeira().equals(id)){
+                    if(ConsultaPacienteRegistrada(id)){
+                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
+                    }
                     pacienteDTOS.remove(item);
                     break;
                 }
@@ -120,7 +126,23 @@ public class PacientePersistence {
             e.printStackTrace();
             throw new RuntimeException("Erro ao alterar ID");
         }
+    }
 
 
+    // se conseguirmos colocar um campo generico podemos transformar este funcao em uma unica funcao
+    public boolean ConsultaPacienteRegistrada(String NumeroColeira){
+        try {
+            String pacienteConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            List<ConsultaDTO> ConsultaDTOS = gson.fromJson(pacienteConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
+            for (ConsultaDTO item: ConsultaDTOS) {
+                if (item.getNumeroColeira().equals(NumeroColeira)){
+                    return true;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        return false;
     }
 }

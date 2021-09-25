@@ -16,8 +16,7 @@ public class ProprietarioController {
     private ProprietarioPersistence proprietarioPersistence = new ProprietarioPersistence();
 
     @GetMapping("/listar") //---->ok<------
-    public List<ProprietarioDTO> mostrarVeterinarios() {
-
+    public List<ProprietarioDTO> mostrarProprietario() {
         return proprietarioPersistence.buscarProprietario();
     }
 
@@ -29,13 +28,12 @@ public class ProprietarioController {
     }
 
     @DeleteMapping("/deletar/{cpf}") //---->ok<------
-
-    public void cadastro(@PathVariable String cpf) {
+    public void removerProprietario(@PathVariable String cpf) {
         proprietarioPersistence.removerProprietarioPorCpf(cpf);
     }
 
     @PutMapping("/alterar/{cpf}") //---->ok<------
-    public ResponseEntity<ProprietarioDTO> alterarVeterinario(@RequestBody ProprietarioDTO payLoad, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ProprietarioDTO> alterarProprietario(@RequestBody ProprietarioDTO payLoad, UriComponentsBuilder uriBuilder) {
         proprietarioPersistence.atualizarProprietario(payLoad);
         URI uri = uriBuilder.path("/alterado/{cpf}").buildAndExpand(payLoad.getCpf()).toUri();
         return ResponseEntity.created(uri).body(payLoad);

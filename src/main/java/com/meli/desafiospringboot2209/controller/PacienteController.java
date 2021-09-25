@@ -18,6 +18,11 @@ public class PacienteController {
 
     private PacientePersistence pacientePersistence = new PacientePersistence();
 
+    @GetMapping("listar")
+    public List<PacienteDTO> mostrarPacientes() {
+        return pacientePersistence.buscarPaciente();
+    }
+
     @PostMapping("/cadastra") //---->ok<------
     public ResponseEntity<PacienteDTO> cadastraPaciente(@RequestBody PacienteDTO payLoad, UriComponentsBuilder uriBuilder) {
         pacientePersistence.salvarPacienteNoArquivo(payLoad);
@@ -25,9 +30,8 @@ public class PacienteController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-
     @DeleteMapping("/deleta/{codigo}")//---->ok<------
-    public void deletar(@PathVariable String codigo){
+    public void removerPaciente(@PathVariable String codigo){
         pacientePersistence.removerPacientePorId(codigo);
     }
 
@@ -38,9 +42,5 @@ public class PacienteController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @GetMapping("listarPaciente")
-    public List<PacienteDTO> mostrarPacientes() {
-        return pacientePersistence.buscarPaciente();
-    }
 
 }

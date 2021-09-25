@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.meli.desafiospringboot2209.dto.ConsultaDTO;
+import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -19,6 +21,7 @@ public class VeterinarioPersistence {
     String arquivo = "veterinario.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;
+    Gson gson = new Gson();
 
     List<VeterinarioDTO> listaVeterinarios = new ArrayList<>();
 
@@ -79,6 +82,9 @@ public class VeterinarioPersistence {
             List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
             for (VeterinarioDTO item: veterinarioDTOS) {
                 if (item.getNumeroRegistro().equals(id)){
+                    if(ConsultaVeterinarioRegistrada(id)){
+                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
+                    }
                     veterinarioDTOS.remove(item);
                     break;
                 }
@@ -115,4 +121,23 @@ public class VeterinarioPersistence {
             throw new RuntimeException("Erro ao alterar ID");
         }
     }
+
+    // se conseguirmos colocar um campo generico podemos transformar este funcao em uma unica funcao
+    public boolean ConsultaVeterinarioRegistrada(String NumeroRegistro){
+        try {
+            String veterinarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            List<ConsultaDTO> ConsultaDTOS = gson.fromJson(veterinarioConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
+            for (ConsultaDTO item: ConsultaDTOS) {
+                if (item.getNumeroRegistroVeterinario().equals(NumeroRegistro)){
+                    return true;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+
 }

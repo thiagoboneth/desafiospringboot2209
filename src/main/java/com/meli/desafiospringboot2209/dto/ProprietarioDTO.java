@@ -42,6 +42,8 @@ public class ProprietarioDTO {
         return this;
     }
 
+
+
     public String getCpf() {
         return cpf;
     }

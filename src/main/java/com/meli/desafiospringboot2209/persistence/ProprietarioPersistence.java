@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.meli.desafiospringboot2209.dto.ConsultaDTO;
+import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -19,6 +22,7 @@ public class ProprietarioPersistence {
     String arquivo = "proprietario.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;
+    Gson gson = new Gson();
 
     List<ProprietarioDTO> listaProprietarios = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
@@ -71,15 +75,18 @@ public class ProprietarioPersistence {
         try {
             String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
-            List<ProprietarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
+            List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
             }.getType());
-            for (ProprietarioDTO item : veterinarioDTOS) {
+            for (ProprietarioDTO item : proprietarioDTOS) {
                 if (item.getCpf().equals(cpf)) {
-                    veterinarioDTOS.remove(item);
+                    if(ConsultaProprietarioRegistrada(cpf)){
+                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
+                    }
+                    proprietarioDTOS.remove(item);
                     break;
                 }
             }
-            objectMapper.writeValue(new File(cC), veterinarioDTOS);
+            objectMapper.writeValue(new File(cC), proprietarioDTOS);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao deletar ID");
@@ -113,4 +120,22 @@ public class ProprietarioPersistence {
             throw new RuntimeException("Erro ao alterar ID");
         }
     }
+
+    public boolean ConsultaProprietarioRegistrada(String Cpf){
+        try {
+            String proprietarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            List<ConsultaDTO> ConsultaS = gson.fromJson(proprietarioConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
+            for (ConsultaDTO item: ConsultaS) {
+                if (item.getCpfProprietario().equals(Cpf)){
+                    return true;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+
 }

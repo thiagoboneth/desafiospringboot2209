@@ -10,6 +10,7 @@ public class Consulta {
     private Veterinario veterinario;
     private String diagnostico;
     private String tratamento;
+    private String cpfProprietario;
 
     public Consulta() {
 

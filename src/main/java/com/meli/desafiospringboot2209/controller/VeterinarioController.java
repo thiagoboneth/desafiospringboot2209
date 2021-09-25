@@ -16,7 +16,7 @@ public class VeterinarioController {
 
     private VeterinarioPersistence veterinarioPersistence = new VeterinarioPersistence();
 
-    @GetMapping("listarVeterinario")
+    @GetMapping("listar")
     public List<VeterinarioDTO> mostrarVeterinario() {
         return veterinarioPersistence.buscarVeterinario();
     }
@@ -29,7 +29,7 @@ public class VeterinarioController {
     }
 
     @DeleteMapping("/deleta/{codigo}")
-    public void cadastro(@PathVariable String codigo){
+    public void removerVeterinario(@PathVariable String codigo){
         veterinarioPersistence.removerMedicoPorId(codigo);
     }
 
