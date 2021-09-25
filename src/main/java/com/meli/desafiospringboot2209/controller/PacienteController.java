@@ -35,7 +35,7 @@ public class PacienteController {
     }
 
     @DeleteMapping("/deleta/{codigo}")//---->ok<------
-    public void removerPaciente(@PathVariable String codigo){
-        pacientePersistence.removerPacientePorId(codigo);
+    public void removerPaciente(@PathVariable String numeroColeira){
+        pacientePersistence.removerPacientePorId(numeroColeira);
     }
 }
