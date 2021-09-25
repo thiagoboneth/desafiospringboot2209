@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
-import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -54,8 +53,10 @@ public class ConsultaPersistence {
             }.getType());
 
             for (PacienteDTO item : pacienteDTOS) {
+                if (item.getNumeroColeira().equals(coleira)) {
                     consultaDTO.comCpfProprietario(item.getCpfProprietario());
                     break;
+                }
             }
             objectMapper.writeValue(new File(cC), listaConsultas);
         } catch (IOException e) {
