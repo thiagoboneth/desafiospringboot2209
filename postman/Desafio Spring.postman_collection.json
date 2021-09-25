@@ -213,7 +213,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "\n{\n    \"especie\": \"cachorro\",\n    \"raca\": \"vira lata\",\n    \"cor\": \"branco com manchas pretas\",\n    \"dataNascimento\": \"01/01/2019\",\n    \"nome\": \"Duque\",\n    \"sexo\": \"M\",\n    \"cpfProprietario\": \"123.456.789-582\",\n    \"numeroColeira\": \"1\"\n}",
+					"raw": "\n{\n    \"raca\": \"vira lata\",\n    \"cor\": \"branco com manchas pretas\",\n    \"dataNascimento\": \"01/01/2019\",\n    \"nome\": \"Duque\",\n    \"sexo\": \"M\",\n    \"cpfProprietario\": \"123.456.789-582\",\n    \"numeroColeira\": \"1\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -303,16 +303,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/proprietario/deletar/123.456.789-00",
+					"raw": "http://localhost:8080/paciente/deleta/5",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"proprietario",
-						"deletar",
-						"123.456.789-00"
+						"paciente",
+						"deleta",
+						"5"
 					]
 				}
 			},
