@@ -1,5 +1,7 @@
 package com.meli.desafiospringboot2209.dto;
 
+import java.time.LocalDateTime;
+
 public class ConsultaDTO {
 
     private String numeroConsulta;
@@ -9,6 +11,7 @@ public class ConsultaDTO {
     private String tratamento;
     private String numeroRegistroVeterinario;
     private String cpfProprietario;
+    private LocalDateTime dataHora = LocalDateTime.now();
 
     public ConsultaDTO() {
 
@@ -41,6 +44,10 @@ public class ConsultaDTO {
 
     public String getCpfProprietario() {
         return cpfProprietario;
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
     }
 
     public ConsultaDTO(String cpfProprietario) {
@@ -79,6 +86,11 @@ public class ConsultaDTO {
 
     public ConsultaDTO comNumeroConsulta(String numeroConsulta) {
         this.numeroConsulta = numeroConsulta;
+        return this;
+    }
+
+    public ConsultaDTO comDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
         return this;
     }
 }
