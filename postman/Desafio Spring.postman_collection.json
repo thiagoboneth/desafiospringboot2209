@@ -1,0 +1,401 @@
+{
+	"info": {
+		"_postman_id": "620ae33b-bb6f-47c6-9a0b-a7526cd4fefc",
+		"name": "Desafio Spring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cadastra Veterinarios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cpf\":\"123.456.789-20\",\n    \"nome\":\"Mauri\",\n    \"sobrenome\":\"Dois\",\n    \"dataNascimento\":\"25/10/92\",\n    \"idMedico\":5,\n    \"numeroRegistro\":\"4444\",\n    \"especialidade\":\"Animais de Fazenda\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/veterinario/cadastra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veterinario",
+						"cadastra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Veterinarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/veterinario/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veterinario",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Veterinarios",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cpf\":\"123.456.789-20\",\n    \"nome\":\"Mauri\",\n    \"sobrenome\":\"Klein 2\",\n    \"dataNascimento\":\"25/10/92\",\n    \"idMedico\":10,\n    \"numeroRegistro\":\"4444\",\n    \"especialidade\":\"Animais de Fazenda\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/veterinario/alterar/4444",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veterinario",
+						"alterar",
+						"4444"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Veterinarios",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/veterinario/deleta/4444",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veterinario",
+						"deleta",
+						"4444"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar Proprietarios",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"cpf\": \"001.002.003-00\",\n        \"nome\": \"Maria\",\n        \"sobrenome\": \"Santos\",\n        \"dataNascimento\": \"22/07/76\",\n        \"endereco\": \"Rua das andorinhas nº11 apt 42\",\n        \"telefone\": \"9933114498\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/proprietario/cadastrar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"proprietario",
+						"cadastrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Proprietarios",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"cpf\": \"123.456.789-582\",\n        \"nome\": \"Isac\",\n        \"sobrenome\": \"Oliveira\",\n        \"dataNascimento\": \"01/05/91\",\n        \"endereco\": \"Avenida Faria Lima\",\n        \"telefone\": \"9988997765\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/proprietario/alterar/123.456.789-582",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"proprietario",
+						"alterar",
+						"123.456.789-582"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Proprietarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/proprietario/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"proprietario",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Proprietarios",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/proprietario/deletar/123.456.789-00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"proprietario",
+						"deletar",
+						"123.456.789-00"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar Pacientes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"especie\": \"cachorro\",\n    \"raca\": \"vira lata\",\n    \"cor\": \"branco com manchas pretas\",\n    \"dataNascimento\": \"01/01/2019\",\n    \"nome\": \"Duque\",\n    \"sexo\": \"M\",\n    \"cpfProprietario\": \"123.456.789-582\",\n    \"numeroColeira\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/paciente/cadastra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"paciente",
+						"cadastra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Pacientes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"especie\": \"cachorro\",\n    \"raca\": \"vira lata\",\n    \"cor\": \"branco com manchas pretas\",\n    \"dataNascimento\": \"01/01/2019\",\n    \"nome\": \"Duque\",\n    \"sexo\": \"M\",\n    \"cpfProprietario\": \"123.456.789-582\",\n    \"numeroColeira\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/paciente/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"paciente",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Pacientes",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"especie\": \"cachorro\",\n    \"raca\": \"vira lata\",\n    \"cor\": \"branco com manchas pretas\",\n    \"dataNascimento\": \"01/01/2019\",\n    \"nome\": \"Duque\",\n    \"sexo\": \"M\",\n    \"cpfProprietario\": \"123.456.789-582\",\n    \"numeroColeira\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/paciente/alterar/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"paciente",
+						"alterar",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Pacientes",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/proprietario/deletar/123.456.789-00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"proprietario",
+						"deletar",
+						"123.456.789-00"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar Consultas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"numeroConsulta\" : \"1\",\n  \"numeroColeira\" : \"1\",\n  \"motivo\" : \"Paciente com infestacao de pulgas\",\n  \"diagnostico\" : \"Localizado infestacao de pulgas no corpo inteiro do cachorro\",\n  \"tratamento\" : \"Necessário raspar os pelos e dar banho 2 vezes na semana\",\n  \"numeroRegistroVeterinario\" : \"1010\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/consultas/cadastra",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"consultas",
+						"cadastra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Consultas",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Consultas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/consultas/listar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"consultas",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remover consulta",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/consultas/deleta/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"consultas",
+						"deleta",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
