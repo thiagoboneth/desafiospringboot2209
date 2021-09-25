@@ -15,11 +15,6 @@ public class ProprietarioController {
 
     private ProprietarioPersistence proprietarioPersistence = new ProprietarioPersistence();
 
-    @GetMapping("/listar") //---->ok<------
-    public List<ProprietarioDTO> mostrarProprietario() {
-        return proprietarioPersistence.buscarProprietario();
-    }
-
     @PostMapping("/cadastrar") //---->ok<------
     public ResponseEntity<ProprietarioDTO> cadastraProprietario(@RequestBody ProprietarioDTO payLoad, UriComponentsBuilder uriBuilder) {
         proprietarioPersistence.salvarProprietarioNoArquivo(payLoad);
@@ -27,9 +22,9 @@ public class ProprietarioController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @DeleteMapping("/deletar/{cpf}") //---->ok<------
-    public void removerProprietario(@PathVariable String cpf) {
-        proprietarioPersistence.removerProprietarioPorCpf(cpf);
+    @GetMapping("/listar") //---->ok<------
+    public List<ProprietarioDTO> mostrarProprietario() {
+        return proprietarioPersistence.buscarProprietario();
     }
 
     @PutMapping("/alterar/{cpf}") //---->ok<------
@@ -37,5 +32,10 @@ public class ProprietarioController {
         proprietarioPersistence.atualizarProprietario(payLoad);
         URI uri = uriBuilder.path("/alterado/{cpf}").buildAndExpand(payLoad.getCpf()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
+    }
+
+    @DeleteMapping("/deletar/{cpf}") //---->ok<------
+    public void removerProprietario(@PathVariable String cpf) {
+        proprietarioPersistence.removerProprietarioPorCpf(cpf);
     }
 }

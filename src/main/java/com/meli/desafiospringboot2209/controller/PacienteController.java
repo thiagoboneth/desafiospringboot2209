@@ -1,10 +1,7 @@
 package com.meli.desafiospringboot2209.controller;
 
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
-import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
-import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
-import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,11 +15,6 @@ public class PacienteController {
 
     private PacientePersistence pacientePersistence = new PacientePersistence();
 
-    @GetMapping("listar")
-    public List<PacienteDTO> mostrarPacientes() {
-        return pacientePersistence.buscarPaciente();
-    }
-
     @PostMapping("/cadastra") //---->ok<------
     public ResponseEntity<PacienteDTO> cadastraPaciente(@RequestBody PacienteDTO payLoad, UriComponentsBuilder uriBuilder) {
         pacientePersistence.salvarPacienteNoArquivo(payLoad);
@@ -30,9 +22,9 @@ public class PacienteController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @DeleteMapping("/deleta/{codigo}")//---->ok<------
-    public void removerPaciente(@PathVariable String codigo){
-        pacientePersistence.removerPacientePorId(codigo);
+    @GetMapping("listar")
+    public List<PacienteDTO> mostrarPacientes() {
+        return pacientePersistence.buscarPaciente();
     }
 
     @PutMapping("/alterar/{codigo}")//---->ok<------
@@ -42,5 +34,8 @@ public class PacienteController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-
+    @DeleteMapping("/deleta/{codigo}")//---->ok<------
+    public void removerPaciente(@PathVariable String codigo){
+        pacientePersistence.removerPacientePorId(codigo);
+    }
 }

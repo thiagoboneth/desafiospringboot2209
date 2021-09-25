@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
 import java.net.URI;
 import java.util.List;
 
@@ -16,11 +15,6 @@ public class VeterinarioController {
 
     private VeterinarioPersistence veterinarioPersistence = new VeterinarioPersistence();
 
-    @GetMapping("listar")
-    public List<VeterinarioDTO> mostrarVeterinario() {
-        return veterinarioPersistence.buscarVeterinario();
-    }
-
     @PostMapping("/cadastra")
     public ResponseEntity<VeterinarioDTO> cadastraVeterinario(@RequestBody VeterinarioDTO payLoad, UriComponentsBuilder uriBuilder) {
         veterinarioPersistence.salvarVeterinarioNoArquivo(payLoad);
@@ -28,9 +22,9 @@ public class VeterinarioController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @DeleteMapping("/deleta/{codigo}")
-    public void removerVeterinario(@PathVariable String codigo){
-        veterinarioPersistence.removerMedicoPorId(codigo);
+    @GetMapping("listar")
+    public List<VeterinarioDTO> mostrarVeterinario() {
+        return veterinarioPersistence.buscarVeterinario();
     }
 
     @PutMapping("/alterar/{codigo}")
@@ -38,5 +32,10 @@ public class VeterinarioController {
         veterinarioPersistence.alterarVeterinario(payLoad);
         URI uri = uriBuilder.path("/alterado/{codigo}").buildAndExpand(payLoad.getNumeroRegistro()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
+    }
+
+    @DeleteMapping("/deleta/{codigo}")
+    public void removerVeterinario(@PathVariable String codigo){
+        veterinarioPersistence.removerMedicoPorId(codigo);
     }
 }
