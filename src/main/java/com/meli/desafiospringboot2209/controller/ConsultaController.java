@@ -15,11 +15,6 @@ public class ConsultaController {
 
     private ConsultaPersistence consultaPersistence = new ConsultaPersistence();
 
-    @GetMapping("listar") //---->ok<------
-    public List<ConsultaDTO> mostrarConsulta() {
-        return consultaPersistence.buscarConsulta();
-    }
-
     @PostMapping("/cadastra") //---->ok<------
     public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO payLoad, UriComponentsBuilder uriBuilder) {
         consultaPersistence.salvarConsultaNoArquivo(payLoad);
@@ -27,9 +22,9 @@ public class ConsultaController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @DeleteMapping("/deleta/{codigo}") //---->ok<------
-    public void removerConsulta(@PathVariable String codigo){
-        consultaPersistence.removerConsultaPorId(codigo);
+    @GetMapping("listar") //---->ok<------
+    public List<ConsultaDTO> mostrarConsulta() {
+        return consultaPersistence.buscarConsulta();
     }
 
     @PutMapping("/alterar/{codigo}")  //---->ok<------
@@ -37,5 +32,10 @@ public class ConsultaController {
         consultaPersistence.alterarConsulta(payLoad);
         URI uri = uriBuilder.path("/alterado/{codigo}").buildAndExpand(payLoad.getNumeroConsulta()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
+    }
+
+    @DeleteMapping("/deleta/{codigo}") //---->ok<------
+    public void removerConsulta(@PathVariable String codigo){
+        consultaPersistence.removerConsultaPorId(codigo);
     }
 }
