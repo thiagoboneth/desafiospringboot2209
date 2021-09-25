@@ -27,14 +27,14 @@ public class PacienteController {
         return pacientePersistence.buscarPaciente();
     }
 
-    @PutMapping("/alterar/{codigo}")//---->ok<------
+    @PutMapping("/alterar/{numeroColeira}")//---->ok<------
     public ResponseEntity<PacienteDTO> alterarPaciente(@RequestBody PacienteDTO payLoad, UriComponentsBuilder uriBuilder) {
         pacientePersistence.alterarPaciente(payLoad);
-        URI uri = uriBuilder.path("/alterado/{codigo}").buildAndExpand(payLoad.getNumeroColeira()).toUri();
+        URI uri = uriBuilder.path("/alterado/{numeroColeira}").buildAndExpand(payLoad.getNumeroColeira()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @DeleteMapping("/deleta/{codigo}")//---->ok<------
+    @DeleteMapping("/deleta/{numeroColeira}")//---->ok<------
     public void removerPaciente(@PathVariable String numeroColeira){
         pacientePersistence.removerPacientePorId(numeroColeira);
     }
