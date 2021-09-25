@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -36,9 +37,14 @@ public class ConsultaPersistence {
         listaConsultas = buscarConsulta();
 
         try {
+            if (verificaNull(consultaDTO)) {
+                throw new RuntimeException("É necessário o número da coleira e o número de registro do veterinário");
+            }
+
             if (consultaJaCadastrada(consultaDTO.getNumeroConsulta())) {
                 throw new RuntimeException("Consulta já cadastrada");
             }
+
             listaConsultas.add(consultaDTO);
 
             String coleira =  consultaDTO.getNumeroColeira();
@@ -69,6 +75,14 @@ public class ConsultaPersistence {
                 System.out.println(consultaDTO.getNumeroConsulta());
             }
             return false;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verificaNull(ConsultaDTO consultaDTO) {
+        if (consultaDTO.getNumeroColeira() == null || consultaDTO.getNumeroRegistroVeterinario() == null) {
+            return true;
         } else {
             return false;
         }

@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
-import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -35,6 +33,10 @@ public class ProprietarioPersistence {
     public ProprietarioDTO salvarProprietarioNoArquivo(ProprietarioDTO proprietarioDTO) {
         mapearObjeto();
         try {
+            if (verificaNull(proprietarioDTO)) {
+                throw new RuntimeException("Os campos não podem ser nulos");
+            }
+            
             if (proprietarioJaCadastrado(proprietarioDTO.getCpf())) {
                 throw new RuntimeException("Proprietario já cadastrado");
             }
@@ -55,6 +57,19 @@ public class ProprietarioPersistence {
                 }
             }
             return false;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verificaNull(ProprietarioDTO proprietarioDTO) {
+        if (proprietarioDTO.getCpf() == null
+                || proprietarioDTO.getNome() == null
+                || proprietarioDTO.getSobrenome() == null
+                || proprietarioDTO.getDataNascimento() == null
+                || proprietarioDTO.getEndereco() == null
+                || proprietarioDTO.getTelefone() == null) {
+            return true;
         } else {
             return false;
         }

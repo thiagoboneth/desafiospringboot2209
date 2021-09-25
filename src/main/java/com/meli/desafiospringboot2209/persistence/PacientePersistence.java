@@ -7,13 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
-import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
-import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +34,14 @@ public class PacientePersistence {
         listaPacientes = buscarPaciente();
 
         try {
+            if (verificaNull(pacienteDTO)) {
+                throw new RuntimeException("Os campos não podem ser nulos");
+            }
+
             if (pacienteJaCadastrado(pacienteDTO.getNumeroColeira())) {
                 throw new RuntimeException("paciente já cadastrado");
             }
+
             listaPacientes.add(pacienteDTO);
             objectMapper.writeValue(new File(cC), listaPacientes);
         } catch(IOException e) {
@@ -68,7 +69,6 @@ public class PacientePersistence {
                 if (pacienteDTO.getNumeroColeira().equals(numeroColeira)) {
                     return true;
                 }
-                System.out.println(pacienteDTO.getNumeroColeira());
             }
             return false;
         } else {
@@ -76,6 +76,19 @@ public class PacientePersistence {
         }
     }
 
+    public boolean verificaNull(PacienteDTO pacienteDTO) {
+        if (pacienteDTO.getEspecie() == null
+                || pacienteDTO.getRaca() == null
+                || pacienteDTO.getCor() == null
+                || pacienteDTO.getDataNascimento() == null
+                || pacienteDTO.getNome() == null
+                || pacienteDTO.getSexo() == null
+                || pacienteDTO.getNumeroColeira() == null) {
+           return true;
+        } else {
+            return false;
+        }
+    }
 
     public void removerPacientePorId(String id){
         try {

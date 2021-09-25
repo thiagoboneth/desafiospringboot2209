@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
-import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -37,6 +36,10 @@ public class VeterinarioPersistence {
         listaVeterinarios = buscarVeterinario();
 
         try {
+            if (verificaNull(veterinarioDTO)) {
+                throw new RuntimeException("Os campos não podem ser nulos");
+            }
+
             if (veterinarioJaCadastrado(veterinarioDTO.getNumeroRegistro())) {
                 throw new RuntimeException("Veterinario já cadastrado");
             }
@@ -70,6 +73,19 @@ public class VeterinarioPersistence {
                 System.out.println(veterinarioDTO.getNumeroRegistro());
             }
             return false;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verificaNull(VeterinarioDTO veterinarioDTO) {
+        if (veterinarioDTO.getCpf() == null
+                || veterinarioDTO.getNome() == null
+                || veterinarioDTO.getSobrenome() == null
+                || veterinarioDTO.getDataNascimento() == null
+                || veterinarioDTO.getNumeroRegistro() == null
+                || veterinarioDTO.getEspecialidade() == null) {
+            return true;
         } else {
             return false;
         }
