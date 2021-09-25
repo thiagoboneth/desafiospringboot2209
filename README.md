@@ -48,17 +48,17 @@ Implementar (nas devidas classes) os métodos necessários para:<br/>
 
 - [x] ● Cadastrar/editar médicos;<br/>
   - [x] Não é permitido o cadastro de médicos em duplicidade;<br/>
-  - [ ] Todos os dados do médico são obrigatórios para realização do cadastro/edição;<br/>
-  - [X] Não é permitido a exclusão de médicos que já realizaram consultas.<br/>
+  - [x] Todos os dados do médico são obrigatórios para realização do cadastro/edição;<br/>
+  - [x] Não é permitido a exclusão de médicos que já realizaram consultas.<br/>
 - [x] ● Cadastrar/editar proprietários;<br/>
   - [X] Não é permitido o cadastro de proprietários em duplicidade;<br/>
-  - [ ] Todos os dados do proprietários são obrigatórios para realização do cadastro/edição;<br/>
+  - [x] Todos os dados do proprietários são obrigatórios para realização do cadastro/edição;<br/>
   - [X] Não é permitido a exclusão de proprietários de animais que já realizaram consultas.<br/>
 - [x] ● Cadastrar/editar pacientes;<br/>
-  - [ ] Todos os dados do paciente são obrigatórios para realização do cadastro/edição;<br/>
+  - [x] Todos os dados do paciente são obrigatórios para realização do cadastro/edição;<br/>
   - [X] Não é permitido a exclusão de animais que já realizaram consultas.<br/>
 - [x] ● Criar/editar consultas;
-  - [ ] Uma consulta deve exigir o médico e o paciente para ser registrada, bem como a data e hora e o motivo.<br/>
+  - [x] Uma consulta deve exigir o médico e o paciente para ser registrada, bem como a data e hora e o motivo.<br/>
 - [ ] ● Ver a lista de todos os pacientes registrados junto com seus proprietários.<br/>
   - [ ] A lista deve estar ordenada em ordem crescente de nome do proprietário do animal;<br/>
 - [ ] ● Ver a lista de todas as consultas atribuídas a um determinado paciente. <br/>
