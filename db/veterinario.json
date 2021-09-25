@@ -19,4 +19,11 @@
   "dataNascimento" : "18/09/1991",
   "numeroRegistro" : "1010",
   "especialidade" : "Animais de Fazenda"
+}, {
+  "cpf" : "123.456.789-20",
+  "nome" : "Maria",
+  "sobrenome" : "Luiza",
+  "dataNascimento" : "12/10/1989",
+  "numeroRegistro" : "8511",
+  "especialidade" : "Animais Domesticos"
 } ]
