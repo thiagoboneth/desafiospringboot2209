@@ -16,4 +16,31 @@
   "sexo" : "F",
   "cpfProprietario" : "001.002.003-00",
   "numeroColeira" : "2"
+}, {
+  "especie" : "cachorro",
+  "raca" : "vira lata",
+  "cor" : "branco com manchas pretas",
+  "dataNascimento" : "01/01/2019",
+  "nome" : "Duque",
+  "sexo" : "M",
+  "cpfProprietario" : "123.456.789-582",
+  "numeroColeira" : "3"
+}, {
+  "especie" : "cachorro",
+  "raca" : "Rottweiler",
+  "cor" : "Preto com manchas marrons",
+  "dataNascimento" : "17/12/2011",
+  "nome" : "Bigao Filho",
+  "sexo" : "M",
+  "cpfProprietario" : "123.456.789-582",
+  "numeroColeira" : "4"
+}, {
+  "especie" : "O. anatinus",
+  "raca" : "Ornitorrinco",
+  "cor" : "Preto com manchas marrons",
+  "dataNascimento" : "17/12/2011",
+  "nome" : "Perry",
+  "sexo" : "M",
+  "cpfProprietario" : "123.456.789-582",
+  "numeroColeira" : "5"
 } ]

@@ -1,15 +1,1 @@
-[ {
-  "cpf" : "123.456.789-582",
-  "nome" : "Isac",
-  "sobrenome" : "Oliveira",
-  "dataNascimento" : "01/05/91",
-  "endereco" : "Rua 4190",
-  "telefone" : "9988997765"
-}, {
-  "cpf" : "001.002.003-00",
-  "nome" : "Maria",
-  "sobrenome" : "Santos",
-  "dataNascimento" : "22/07/76",
-  "endereco" : "Rua das andorinhas nº11 apt 42",
-  "telefone" : "9933114498"
-} ]
+[{"cpf":"123.456.789-582","nome":"Isac","sobrenome":"Oliveira","dataNascimento":"01/05/91","endereco":"Rua 4190","telefone":"9988997765"},{"cpf":"001.002.003-00","nome":"Maria","sobrenome":"Santos","dataNascimento":"22/07/76","endereco":"Rua das andorinhas nº11 apt 42","telefone":"9933114498"}]

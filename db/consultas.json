@@ -14,4 +14,20 @@
   "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
   "numeroRegistroVeterinario" : "8511",
   "cpfProprietario" : "123.456.789-582"
+}, {
+  "numeroConsulta" : "3",
+  "numeroColeira" : "1",
+  "motivo" : "Paciente com infestacao de pulgas",
+  "diagnostico" : "Localizado infestacao de pulgas no corpo inteiro do cachorro",
+  "tratamento" : "Necessário raspar os pelos e dar banho 2 vezes na semana",
+  "numeroRegistroVeterinario" : "1010",
+  "cpfProprietario" : "123.456.789-582"
+}, {
+  "numeroConsulta" : "4",
+  "numeroColeira" : "2",
+  "motivo" : "Paciente com excesso de remela nos olhos",
+  "diagnostico" : "Localizado excesso de remela nos olhos devido a conjuntivite felina",
+  "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
+  "numeroRegistroVeterinario" : "8511",
+  "cpfProprietario" : "123.456.789-582"
 } ]
