@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
-import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -17,7 +16,7 @@ import java.util.List;
 
 public class ConsultaPersistence {
 
-    // caminho doa arquivos
+    // caminho dos arquivos
     String arquivo = "consultas.json";
     String caminho = "db";
     String cC = caminho + "/" + arquivo;
@@ -41,11 +40,11 @@ public class ConsultaPersistence {
                 throw new RuntimeException("Consulta já cadastrada");
             }
             listaConsultas.add(consultaDTO);
-          //  objectMapper.writeValue(new File(cC), listaConsultas);
+            objectMapper.writeValue(new File(cC), listaConsultas);
 
             String coleira =  consultaDTO.getNumeroColeira();
 
-            String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
+            String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
             List<PacienteDTO> pacienteDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<PacienteDTO>>() {
             }.getType());
 
@@ -54,9 +53,6 @@ public class ConsultaPersistence {
                     break;
             }
             objectMapper.writeValue(new File(cC), listaConsultas);
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error na escrita do arquivo");
@@ -117,8 +113,6 @@ public class ConsultaPersistence {
         }
     }
 
-
-
     public void removerConsultaPorId(String id) {
         try {
             String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
@@ -138,5 +132,4 @@ public class ConsultaPersistence {
             throw new RuntimeException("Erro ao deletar ID");
         }
     }
-
 }
