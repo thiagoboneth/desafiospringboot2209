@@ -101,7 +101,11 @@ public class ConsultaPersistence {
     public void ordemListaConsultaDescrescente(){
         Collections.sort(listaConsultas,((o1, o2) -> o2.getDataHora().compareTo(o1.getDataHora())));
     }
- //trabalhando
+
+    public void ordemListaConsultaCrescente(){
+        Collections.sort(listaConsultas,((o1, o2) -> o1.getDataHora().compareTo(o2.getDataHora())));
+    }
+
     public List<ConsultaDTO> consultasDoDia(String data) throws IOException {
 
         String[] diaConvertida = data.split("-");
@@ -123,6 +127,7 @@ public class ConsultaPersistence {
                 .sorted(Comparator.comparing(ConsultaDTO::getDataHora))
                 .collect(Collectors.toList());
 
+        ordemListaConsultaCrescente();
         return consultas;
     }
 
