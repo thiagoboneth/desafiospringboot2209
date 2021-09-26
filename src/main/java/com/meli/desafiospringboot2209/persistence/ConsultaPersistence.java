@@ -175,15 +175,50 @@ public class ConsultaPersistence {
             List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>() {
             }.getType());
             for (ConsultaDTO item : consultaDTOS) {
+                if (registros.getNumeroConsulta() == null)
+                {throw new RuntimeException("Impossivel aterar sem o numero da consulta");}
+
                 if (item.getNumeroConsulta().equals(numeroConsulta)) {
-                    item.comNumeroColeira(registros.getNumeroColeira());
-                    item.comMotivo(registros.getMotivo());
-                    item.comDiagnnostico(registros.getDiagnostico());
-                    item.comTratamento(registros.getTratamento());
-                    item.comNumeroConsulta(registros.getNumeroConsulta());
+
+                    Integer contNull = 0;
+                    Integer contOk = 0;
+
+
+                    if (registros.getMotivo() != null)
+                    {
+                        if(registros.getMotivo().equals(item.getMotivo())){contOk++;}
+                        item.comMotivo(registros.getMotivo());
+                    }else {registros.comMotivo(item.getMotivo());contNull++;}
+
+                    if (registros.getDiagnostico() != null)
+                    {if(registros.getDiagnostico().equals(item.getDiagnostico())){contOk++;}
+                        item.comDiagnnostico(registros.getDiagnostico());
+                    }else {registros.comDiagnnostico(item.getDiagnostico());contNull++;}
+
+                    if (registros.getTratamento() != null)
+                    {if(registros.getTratamento().equals(item.getTratamento())){contOk++;}
+                        item.comTratamento(registros.getTratamento());
+                    }else {registros.comTratamento(item.getTratamento());contNull++;}
+
+
+                    if (registros.getNumeroColeira() != null)
+                    {if(registros.getNumeroColeira().equals(item.getNumeroColeira())){contOk++;}
+                        item.comNumeroColeira(registros.getNumeroColeira());
+                    }else {registros.comNumeroColeira(item.getNumeroColeira());contNull++;}
+
+                    if (registros.getNumeroRegistroVeterinario() != null)
+                    {if(registros.getNumeroRegistroVeterinario().equals(item.getNumeroRegistroVeterinario())){contOk++;}
+                        item.comNumeroRegistroVeterinario(registros.getNumeroRegistroVeterinario());
+                    }else {registros.comNumeroRegistroVeterinario(item.getNumeroRegistroVeterinario());contNull++;}
+
                     registros.comCpfProprietario(item.getCpfProprietario());
                     registros.comNomeProprietario(item.getNomeProprietario());
-                    break;
+
+                    if(contNull == 5 && contOk == 0)
+                    {throw new RuntimeException("E necessario pelomenos 1 parametro alem numero da consulta para poder alterar.");}else
+                        if (contNull == 0 && contOk == 5)
+                    {throw new RuntimeException("E necessario que pelomenos 1 parametro seja diferente para alterar.");}
+                        break;
                 }
             }
             objectMapper.writeValue(new File(cC), consultaDTOS);
