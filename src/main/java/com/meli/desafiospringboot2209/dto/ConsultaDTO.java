@@ -55,9 +55,6 @@ public class ConsultaDTO {
         return dataHora;
     }
 
-    public ConsultaDTO(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
-    }
 
     public ConsultaDTO comCpfProprietario(String cpfProprietario) {
         this.cpfProprietario = cpfProprietario;

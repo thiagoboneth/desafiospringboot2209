@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ProprietarioPersistence {
 
-    // caminho doa arquivos
+
     String arquivo = "proprietario.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;

@@ -17,7 +17,6 @@ import java.util.List;
 
 public class VeterinarioPersistence {
 
-    // caminho doa arquivos
     String arquivo = "veterinario.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;
@@ -145,7 +144,6 @@ public class VeterinarioPersistence {
         }
     }
 
-    // se conseguirmos colocar um campo generico podemos transformar este funcao em uma unica funcao
     public boolean ConsultaVeterinarioRegistrada(String NumeroRegistro){
         try {
             String veterinarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");

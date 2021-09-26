@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class PacientePersistence {
-    // caminho doa arquivos
+
     String arquivo = "paciente.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;
@@ -148,7 +148,6 @@ public class PacientePersistence {
     }
 
 
-    // se conseguirmos colocar um campo generico podemos transformar este funcao em uma unica funcao
     public boolean ConsultaPacienteRegistrada(String NumeroColeira){
         try {
             String pacienteConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");

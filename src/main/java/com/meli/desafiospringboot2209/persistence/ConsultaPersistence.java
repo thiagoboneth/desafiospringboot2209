@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 public class ConsultaPersistence {
 
-    // caminho dos arquivos
     String arquivo = "consultas.json";
     String caminho = "db";
     String cC = caminho + "/" + arquivo;
@@ -40,7 +39,7 @@ public class ConsultaPersistence {
     }
 
     private void dadosProprietario(ConsultaDTO consultaDTO) throws IOException {
-        // pegando informacoes do paciente e adicionando em consulta
+
         String coleira = consultaDTO.getNumeroColeira();
 
         String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
@@ -54,7 +53,6 @@ public class ConsultaPersistence {
             }
         }
 
-        // pegando informacoes do proprietario e adicionando em consulta
         String cpfProprietario = consultaDTO.getCpfProprietario();
 
         String consultaProprietarioArquivo = ReadFileUtil.readFile("db/proprietario.json");
@@ -85,7 +83,6 @@ public class ConsultaPersistence {
 
             listaConsultas.add(consultaDTO);
 
-            // busca e insere os campos na consulta
             dadosProprietario(consultaDTO);
 
             objectMapper.writeValue(new File(cC), listaConsultas);
