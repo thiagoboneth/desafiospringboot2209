@@ -10,9 +10,7 @@ public class Paciente {
     private String sexo;
     private Proprietario proprietario;
 
-    // indentificacao do animal
     private String numeroColeira;
-    //variavel para definir se o paciente4e ests em uma consulta
     private boolean consutado = false;
 
 

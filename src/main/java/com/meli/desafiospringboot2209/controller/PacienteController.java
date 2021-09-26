@@ -15,7 +15,7 @@ public class PacienteController {
 
     private PacientePersistence pacientePersistence = new PacientePersistence();
 
-    @PostMapping("/cadastra") //---->ok<------
+    @PostMapping("/cadastra")
     public ResponseEntity<PacienteDTO> cadastraPaciente(@RequestBody PacienteDTO payLoad, UriComponentsBuilder uriBuilder) {
         pacientePersistence.salvarPacienteNoArquivo(payLoad);
         URI uri = uriBuilder.path("/codigo/{codigo}").buildAndExpand(payLoad.getNumeroColeira()).toUri();
@@ -27,14 +27,14 @@ public class PacienteController {
         return pacientePersistence.buscarPaciente();
     }
 
-    @PutMapping("/alterar/{numeroColeira}")//---->ok<------
+    @PutMapping("/alterar/{numeroColeira}")
     public ResponseEntity<PacienteDTO> alterarPaciente(@RequestBody PacienteDTO payLoad, UriComponentsBuilder uriBuilder) {
         pacientePersistence.alterarPaciente(payLoad);
         URI uri = uriBuilder.path("/alterado/{numeroColeira}").buildAndExpand(payLoad.getNumeroColeira()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @DeleteMapping("/deleta/{numeroColeira}")//---->ok<------
+    @DeleteMapping("/deleta/{numeroColeira}")
     public void removerPaciente(@PathVariable String numeroColeira){
         pacientePersistence.removerPacientePorId(numeroColeira);
     }
