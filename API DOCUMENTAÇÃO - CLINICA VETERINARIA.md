@@ -1,16 +1,16 @@
-## **API DOCUMENTAÇÃO - CLINICA VETERINARIA**
+## **API DOCUMENTAÇÃO - CLINICA VETERINÁRIA**
 
 API elaborada para controle de sistema de um modelo de negócio voltado para clínica veterinária.
 
-Disponibilizando um sistema que tenha a possibilidade de fazer o controle do sistema como por exemplo?
+Disponibilizando um sistema que tenha a possibilidade de fazer o controle do sistema como, por exemplo:
 
 
 
-*Cadastrar Paciente.
+*Cadastrar Paciente,
 
-*Cadastrar Proprietário.
+*Cadastrar Proprietário,
 
-*Cadastrar Veterinário.
+*Cadastrar Veterinário,
 
 *Cadastrar e controlar consultas.
 
@@ -20,7 +20,7 @@ Disponibilizando um sistema que tenha a possibilidade de fazer o controle do sis
 
 **Cadastrar Paciente:**
 
-O cadastro do paciente é recebido via JSON  e sem seguida é salvo junto com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
+O cadastro do paciente é recebido via JSON  e sem seguida é salvo junto com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
 
 Segue modelo de JSON para **cadastro** via **POST**:
 
@@ -28,20 +28,20 @@ http://localhost:8080/paciente/cadastrar
 
 ```
 {
-  "especie" : "especieDoAnimal",
-  "raca" : "raçaDoAnimal",
-  "cor" : "descricaoDaPelagemDoAnimal",
-  "dataNascimento" : "01/01/2019",
-  "nome" : "nomeDoAnimal",
-  "sexo" : "sexoDoAnimal",
-  "cpfProprietario" : "123.456.789-582",
-  "numeroColeira" : "1"
+  "especie" : "especieDoAnimal",
+  "raca" : "raçaDoAnimal",
+  "cor" : "descricaoDaPelagemDoAnimal",
+  "dataNascimento" : "01/01/2019",
+  "nome" : "nomeDoAnimal",
+  "sexo" : "sexoDoAnimal",
+  "cpfProprietario" : "123.456.789-582",
+  "numeroColeira" : "1"
 }
 ```
 
-*Em caso de erro será lançado um exceção no sistema informando que os campos não podem ser nulos.*
+*Em caso de erro será lançado uma exceção no sistema informando que os campos não podem ser nulos.*
 
-*O sistema de cadastro não permite duplicidade de numero de coleira.*
+*O sistema de cadastro não permite duplicidade de número de coleira.*
 
 
 
@@ -67,14 +67,14 @@ Utilizando o **PUT** siga com o seguinte modelo de JSON para atualizar um pacien
 
 ```
 {
-  "especie" : "especieDoAnimal",
-  "raca" : "raçaDoAnimal",
-  "cor" : "descricaoDaPelagemDoAnimal",
-  "dataNascimento" : "01/01/2019",
-  "nome" : "nomeDoAnimal",
-  "sexo" : "sexoDoAnimal",
-  "cpfProprietario" : "123.456.789-582",
-  "numeroColeira" : "1"
+  "especie" : "especieDoAnimal",
+  "raca" : "raçaDoAnimal",
+  "cor" : "descricaoDaPelagemDoAnimal",
+  "dataNascimento" : "01/01/2019",
+  "nome" : "nomeDoAnimal",
+  "sexo" : "sexoDoAnimal",
+  "cpfProprietario" : "123.456.789-582",
+  "numeroColeira" : "1"
 }
 ```
 
@@ -94,7 +94,7 @@ http://localhost:8080/paciente/deleta/{numeroColeira}
 
 **Cadastrar Proprietário:**
 
-O cadastro do proprietário é recebido via JSON  e sem seguida é salvo junto com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
+O cadastro do proprietário é recebido via JSON  e sem seguida é salvo com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
 
 Segue modelo de JSON para **cadastro** via **POST**:
 
@@ -102,18 +102,18 @@ http://localhost:8080/proprietario/cadastrar
 
 ```
 {
-  "cpf":"123.456.789-582",
-  "nome":"nome",
-  "sobrenome":"sobrenome",
-  "dataNascimento":"01/05/91",
-  "endereco":"endereco",
-  "telefone":"numeroTelefone"
+  "cpf":"123.456.789-582",
+  "nome":"nome",
+  "sobrenome":"sobrenome",
+  "dataNascimento":"01/05/91",
+  "endereco":"endereco",
+  "telefone":"numeroTelefone"
 }
 ```
 
-*Em caso de erro será lançado um exceção no sistema informando que os campos não podem ser nulos.*
+*Em caso de erro será lançado uma exceção no sistema informando que os campos não podem ser nulos.*
 
-*O sistema de cadastro não permite duplicidade de numero de CPF.*
+*O sistema de cadastro não permite duplicidade de número de CPF.*
 
 
 
@@ -121,7 +121,7 @@ http://localhost:8080/proprietario/cadastrar
 
 A consulta dos proprietários cadastrados é feito via consulta de arquivo que retorna todos os proprietários cadastrados no banco de dados.
 
-Para efetuar a consulta dos pacientes listados HTTP **GET**  acesse o seguinte link:
+Para efetuar a consulta dos pacientes listados HTTP **GET**  acesse o seguinte link:
 
 http://localhost:8080/proprietario/listar
 
@@ -135,12 +135,12 @@ Utilizando o **PUT** siga com o seguinte modelo de JSON para atualizar um propri
 
 ```
 {
-  "cpf":"123.456.789-582",
-  "nome":"nome",
-  "sobrenome":"sobrenome",
-  "dataNascimento":"01/05/91",
-  "endereco":"endereco",
-  "telefone":"numeroTelefone"
+  "cpf":"123.456.789-582",
+  "nome":"nome",
+  "sobrenome":"sobrenome",
+  "dataNascimento":"01/05/91",
+  "endereco":"endereco",
+  "telefone":"numeroTelefone"
 }
 ```
 
@@ -158,7 +158,7 @@ http://localhost:8080/proprietario/deletar/{cpf}
 
 **Cadastrar Veterinário:**
 
-O cadastro do veterinário é recebido via JSON  e sem seguida é salvo junto com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
+O cadastro do veterinário é recebido via JSON  e sem seguida é salvo com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
 
 Segue modelo de JSON para **cadastro** via **POST**:
 
@@ -166,24 +166,24 @@ http://localhost:8080/veterinario/cadastra
 
 ```
 {
-  "cpf" : "223.456.789-20",
-  "nome" : "nome",
-  "sobrenome" : "sobrenome",
-  "dataNascimento" : "25/10/92",
-  "numeroRegistro" : "numeroRegistro",
-  "especialidade" : "especialidade"
+  "cpf" : "223.456.789-20",
+  "nome" : "nome",
+  "sobrenome" : "sobrenome",
+  "dataNascimento" : "25/10/92",
+  "numeroRegistro" : "numeroRegistro",
+  "especialidade" : "especialidade"
 }
 ```
 
-*Em caso de erro será lançado um exceção no sistema informando que os campos não podem ser nulos.*
+*Em caso de erro será lançado uma exceção no sistema informando que os campos não podem ser nulos.*
 
 *O sistema de cadastro não permite duplicidade de veterinário.*
 
 **Consultar a Lista de Veterinário:**
 
-A consulta dos Veterinário cadastrados é feito via consulta de arquivo que retorna todos os Veterinário cadastrados no banco de dados.
+A consulta dos veterinários cadastrados é feito via consulta de arquivo que retorna todos os veterinários cadastrados no banco de dados.
 
-Para efetuar a consulta dos Veterinário listados com o HTTP **GET** acesse o seguinte link:
+Para efetuar a consulta dos veterinários listados com o HTTP **GET** acesse o seguinte link:
 
 http://localhost:8080/veterinario/listar
 
@@ -191,7 +191,7 @@ http://localhost:8080/veterinario/listar
 
 
 
-**Alterar veterinário pelo numero de registro:**
+**Alterar veterinário pelo número de registro:**
 
 Caso queira efetuar uma mudança no cadastro do seu veterinário, você precisa referenciar o número de registro do veterinário via HTTP pelo seguinte link:
 
@@ -201,12 +201,12 @@ Utilizando o **PUT** siga com o seguinte modelo de JSON para atualizar um veteri
 
 ```
 {
-  "cpf" : "223.456.789-20",
-  "nome" : "nome",
-  "sobrenome" : "sobrenome",
-  "dataNascimento" : "25/10/92",
-  "numeroRegistro" : "numeroRegistro",
-  "especialidade" : "especialidade"
+  "cpf" : "223.456.789-20",
+  "nome" : "nome",
+  "sobrenome" : "sobrenome",
+  "dataNascimento" : "25/10/92",
+  "numeroRegistro" : "numeroRegistro",
+  "especialidade" : "especialidade"
 }
 ```
 
@@ -224,7 +224,7 @@ http://localhost:8080/veterinario/deleta/{codigo}
 
 **Cadastrar Consulta:**
 
-O cadastro da consulta é recebido via JSON  e sem seguida é salvo junto com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
+O cadastro da consulta é recebido via JSON  e sem seguida é salvo junto com as outras dependências do banco de dados na pasta raiz do diretório chamada "db/arquivos.json":
 
 Segue modelo de JSON para **cadastro** via **POST**:
 
@@ -232,21 +232,21 @@ http://localhost:8080/consultas/cadastra
 
 ```
 {
-  "numeroConsulta" : "numeroConsulta",
-  "numeroColeira" : "numeroColeira",
-  "motivo" : "motivoConsulta",
-  "diagnostico" : "diagnostico",
-  "tratamento" : "tratamento",
-  "numeroRegistroVeterinario" : "numeroRegistroVeterinario",
+  "numeroConsulta" : "numeroConsulta",
+  "numeroColeira" : "numeroColeira",
+  "motivo" : "motivoConsulta",
+  "diagnostico" : "diagnostico",
+  "tratamento" : "tratamento",
+  "numeroRegistroVeterinario" : "numeroRegistroVeterinario",
 }
 ```
 
-*Em caso de erro será lançado um exceção no sistema informando: *
+*Em caso de erro será lançado uma exceção no sistema informando: *
 
 - Necessidade de número de coleira.
 - Necessário número de registro de veterinário
 
-*O sistema de cadastro não permite duplicidade de consulta por numero de consulta.*
+*O sistema de cadastro não permite duplicidade de consulta por número de consulta.*
 
 *O sistema informa caso tenha ocorrido um erro ao cadastrar a consulta no banco de dados.*
 
@@ -264,7 +264,7 @@ http://localhost:8080/consultas/listar
 
 **Consultar a Lista de Consultas do dia:**
 
-A consulta das consultas do dia cadastrados é feito via consulta de arquivo que retorna todos as Consultas cadastrados no banco de dados relacionadas ao dia informado.
+A consulta das consultas do dia cadastrados é feito via consulta de arquivo que retorna todas as Consultas cadastrados no banco de dados relacionadas ao dia informado.
 
 Para efetuar a consulta das Consultas listados com o HTTP **GET** acesse o seguinte link:
 
@@ -274,9 +274,9 @@ http://localhost:8080/consultas/listarPorDia/25-09-2021
 
 
 
-**Alterar consulta pelo numero de registro:**
+**Alterar consulta pelo número de registro:**
 
-Caso queira efetuar uma mudança na consulta , você precisa referenciar o **número da consulta** via HTTP pelo seguinte link:
+Caso queira efetuar uma mudança na consulta, você precisa referenciar o **número da consulta** via HTTP pelo seguinte link:
 
 http://localhost:8080/consultas/alterar/{codigo}
 
@@ -286,12 +286,12 @@ Utilizando o **PUT** siga com o seguinte modelo de JSON para atualizar uma consu
 
 ```
 {
-  "numeroConsulta" : "numeroConsulta",
-  "numeroColeira" : "numeroColeira",
-  "motivo" : "motivo",
-  "diagnostico" : "diagnostico",
-  "tratamento" : "tratamento",
-  "numeroRegistroVeterinario" : "numeroRegistroVeterinario"
+  "numeroConsulta" : "numeroConsulta",
+  "numeroColeira" : "numeroColeira",
+  "motivo" : "motivo",
+  "diagnostico" : "diagnostico",
+  "tratamento" : "tratamento",
+  "numeroRegistroVeterinario" : "numeroRegistroVeterinario"
 }
 ```
 
@@ -309,11 +309,10 @@ http://localhost:8080/consultas/deleta/{codigo}
 
 
 
-**Informar todas as consulta de cada veterinário em sistema:**
+**Informar todas as consultas de cada veterinário em sistema:**
 
-Para informar todas as consulta já cadastrado em sistema basta chamar o HTTP com o modo **GET**, segue modelo HTTP:
+Para informar todas as consultas já cadastrado em sistema basta chamar o HTTP com o modo **GET**, segue modelo HTTP:
 
 http://localhost:8080/consultas/listarTotalCadaVeterinario
 
 *O endPoint irá retornar todas as consultas em sistemas mostrando quantas consultas cada médico tem.*
-
