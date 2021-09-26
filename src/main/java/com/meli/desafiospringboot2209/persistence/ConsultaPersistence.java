@@ -119,8 +119,7 @@ public class ConsultaPersistence {
         String json = readFile("db/consultas.json");
         Gson gson = new Gson();
 
-        List<ConsultaDTO> consultaDTOS = objectMapper.readValue(new File(cC), new TypeReference<List<ConsultaDTO>>() {
-        });
+        List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>(){}.getType());
 
         List<ConsultaDTO> consultas = consultaDTOS.stream()
                 .filter(item -> LocalDateTime.parse(item.getDataHora()).toLocalDate().equals(dataConvertida))
@@ -208,4 +207,21 @@ public class ConsultaPersistence {
             reader.close();
         }
     }
+    public List<String> listarTotalCadaVeterinario() throws IOException {
+        String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+        List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
+
+        List<String> contagemConsultasMedicos= new ArrayList<>();
+
+        for (ConsultaDTO item : consultaDTOS) {
+            long count = consultaDTOS.stream().filter(x -> x.getNumeroRegistroVeterinario().equals(item.getNumeroRegistroVeterinario())).count();
+
+            if (contagemConsultasMedicos.contains("Registro do Médico: "+item.getNumeroRegistroVeterinario() + " Número de consultas realizadas: " + count) == false ) {
+
+                contagemConsultasMedicos.add("Registro do Médico: "+item.getNumeroRegistroVeterinario() + " Número de consultas realizadas: " + count);
+            }
+        }
+        return contagemConsultasMedicos;
+    }
+
 }

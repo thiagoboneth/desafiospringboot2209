@@ -45,4 +45,8 @@ public class ConsultaController {
     public void removerConsulta(@PathVariable String codigo){
         consultaPersistence.removerConsultaPorId(codigo);
     }
+    @GetMapping("/listarTotalCadaVeterinario")
+    public List<String> listaTotalCadaVeterinario() throws IOException {
+        return consultaPersistence.listarTotalCadaVeterinario();
+    }
 }
