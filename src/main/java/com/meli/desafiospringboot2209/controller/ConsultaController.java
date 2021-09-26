@@ -24,7 +24,7 @@ public class ConsultaController {
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @GetMapping("listar") //---->ok<------
+    @GetMapping("/listar") //---->ok<------
     public List<ConsultaDTO> mostrarConsulta() {
         return consultaPersistence.buscarConsulta();
     }
@@ -32,6 +32,11 @@ public class ConsultaController {
     @GetMapping("listarPorDia/{data}") //---->ok<------
     public List<ConsultaDTO> mostrarConsultaPorDia(@PathVariable ("data") String data) throws IOException {
         return consultaPersistence.consultasDoDia(data);
+    }
+
+    @GetMapping("/listarPorPaciente") //---->ok<------
+    public List<ConsultaDTO> mostrarConsultaPaciente() throws IOException {
+        return consultaPersistence.consultaPaciente();
     }
 
     @PutMapping("/alterar/{codigo}")  //---->ok<------
@@ -45,6 +50,7 @@ public class ConsultaController {
     public void removerConsulta(@PathVariable String codigo){
         consultaPersistence.removerConsultaPorId(codigo);
     }
+
     @GetMapping("/listarTotalCadaVeterinario")
     public List<String> listaTotalCadaVeterinario() throws IOException {
         return consultaPersistence.listarTotalCadaVeterinario();

@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
-import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.BufferedReader;
@@ -16,7 +16,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,7 +54,8 @@ public class ConsultaPersistence {
 
             listaConsultas.add(consultaDTO);
 
-            String coleira =  consultaDTO.getNumeroColeira();
+            // pegando informacoes do paciente e adicionando em consulta
+            String coleira = consultaDTO.getNumeroColeira();
 
             String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
             List<PacienteDTO> pacienteDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<PacienteDTO>>() {
@@ -64,6 +64,20 @@ public class ConsultaPersistence {
             for (PacienteDTO item : pacienteDTOS) {
                 if (item.getNumeroColeira().equals(coleira)) {
                     consultaDTO.comCpfProprietario(item.getCpfProprietario());
+                    break;
+                }
+            }
+
+            // pegando informacoes do proprietario e adicionando em consulta
+            String cpfProprietario = consultaDTO.getCpfProprietario();
+
+            String consultaProprietarioArquivo = ReadFileUtil.readFile("db/proprietario.json");
+            List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(consultaProprietarioArquivo, new TypeToken<List<ProprietarioDTO>>() {
+            }.getType());
+
+            for (ProprietarioDTO item1 : proprietarioDTOS) {
+                if (item1.getCpf().equals(cpfProprietario)) {
+                    consultaDTO.comNomeProprietario(item1.getNome());
                     break;
                 }
             }
@@ -222,6 +236,26 @@ public class ConsultaPersistence {
             }
         }
         return contagemConsultasMedicos;
+    }
+
+    public void ordenaConsultaPorNome(List<ConsultaDTO> consultas){
+        Collections.sort(consultas,((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
+    }
+
+
+    public List<ConsultaDTO> consultaPaciente() throws IOException {
+
+        String consultaPacienteArquivo = ReadFileUtil.readFile("db/consultas.json");
+        List<ConsultaDTO> consultaPacienteDTOS = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
+
+        List<ConsultaDTO> consultas = consultaPacienteDTOS.stream()
+                                .sorted(Comparator.comparing(ConsultaDTO::getNomeProprietario))
+                                        .collect(Collectors.toList());
+         ordenaConsultaPorNome(consultas);
+
+        return consultas;
+
+
     }
 
 }
