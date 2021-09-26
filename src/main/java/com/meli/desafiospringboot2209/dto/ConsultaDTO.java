@@ -11,7 +11,7 @@ public class ConsultaDTO {
     private String tratamento;
     private String numeroRegistroVeterinario;
     private String cpfProprietario;
-    private LocalDateTime dataHora = LocalDateTime.now();
+    private String dataHora = LocalDateTime.now().toString();
 
     public ConsultaDTO() {
 
@@ -46,7 +46,7 @@ public class ConsultaDTO {
         return cpfProprietario;
     }
 
-    public LocalDateTime getDataHora() {
+    public String getDataHora() {
         return dataHora;
     }
 
@@ -89,7 +89,7 @@ public class ConsultaDTO {
         return this;
     }
 
-    public ConsultaDTO comDataHora(LocalDateTime dataHora) {
+    public ConsultaDTO comDataHora(String dataHora) {
         this.dataHora = dataHora;
         return this;
     }

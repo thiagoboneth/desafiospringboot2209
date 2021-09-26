@@ -68,7 +68,7 @@ fato de que atendem cães, gatos, porquinhos-da-índia, coelhos, tartarugas, cav
   crescente de nome do proprietário do animal;<br/>
 - [ ] ● Ver a lista de todas as consultas atribuídas a um determinado paciente. A lista deve estar ordenada pela data da
   consulta, em ordem decrescente.<br/>
-- [x] ● Ver o total de consultas atribuídas a cada um dos médicos.<br/>
+- [ ] ● Ver o total de consultas atribuídas a cada um dos médicos.<br/>
 - [x] ● Ver a lista de todas as consultas marcadas para um mesmo dia.É importante mostrar dados relevantes do animal (
   paciente), do proprietário e do médico.A lista deve estar ordenada em ordem crescente de data e hora.<br/>
 - [x] Os registros devem ser mantidos em arquivos (txt ou json), portanto os registros relacionados aos médicos,

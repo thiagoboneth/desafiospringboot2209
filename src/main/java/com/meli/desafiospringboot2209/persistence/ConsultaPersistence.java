@@ -115,10 +115,11 @@ public class ConsultaPersistence {
         String json = readFile("db/consultas.json");
         Gson gson = new Gson();
 
-        List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>(){}.getType());
+        List<ConsultaDTO> consultaDTOS = objectMapper.readValue(new File(cC), new TypeReference<List<ConsultaDTO>>() {
+        });
 
         List<ConsultaDTO> consultas = consultaDTOS.stream()
-                .filter(item -> item.getDataHora().toLocalDate().equals(dataConvertida))
+                .filter(item -> LocalDateTime.parse(item.getDataHora()).toLocalDate().equals(dataConvertida))
                 .sorted(Comparator.comparing(ConsultaDTO::getDataHora))
                 .collect(Collectors.toList());
 

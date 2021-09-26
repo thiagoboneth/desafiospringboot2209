@@ -6,7 +6,7 @@
   "tratamento" : "Necessário raspar os pelos e dar banho 2 vezes na semana",
   "numeroRegistroVeterinario" : "1010",
   "cpfProprietario" : "123.456.789-582",
-  "dataHora" : [ 2021, 9, 25, 17, 28, 18, 820758000 ]
+  "dataHora" : "2021-09-25T23:43:51.963"
 }, {
   "numeroConsulta" : "2",
   "numeroColeira" : "2",
@@ -15,7 +15,16 @@
   "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
   "numeroRegistroVeterinario" : "8511",
   "cpfProprietario" : "001.002.003-00",
-  "dataHora" : [ 2021, 9, 25, 17, 28, 31, 602337000 ]
+  "dataHora" : "2021-09-25T23:43:51.963"
+}, {
+  "numeroConsulta" : "24",
+  "numeroColeira" : "2",
+  "motivo" : "Paciente com excesso de remela nos olhos",
+  "diagnostico" : "Localizado excesso de remela nos olhos devido a conjuntivite felina",
+  "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
+  "numeroRegistroVeterinario" : "8511",
+  "cpfProprietario" : "001.002.003-00",
+  "dataHora" : "2021-09-25T21:05:56.936321800"
 }, {
   "numeroConsulta" : "3",
   "numeroColeira" : "1",
@@ -24,7 +33,7 @@
   "tratamento" : "Necessário raspar os pelos e dar banho 2 vezes na semana",
   "numeroRegistroVeterinario" : "1010",
   "cpfProprietario" : "123.456.789-582",
-  "dataHora" : [ 2021, 9, 25, 17, 28, 42, 21114000 ]
+  "dataHora" : "2021-09-24T23:43:51.963"
 }, {
   "numeroConsulta" : "4",
   "numeroColeira" : "2",
@@ -33,5 +42,14 @@
   "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
   "numeroRegistroVeterinario" : "8511",
   "cpfProprietario" : "001.002.003-00",
-  "dataHora" : [ 2021, 9, 25, 17, 29, 2, 973386000 ]
+  "dataHora" : "2021-09-24T23:43:51.963"
+}, {
+  "numeroConsulta" : "17",
+  "numeroColeira" : "2",
+  "motivo" : "Paciente com excesso de remela nos olhos",
+  "diagnostico" : "Localizado excesso de remela nos olhos devido a conjuntivite felina",
+  "tratamento" : "Necessário lavar os olhos con soro 2 vezez ao dia e pingar colirio 1 vez ao dia",
+  "numeroRegistroVeterinario" : "8511",
+  "cpfProprietario" : "001.002.003-00",
+  "dataHora" : "2021-09-25T21:11:37.602271200"
 } ]
