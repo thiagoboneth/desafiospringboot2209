@@ -15,7 +15,6 @@ public class ConsultaDTO {
     private String dataHora = LocalDateTime.now().toString();
 
     public ConsultaDTO() {
-
     }
 
     public String getNomeProprietario() {
@@ -101,6 +100,10 @@ public class ConsultaDTO {
 
     public ConsultaDTO comNomeProprietario(String nomeProprietario) {
         this.nomeProprietario = nomeProprietario;
+        return this;
+    }
+    public ConsultaDTO comNumeroRegistroVeterinario(String numeroRegistroVeterinario) {
+        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
         return this;
     }
 }
