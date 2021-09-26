@@ -216,9 +216,9 @@ public class ConsultaPersistence {
         for (ConsultaDTO item : consultaDTOS) {
             long count = consultaDTOS.stream().filter(x -> x.getNumeroRegistroVeterinario().equals(item.getNumeroRegistroVeterinario())).count();
 
-            if (contagemConsultasMedicos.contains("Registro do Médico: "+item.getNumeroRegistroVeterinario() + " Número de consultas realizadas: " + count) == false ) {
+            if (contagemConsultasMedicos.contains("Registro do Médico: "+item.getNumeroRegistroVeterinario() + ", Número de consultas realizadas por ele: " + count) == false ) {
 
-                contagemConsultasMedicos.add("Registro do Médico: "+item.getNumeroRegistroVeterinario() + " Número de consultas realizadas: " + count);
+                contagemConsultasMedicos.add("Registro do Médico: "+item.getNumeroRegistroVeterinario() + ", Número de consultas realizadas por ele: " + count);
             }
         }
         return contagemConsultasMedicos;
