@@ -2,6 +2,10 @@
 
 ## Veterinária
 
+Link da documentação:
+[Link da Documentação de uso da API](https://github.com/thiagoboneth/desafiospringboot2209/blob/master/API%20DOCUMENTA%C3%87%C3%83O%20-%20CLINICA%20VETERINARIA.md)
+
+
 ### // Projeto em grupo
 
 A clínica veterinária “Zoo World” quer implementar um sistema desenvolvido em Java para a administração de cada um de
@@ -45,7 +49,7 @@ fato de que atendem cães, gatos, porquinhos-da-índia, coelhos, tartarugas, cav
 
 ---
 
-- [ ] Solicita-se a realização da modelagem de cada uma dessas classes, levando em consideração suas relações e a
+- [x] Solicita-se a realização da modelagem de cada uma dessas classes, levando em consideração suas relações e a
   interação entre cada uma delas.<br/>
   Implementar (nas devidas classes) os métodos necessários para:<br/>
 
