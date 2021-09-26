@@ -39,6 +39,37 @@ public class ConsultaPersistence {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
+    private void dadosProprietario(ConsultaDTO consultaDTO) throws IOException {
+        // pegando informacoes do paciente e adicionando em consulta
+        String coleira = consultaDTO.getNumeroColeira();
+
+        String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
+        List<PacienteDTO> pacienteDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<PacienteDTO>>() {
+        }.getType());
+
+        for (PacienteDTO item : pacienteDTOS) {
+            if (item.getNumeroColeira().equals(coleira)) {
+                consultaDTO.comCpfProprietario(item.getCpfProprietario());
+                break;
+            }
+        }
+
+        // pegando informacoes do proprietario e adicionando em consulta
+        String cpfProprietario = consultaDTO.getCpfProprietario();
+
+        String consultaProprietarioArquivo = ReadFileUtil.readFile("db/proprietario.json");
+        List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(consultaProprietarioArquivo, new TypeToken<List<ProprietarioDTO>>() {
+        }.getType());
+
+        for (ProprietarioDTO item1 : proprietarioDTOS) {
+            if (item1.getCpf().equals(cpfProprietario)) {
+                consultaDTO.comNomeProprietario(item1.getNome());
+                break;
+            }
+        }
+    }
+
+
     public ConsultaDTO salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
         mapearObjeto();
         listaConsultas = buscarConsulta();
@@ -54,33 +85,9 @@ public class ConsultaPersistence {
 
             listaConsultas.add(consultaDTO);
 
-            // pegando informacoes do paciente e adicionando em consulta
-            String coleira = consultaDTO.getNumeroColeira();
+            // busca e insere os campos na consulta
+            dadosProprietario(consultaDTO);
 
-            String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
-            List<PacienteDTO> pacienteDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<PacienteDTO>>() {
-            }.getType());
-
-            for (PacienteDTO item : pacienteDTOS) {
-                if (item.getNumeroColeira().equals(coleira)) {
-                    consultaDTO.comCpfProprietario(item.getCpfProprietario());
-                    break;
-                }
-            }
-
-            // pegando informacoes do proprietario e adicionando em consulta
-            String cpfProprietario = consultaDTO.getCpfProprietario();
-
-            String consultaProprietarioArquivo = ReadFileUtil.readFile("db/proprietario.json");
-            List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(consultaProprietarioArquivo, new TypeToken<List<ProprietarioDTO>>() {
-            }.getType());
-
-            for (ProprietarioDTO item1 : proprietarioDTOS) {
-                if (item1.getCpf().equals(cpfProprietario)) {
-                    consultaDTO.comNomeProprietario(item1.getNome());
-                    break;
-                }
-            }
             objectMapper.writeValue(new File(cC), listaConsultas);
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,6 +181,8 @@ public class ConsultaPersistence {
                     item.comDiagnnostico(registros.getDiagnostico());
                     item.comTratamento(registros.getTratamento());
                     item.comNumeroConsulta(registros.getNumeroConsulta());
+                    registros.comCpfProprietario(item.getCpfProprietario());
+                    registros.comNomeProprietario(item.getNomeProprietario());
                     break;
                 }
             }
