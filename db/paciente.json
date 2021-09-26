@@ -8,6 +8,15 @@
   "cpfProprietario" : "001.002.003-00",
   "numeroColeira" : "2"
 }, {
+  "especie" : "Cachoro",
+  "raca" : "Rotvaler",
+  "cor" : "preto",
+  "dataNascimento" : "25/10/2020",
+  "nome" : "menino",
+  "sexo" : "m",
+  "cpfProprietario" : "111.111.111-11",
+  "numeroColeira" : "10"
+}, {
   "especie" : "Cachorro",
   "raca" : "Vira lata",
   "cor" : "Branco com manchas pretas",
