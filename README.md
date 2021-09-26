@@ -64,11 +64,11 @@ fato de que atendem cães, gatos, porquinhos-da-índia, coelhos, tartarugas, cav
     - [X] Não é permitido a exclusão de animais que já realizaram consultas.<br/>
 - [x] ● Criar/editar consultas;
     - [x] Uma consulta deve exigir o médico e o paciente para ser registrada, bem como a data e hora e o motivo.<br/>
-- [ ] ● Ver a lista de todos os pacientes registrados junto com seus proprietários.A lista deve estar ordenada em ordem
+- [x] ● Ver a lista de todos os pacientes registrados junto com seus proprietários.A lista deve estar ordenada em ordem
   crescente de nome do proprietário do animal;<br/>
-- [ ] ● Ver a lista de todas as consultas atribuídas a um determinado paciente. A lista deve estar ordenada pela data da
+- [x] ● Ver a lista de todas as consultas atribuídas a um determinado paciente. A lista deve estar ordenada pela data da
   consulta, em ordem decrescente.<br/>
-- [ ] ● Ver o total de consultas atribuídas a cada um dos médicos.<br/>
+- [x] ● Ver o total de consultas atribuídas a cada um dos médicos.<br/>
 - [x] ● Ver a lista de todas as consultas marcadas para um mesmo dia.É importante mostrar dados relevantes do animal (
   paciente), do proprietário e do médico.A lista deve estar ordenada em ordem crescente de data e hora.<br/>
 - [x] Os registros devem ser mantidos em arquivos (txt ou json), portanto os registros relacionados aos médicos,
