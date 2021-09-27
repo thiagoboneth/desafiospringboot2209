@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class VeterinarioPersistence {
@@ -52,7 +53,7 @@ public class VeterinarioPersistence {
     }
 
     public void ordemListaConsultaDescrescente(){
-        Collections.sort(listaVeterinarios,((o1, o2) -> o1.getNumeroRegistro().compareTo(o2.getNumeroRegistro())));
+        Collections.sort(listaVeterinarios,(Comparator.comparing(VeterinarioDTO::getNumeroRegistro)));
     }
 
 
@@ -69,14 +70,11 @@ public class VeterinarioPersistence {
 
     public boolean veterinarioJaCadastrado(String numeroRegistro) throws IOException {
         listaVeterinarios = buscarVeterinario();
-        System.out.println(numeroRegistro);
         if (listaVeterinarios.size() > 0) {
-            System.out.println(numeroRegistro);
             for (VeterinarioDTO veterinarioDTO : listaVeterinarios) {
                 if (veterinarioDTO.getNumeroRegistro().equals(numeroRegistro)) {
                     return true;
                 }
-                System.out.println(veterinarioDTO.getNumeroRegistro());
             }
             return false;
         } else {

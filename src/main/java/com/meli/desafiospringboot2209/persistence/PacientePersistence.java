@@ -68,9 +68,7 @@ public class PacientePersistence {
 
     public boolean pacienteJaCadastrado(String numeroColeira) throws IOException {
         listaPacientes = buscarPaciente();
-        System.out.println(numeroColeira);
         if (listaPacientes.size() > 0) {
-            System.out.println(numeroColeira);
             for (PacienteDTO pacienteDTO : listaPacientes) {
                 if (pacienteDTO.getNumeroColeira().equals(numeroColeira)) {
                     return true;

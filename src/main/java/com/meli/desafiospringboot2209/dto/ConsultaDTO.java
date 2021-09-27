@@ -14,9 +14,6 @@ public class ConsultaDTO {
     private String nomeProprietario;
     private String dataHora = LocalDateTime.now().toString();
 
-    public ConsultaDTO() {
-    }
-
     public String getNomeProprietario() {
         return nomeProprietario;
     }
@@ -60,11 +57,6 @@ public class ConsultaDTO {
         return this;
     }
 
-    public ConsultaDTO comConsultaDTO(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
-        return this;
-    }
-
     public ConsultaDTO comNumeroColeira(String numeroColeira) {
         this.numeroColeira = numeroColeira;
         return this;
@@ -82,16 +74,6 @@ public class ConsultaDTO {
 
     public ConsultaDTO comTratamento(String tratamento) {
         this.tratamento = tratamento;
-        return this;
-    }
-
-    public ConsultaDTO comNumeroConsulta(String numeroConsulta) {
-        this.numeroConsulta = numeroConsulta;
-        return this;
-    }
-
-    public ConsultaDTO comDataHora(String dataHora) {
-        this.dataHora = dataHora;
         return this;
     }
 

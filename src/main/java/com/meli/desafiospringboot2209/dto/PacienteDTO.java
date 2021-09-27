@@ -11,10 +11,6 @@ public class PacienteDTO {
     private String cpfProprietario;
     private String numeroColeira;
 
-    public PacienteDTO() {
-
-    }
-
     public PacienteDTO comEspecie(String especie) {
         this.especie = especie;
         return this;
@@ -47,11 +43,6 @@ public class PacienteDTO {
 
     public PacienteDTO comCpfProprietario(String cpfProprietario) {
         this.cpfProprietario = cpfProprietario;
-        return this;
-    }
-
-    public PacienteDTO comNumeroColeira(String numeroColeira) {
-        this.numeroColeira = numeroColeira;
         return this;
     }
 

@@ -12,11 +12,6 @@ public class ProprietarioDTO {
     public ProprietarioDTO() {
     }
 
-    public ProprietarioDTO comCpf(String cpf) {
-        this.cpf = cpf;
-        return this;
-    }
-
     public ProprietarioDTO comNome(String nome) {
         this.nome = nome;
         return this;

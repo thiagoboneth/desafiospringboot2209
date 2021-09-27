@@ -1,65 +1,10 @@
 [ {
-  "especie" : "Gato",
-  "raca" : "Siamês",
-  "cor" : "Cinza",
-  "dataNascimento" : "20/09/2017",
-  "nome" : "Alice",
-  "sexo" : "F",
-  "cpfProprietario" : "001.002.003-00",
-  "numeroColeira" : "2"
-}, {
-  "especie" : "Cachoro",
-  "raca" : "Rotvaler",
-  "cor" : "preto",
-  "dataNascimento" : "25/10/2020",
-  "nome" : "menino",
-  "sexo" : "m",
-  "cpfProprietario" : "111.111.111-11",
-  "numeroColeira" : "10"
-}, {
-  "especie" : "Cachorro",
-  "raca" : "Vira lata",
-  "cor" : "Branco com manchas pretas",
+  "especie" : "Coelho",
+  "raca" : "Coelho da montanha",
+  "cor" : "Branco e cinza",
   "dataNascimento" : "01/01/2019",
-  "nome" : "Duque",
-  "sexo" : "M",
+  "nome" : "Perna",
+  "sexo" : "Masculino",
   "cpfProprietario" : "123.456.789-582",
   "numeroColeira" : "1"
-}, {
-  "especie" : "cachorro",
-  "raca" : "vira lata",
-  "cor" : "branco com manchas pretas",
-  "dataNascimento" : "01/01/2019",
-  "nome" : "Duque",
-  "sexo" : "M",
-  "cpfProprietario" : "123.456.789-582",
-  "numeroColeira" : "3"
-}, {
-  "especie" : "cachorro",
-  "raca" : "Rottweiler",
-  "cor" : "Preto com manchas marrons",
-  "dataNascimento" : "17/12/2011",
-  "nome" : "Bigao Filho",
-  "sexo" : "M",
-  "cpfProprietario" : "123.456.789-582",
-  "numeroColeira" : "4"
-}, {
-  "especie" : "O. anatinus",
-  "raca" : "Ornitorrinco",
-  "cor" : "Preto com manchas marrons",
-  "dataNascimento" : "17/12/2011",
-  "nome" : "Perry",
-  "sexo" : "M",
-  "cpfProprietario" : "123.456.789-582",
-  "numeroColeira" : "5"
-}, {
-  "especie" : "Cachorro",
-  "raca" : "Vira lata",
-  "cor" : "Branco com manchas pretas",
-  "dataNascimento" : "01/01/2019",
-  "nome" : "Duque",
-  "sexo" : "M",
-  "cpfProprietario" : "123.456.789-582",
-  "numeroColeira" : "9"
-}
-]
+} ]
