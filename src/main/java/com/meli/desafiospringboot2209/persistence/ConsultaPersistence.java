@@ -8,16 +8,14 @@ import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
+import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,7 +66,7 @@ public class ConsultaPersistence {
     }
 
 
-    public ConsultaDTO salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
+    public void salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
         mapearObjeto();
         listaConsultas = buscarConsulta();
 
@@ -90,17 +88,15 @@ public class ConsultaPersistence {
             e.printStackTrace();
             throw new RuntimeException("Error na escrita do arquivo");
         }
-        return consultaDTO;
     }
 
-    public boolean consultaJaCadastrada(String numeroConsulta) throws IOException {
+    public boolean consultaJaCadastrada(String numeroConsulta) {
         listaConsultas = buscarConsulta();
         if (listaConsultas.size() > 0) {
             for (ConsultaDTO consultaDTO : listaConsultas) {
                 if (consultaDTO.getNumeroConsulta().equals(numeroConsulta)) {
                     return true;
                 }
-                System.out.println(consultaDTO.getNumeroConsulta());
             }
             return false;
         } else {
@@ -109,19 +105,15 @@ public class ConsultaPersistence {
     }
 
     public boolean verificaNull(ConsultaDTO consultaDTO) {
-        if (consultaDTO.getNumeroColeira() == null || consultaDTO.getNumeroRegistroVeterinario() == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return consultaDTO.getNumeroColeira() == null || consultaDTO.getNumeroRegistroVeterinario() == null;
     }
 
     public void ordemListaConsultaDescrescente(){
-        Collections.sort(listaConsultas,((o1, o2) -> o2.getDataHora().compareTo(o1.getDataHora())));
+        listaConsultas.sort(((o1, o2) -> o2.getDataHora().compareTo(o1.getDataHora())));
     }
 
     public void ordemListaConsultaCrescente(){
-        Collections.sort(listaConsultas,((o1, o2) -> o1.getDataHora().compareTo(o2.getDataHora())));
+        listaConsultas.sort((Comparator.comparing(ConsultaDTO::getDataHora)));
     }
 
     public List<ConsultaDTO> consultasDoDia(String data) throws IOException {
@@ -134,7 +126,7 @@ public class ConsultaPersistence {
 
         LocalDate dataConvertida = LocalDate.of(ano,mes,dia);
 
-        String json = readFile("db/consultas.json");
+        String json = ReadFileUtil.readFile("db/consultas.json");
         Gson gson = new Gson();
 
         List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>(){}.getType());
@@ -166,8 +158,7 @@ public class ConsultaPersistence {
             String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
 
-            ConsultaDTO registros = payLoad;
-            String numeroConsulta = registros.getNumeroConsulta();
+            String numeroConsulta = payLoad.getNumeroConsulta();
 
             List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>() {
             }.getType());
@@ -176,45 +167,47 @@ public class ConsultaPersistence {
             Integer contOk = 0;
 
             for (ConsultaDTO item : consultaDTOS) {
-                if (registros.getNumeroConsulta() == null)
+                if (payLoad.getNumeroConsulta() == null)
                 {throw new RuntimeException("Impossivel aterar sem o numero da consulta");}
 
                 if (item.getNumeroConsulta().equals(numeroConsulta)) {
 
-                    if (registros.getMotivo() != null){
-                      if(registros.getMotivo().equals(item.getMotivo())){contOk++;}
-                        item.comMotivo(registros.getMotivo());
-                    }else {registros.comMotivo(item.getMotivo());contNull++;}
+                    if (payLoad.getMotivo() != null){
+                        if(payLoad.getMotivo().equals(item.getMotivo())){contOk++;}
+                        item.comMotivo(payLoad.getMotivo());
+                    }else {
+                        payLoad.comMotivo(item.getMotivo());contNull++;}
 
-                    if (registros.getDiagnostico() != null)
-                    {if(registros.getDiagnostico().equals(item.getDiagnostico())){contOk++;}
-                        item.comDiagnnostico(registros.getDiagnostico());
-                    }else {registros.comDiagnnostico(item.getDiagnostico());contNull++;}
+                    if (payLoad.getDiagnostico() != null)
+                    {if(payLoad.getDiagnostico().equals(item.getDiagnostico())){contOk++;}
+                        item.comDiagnnostico(payLoad.getDiagnostico());
+                    }else {
+                        payLoad.comDiagnnostico(item.getDiagnostico());contNull++;}
 
-                    if (registros.getTratamento() != null)
-                    {if(registros.getTratamento().equals(item.getTratamento())){contOk++;}
-                        item.comTratamento(registros.getTratamento());
-                    }else {registros.comTratamento(item.getTratamento());contNull++;}
+                    if (payLoad.getTratamento() != null)
+                    {if(payLoad.getTratamento().equals(item.getTratamento())){contOk++;}
+                        item.comTratamento(payLoad.getTratamento());
+                    }else {
+                        payLoad.comTratamento(item.getTratamento());contNull++;}
 
 
-                    if (registros.getNumeroColeira() != null)
-                    {if(registros.getNumeroColeira().equals(item.getNumeroColeira())){contOk++;}
-                        item.comNumeroColeira(registros.getNumeroColeira());
-                    }else {registros.comNumeroColeira(item.getNumeroColeira());contNull++;}
+                    if (payLoad.getNumeroColeira() != null)
+                    {if(payLoad.getNumeroColeira().equals(item.getNumeroColeira())){contOk++;}
+                        item.comNumeroColeira(payLoad.getNumeroColeira());
+                    }else {
+                        payLoad.comNumeroColeira(item.getNumeroColeira());contNull++;}
 
-                    if (registros.getNumeroRegistroVeterinario() != null)
-                    {if(registros.getNumeroRegistroVeterinario().equals(item.getNumeroRegistroVeterinario())){contOk++;}
-                        item.comNumeroRegistroVeterinario(registros.getNumeroRegistroVeterinario());
-                    }else {registros.comNumeroRegistroVeterinario(item.getNumeroRegistroVeterinario());contNull++;}
+                    if (payLoad.getNumeroRegistroVeterinario() != null)
+                    {if(payLoad.getNumeroRegistroVeterinario().equals(item.getNumeroRegistroVeterinario())){contOk++;}
+                        item.comNumeroRegistroVeterinario(payLoad.getNumeroRegistroVeterinario());
+                    }else {
+                        payLoad.comNumeroRegistroVeterinario(item.getNumeroRegistroVeterinario());contNull++;}
 
-                    registros.comCpfProprietario(item.getCpfProprietario());
-                    registros.comNomeProprietario(item.getNomeProprietario());
+                    payLoad.comCpfProprietario(item.getCpfProprietario());
+                    payLoad.comNomeProprietario(item.getNomeProprietario());
 
-                    if(contNull == 5 && contOk == 0)
-                    {throw new RuntimeException("E necessario pelomenos 1 parametro alem numero da consulta para poder alterar.");}else
-                        if (contNull == 0 && contOk == 5)
-                    {throw new RuntimeException("E necessario que pelomenos 1 parametro seja diferente para alterar.");}
-                        break;
+                    ErrosNulos.erros(5,contOk," numero da consulta ",contOk);
+                    break;
                 }
             }
             objectMapper.writeValue(new File(cC), consultaDTOS);
@@ -244,23 +237,6 @@ public class ConsultaPersistence {
         }
     }
 
-    private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String         line = null;
-        StringBuilder  stringBuilder = new StringBuilder();
-        String         ls = System.getProperty("line.separator");
-
-        try {
-            while((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
-
-            return stringBuilder.toString();
-        } finally {
-            reader.close();
-        }
-    }
     public List<String> listarTotalCadaVeterinario() throws IOException {
         String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
         List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
@@ -279,7 +255,7 @@ public class ConsultaPersistence {
     }
 
     public void ordenaConsultaPorNome(List<ConsultaDTO> consultas){
-        Collections.sort(consultas,((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
+        consultas.sort(((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
     }
 
 

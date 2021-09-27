@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -172,10 +173,7 @@ public class PacientePersistence {
                         item.comCpfProprietario(registros.getCpfProprietario());
                     }else {registros.comCpfProprietario(item.getCpfProprietario());contNull++;}
 
-                    if(contNull == 7 && contOk == 0)
-                    {throw new RuntimeException("E necessario pelomenos 1 parametro alem numero da paciente para poder alterar.");}else
-                    if (contNull == 0 && contOk == 7)
-                    {throw new RuntimeException("E necessario que pelomenos 1 parametro seja diferente para alterar.");}
+                    ErrosNulos.erros(7,contOk,"Numero do paciente",contOk);
                     break;
                 }
             }
@@ -185,6 +183,7 @@ public class PacientePersistence {
             throw new RuntimeException("Erro ao alterar ID");
         }
     }
+
 
 
     public boolean ConsultaPacienteRegistrada(String NumeroColeira){

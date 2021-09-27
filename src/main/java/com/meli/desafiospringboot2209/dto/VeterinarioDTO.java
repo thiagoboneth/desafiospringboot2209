@@ -10,16 +10,6 @@ public class VeterinarioDTO {
     private String numeroRegistro;
     private String especialidade;
 
-    public VeterinarioDTO(String cpf, String nome, String sobrenome, String dataNascimento, String numeroRegistro, String especialidade) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.dataNascimento = dataNascimento;
-        this.numeroRegistro = numeroRegistro;
-        this.especialidade = especialidade;
-    }
-
-
 
     public String getCpf() {
         return cpf;

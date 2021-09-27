@@ -9,9 +9,6 @@ public class ProprietarioDTO {
     private String endereco;
     private String telefone;
 
-    public ProprietarioDTO() {
-    }
-
     public ProprietarioDTO comNome(String nome) {
         this.nome = nome;
         return this;

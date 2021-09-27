@@ -11,12 +11,6 @@ public class Paciente {
     private Proprietario proprietario;
 
     private String numeroColeira;
-    private boolean consutado = false;
-
-
-
-    public Paciente() {
-    }
 
     public String getNumeroColeira() {
         return numeroColeira;
@@ -50,7 +44,7 @@ public class Paciente {
         return proprietario;
     }
 
-    // Interfaces fluentes
+
     public Paciente comEspecie(String especie) {
         this.especie = especie;
         return this;

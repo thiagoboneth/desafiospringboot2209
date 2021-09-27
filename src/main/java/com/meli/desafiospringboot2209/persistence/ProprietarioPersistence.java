@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -30,7 +31,7 @@ public class ProprietarioPersistence {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public ProprietarioDTO salvarProprietarioNoArquivo(ProprietarioDTO proprietarioDTO) {
+    public void salvarProprietarioNoArquivo(ProprietarioDTO proprietarioDTO) {
         mapearObjeto();
         try {
             if (verificaNull(proprietarioDTO)) {
@@ -45,7 +46,6 @@ public class ProprietarioPersistence {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return proprietarioDTO;
     }
 
     public boolean proprietarioJaCadastrado(String cpf) throws IOException {
@@ -63,16 +63,12 @@ public class ProprietarioPersistence {
     }
 
     public boolean verificaNull(ProprietarioDTO proprietarioDTO) {
-        if (proprietarioDTO.getCpf() == null
+        return proprietarioDTO.getCpf() == null
                 || proprietarioDTO.getNome() == null
                 || proprietarioDTO.getSobrenome() == null
                 || proprietarioDTO.getDataNascimento() == null
                 || proprietarioDTO.getEndereco() == null
-                || proprietarioDTO.getTelefone() == null) {
-            return true;
-        } else {
-            return false;
-        }
+                || proprietarioDTO.getTelefone() == null;
     }
 
     public List<ProprietarioDTO> buscarProprietario() {
@@ -114,18 +110,49 @@ public class ProprietarioPersistence {
             String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
 
-            ProprietarioDTO registro = payLoad;
-            String cpf = registro.getCpf();
+            ProprietarioDTO registros = payLoad;
+            String cpf = registros.getCpf();
 
             List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
             }.getType());
+
+            Integer contNull = 0;
+            Integer contOk = 0;
+
             for (ProprietarioDTO item : proprietarioDTOS) {
+                if (registros.getCpf() == null)
+                {throw new RuntimeException("Impossivel aterar sem o numero do CPF");}
+
                 if (item.getCpf().equals(cpf)) {
-                    item.comNome(registro.getNome());
-                    item.comSobrenome(registro.getSobrenome());
-                    item.comDataNascimento(registro.getDataNascimento());
-                    item.comEndereco(registro.getEndereco());
-                    item.comTelefone(registro.getTelefone());
+
+                    if (registros.getNome() != null){
+                        if(registros.getNome().equals(item.getNome())){contOk++;}
+                        item.comNome(registros.getNome());
+                    }else {registros.comNome(item.getNome());contNull++;}
+
+                    if (registros.getSobrenome() != null){
+                        if(registros.getSobrenome().equals(item.getSobrenome())){contOk++;}
+                        item.comSobrenome(registros.getSobrenome());
+                    }else {registros.comSobrenome(item.getSobrenome());contNull++;}
+
+                    if (registros.getDataNascimento() != null){
+                        if(registros.getDataNascimento().equals(item.getDataNascimento())){contOk++;}
+                        item.comDataNascimento(registros.getDataNascimento());
+                    }else {registros.comDataNascimento(item.getDataNascimento());contNull++;}
+
+                    if (registros.getEndereco() != null){
+                        if(registros.getEndereco().equals(item.getEndereco())){contOk++;}
+                        item.comEndereco(registros.getEndereco());
+                    }else {registros.comEndereco(item.getEndereco());contNull++;}
+
+                    if (registros.getTelefone() != null){
+                        if(registros.getTelefone().equals(item.getTelefone())){contOk++;}
+                        item.comTelefone(registros.getTelefone());
+                    }else {registros.comTelefone(item.getTelefone());contNull++;}
+
+
+                    ErrosNulos.erros(5,contOk," CPF",contOk);
+
                     break;
                 }
             }

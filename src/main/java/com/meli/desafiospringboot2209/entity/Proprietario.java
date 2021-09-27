@@ -9,9 +9,6 @@ public class Proprietario{
     private String endereco;
     private String telefone;
 
-    public Proprietario() {
-    }
-
     public String getCpf() {
         return cpf;
     }

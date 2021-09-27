@@ -12,10 +12,6 @@ public class Consulta {
     private String tratamento;
     private String cpfProprietario;
 
-    public Consulta() {
-
-    }
-
     public LocalDate getDataHora() {
         return dataHora;
     }

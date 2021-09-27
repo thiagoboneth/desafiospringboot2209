@@ -10,9 +10,6 @@ public class Veterinario {
     private String numeroRegistro;
     private String especialidade;
 
-    public Veterinario() {
-    }
-
     public String getCpf() {
         return cpf;
     }

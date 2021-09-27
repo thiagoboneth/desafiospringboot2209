@@ -7,12 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class VeterinarioPersistence {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public VeterinarioDTO salvarVeterinarioNoArquivo(VeterinarioDTO veterinarioDTO) {
+    public void salvarVeterinarioNoArquivo(VeterinarioDTO veterinarioDTO) {
         mapearObjeto();
         listaVeterinarios = buscarVeterinario();
 
@@ -49,11 +49,10 @@ public class VeterinarioPersistence {
         } catch(IOException e) {
             e.printStackTrace();
         }
-        return veterinarioDTO;
     }
 
     public void ordemListaConsultaDescrescente(){
-        Collections.sort(listaVeterinarios,(Comparator.comparing(VeterinarioDTO::getNumeroRegistro)));
+        listaVeterinarios.sort((Comparator.comparing(VeterinarioDTO::getNumeroRegistro)));
     }
 
 
@@ -70,11 +69,14 @@ public class VeterinarioPersistence {
 
     public boolean veterinarioJaCadastrado(String numeroRegistro) throws IOException {
         listaVeterinarios = buscarVeterinario();
+        System.out.println(numeroRegistro);
         if (listaVeterinarios.size() > 0) {
+            System.out.println(numeroRegistro);
             for (VeterinarioDTO veterinarioDTO : listaVeterinarios) {
                 if (veterinarioDTO.getNumeroRegistro().equals(numeroRegistro)) {
                     return true;
                 }
+                System.out.println(veterinarioDTO.getNumeroRegistro());
             }
             return false;
         } else {
@@ -83,16 +85,12 @@ public class VeterinarioPersistence {
     }
 
     public boolean verificaNull(VeterinarioDTO veterinarioDTO) {
-        if (veterinarioDTO.getCpf() == null
+        return veterinarioDTO.getCpf() == null
                 || veterinarioDTO.getNome() == null
                 || veterinarioDTO.getSobrenome() == null
                 || veterinarioDTO.getDataNascimento() == null
                 || veterinarioDTO.getNumeroRegistro() == null
-                || veterinarioDTO.getEspecialidade() == null) {
-            return true;
-        } else {
-            return false;
-        }
+                || veterinarioDTO.getEspecialidade() == null;
     }
 
     public void removerMedicoPorId(String id){
@@ -125,13 +123,42 @@ public class VeterinarioPersistence {
             String NumeroRegistro = registros.getNumeroRegistro();
 
             List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
+
+            Integer contNull = 0;
+            Integer contOk = 0;
+
             for (VeterinarioDTO item: veterinarioDTOS) {
+                if (registros.getNumeroRegistro() == null)
+                {throw new RuntimeException("Impossivel aterar sem o numero do Registro");}
+
                 if (item.getNumeroRegistro().equals(NumeroRegistro)){
-                    item.comCpf(registros.getCpf());
-                    item.comNome(registros.getNome());
-                    item.comSobrenome(registros.getSobrenome());
-                    item.comDataNascimento(registros.getDataNascimento());
-                    item.comEspecialidade(registros.getEspecialidade());
+
+                    if (registros.getCpf() != null){
+                        if(registros.getCpf().equals(item.getCpf())){contOk++;}
+                        item.comCpf(registros.getCpf());
+                    }else {registros.comCpf(item.getCpf());contNull++;}
+
+                    if (registros.getNome() != null){
+                        if(registros.getNome().equals(item.getNome())){contOk++;}
+                        item.comNome(registros.getNome());
+                    }else {registros.comNome(item.getNome());contNull++;}
+
+                    if (registros.getSobrenome() != null){
+                        if(registros.getSobrenome().equals(item.getSobrenome())){contOk++;}
+                        item.comSobrenome(registros.getSobrenome());
+                    }else {registros.comSobrenome(item.getSobrenome());contNull++;}
+
+                    if (registros.getDataNascimento() != null){
+                        if(registros.getDataNascimento().equals(item.getDataNascimento())){contOk++;}
+                        item.comDataNascimento(registros.getDataNascimento());
+                    }else {registros.comDataNascimento(item.getDataNascimento());contNull++;}
+
+                    if (registros.getEspecialidade() != null){
+                        if(registros.getEspecialidade().equals(item.getEspecialidade())){contOk++;}
+                        item.comEspecialidade(registros.getEspecialidade());
+                    }else {registros.comEspecialidade(item.getEspecialidade());contNull++;}
+
+                    ErrosNulos.erros(5,contOk,"do Registro",contOk);
                     break;
                 }
             }
