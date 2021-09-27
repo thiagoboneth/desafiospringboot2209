@@ -206,7 +206,7 @@ public class ConsultaPersistence {
                     payLoad.comCpfProprietario(item.getCpfProprietario());
                     payLoad.comNomeProprietario(item.getNomeProprietario());
 
-                    ErrosNulos.erros(5,contOk," numero da consulta ",contOk);
+                    ErrosNulos.erros(5,contNull," numero da consulta ",contOk);
                     break;
                 }
             }

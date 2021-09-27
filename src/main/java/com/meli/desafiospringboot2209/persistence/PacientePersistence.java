@@ -173,7 +173,7 @@ public class PacientePersistence {
                         item.comCpfProprietario(registros.getCpfProprietario());
                     }else {registros.comCpfProprietario(item.getCpfProprietario());contNull++;}
 
-                    ErrosNulos.erros(7,contOk,"Numero do paciente",contOk);
+                    ErrosNulos.erros(7,contNull,"Numero do paciente",contOk);
                     break;
                 }
             }

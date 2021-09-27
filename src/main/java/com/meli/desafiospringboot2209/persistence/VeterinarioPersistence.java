@@ -158,7 +158,7 @@ public class VeterinarioPersistence {
                         item.comEspecialidade(registros.getEspecialidade());
                     }else {registros.comEspecialidade(item.getEspecialidade());contNull++;}
 
-                    ErrosNulos.erros(5,contOk,"do Registro",contOk);
+                    ErrosNulos.erros(5,contNull,"do Registro",contOk);
                     break;
                 }
             }

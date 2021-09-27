@@ -151,7 +151,7 @@ public class ProprietarioPersistence {
                     }else {registros.comTelefone(item.getTelefone());contNull++;}
 
 
-                    ErrosNulos.erros(5,contOk," CPF",contOk);
+                    ErrosNulos.erros(5,contNull," CPF",contOk);
 
                     break;
                 }
