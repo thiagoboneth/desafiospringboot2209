@@ -171,19 +171,18 @@ public class ConsultaPersistence {
 
             List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>() {
             }.getType());
+
+            Integer contNull = 0;
+            Integer contOk = 0;
+
             for (ConsultaDTO item : consultaDTOS) {
                 if (registros.getNumeroConsulta() == null)
                 {throw new RuntimeException("Impossivel aterar sem o numero da consulta");}
 
                 if (item.getNumeroConsulta().equals(numeroConsulta)) {
 
-                    Integer contNull = 0;
-                    Integer contOk = 0;
-
-
-                    if (registros.getMotivo() != null)
-                    {
-                        if(registros.getMotivo().equals(item.getMotivo())){contOk++;}
+                    if (registros.getMotivo() != null){
+                      if(registros.getMotivo().equals(item.getMotivo())){contOk++;}
                         item.comMotivo(registros.getMotivo());
                     }else {registros.comMotivo(item.getMotivo());contNull++;}
 

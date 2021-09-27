@@ -128,15 +128,56 @@ public class PacientePersistence {
 
             List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>() {
             }.getType());
+
+            Integer contNull = 0;
+            Integer contOk = 0;
+
             for (PacienteDTO item : pacienteDTOS) {
+
+                if (registros.getNumeroColeira() == null)
+                {throw new RuntimeException("Impossivel aterar sem o numero da coleira");}
+
                 if (item.getNumeroColeira().equals(NumeroColeira)) {
-                    item.comEspecie(registros.getEspecie());
-                    item.comRaca(registros.getRaca());
-                    item.comCor(registros.getCor());
-                    item.comDataNascimento(registros.getDataNascimento());
-                    item.comNome(registros.getNome());
-                    item.comSexo(registros.getSexo());
-                    item.comCpfProprietario(registros.getCpfProprietario());
+
+                    if (registros.getEspecie() != null){
+                        if(registros.getEspecie().equals(item.getEspecie())){contOk++;}
+                        item.comEspecie(registros.getEspecie());
+                    }else {registros.comEspecie(item.getEspecie());contNull++;}
+
+                    if (registros.getRaca() != null){
+                        if(registros.getRaca().equals(item.getRaca())){contOk++;}
+                        item.comRaca(registros.getRaca());
+                    }else {registros.comRaca(item.getRaca());contNull++;}
+
+                    if (registros.getCor() != null){
+                        if(registros.getCor().equals(item.getCor())){contOk++;}
+                        item.comCor(registros.getCor());
+                    }else {registros.comCor(item.getCor());contNull++;}
+
+                    if (registros.getDataNascimento() != null){
+                        if(registros.getDataNascimento().equals(item.getDataNascimento())){contOk++;}
+                        item.comDataNascimento(registros.getDataNascimento());
+                    }else {registros.comDataNascimento(item.getDataNascimento());contNull++;}
+
+                    if (registros.getNome() != null){
+                        if(registros.getNome().equals(item.getNome())){contOk++;}
+                        item.comNome(registros.getNome());
+                    }else {registros.comNome(item.getNome());contNull++;}
+
+                    if (registros.getSexo() != null){
+                        if(registros.getSexo().equals(item.getSexo())){contOk++;}
+                        item.comSexo(registros.getSexo());
+                    }else {registros.comSexo(item.getSexo());contNull++;}
+
+                    if (registros.getCpfProprietario() != null){
+                        if(registros.getCpfProprietario().equals(item.getCpfProprietario())){contOk++;}
+                        item.comCpfProprietario(registros.getCpfProprietario());
+                    }else {registros.comCpfProprietario(item.getCpfProprietario());contNull++;}
+
+                    if(contNull == 7 && contOk == 0)
+                    {throw new RuntimeException("E necessario pelomenos 1 parametro alem numero da paciente para poder alterar.");}else
+                    if (contNull == 0 && contOk == 7)
+                    {throw new RuntimeException("E necessario que pelomenos 1 parametro seja diferente para alterar.");}
                     break;
                 }
             }
