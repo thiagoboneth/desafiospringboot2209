@@ -1,14 +1,4 @@
 [ {
-  "numeroConsulta" : "9",
-  "numeroColeira" : "27",
-  "motivo" : "Dor de Barriga",
-  "diagnostico" : "Infeccao",
-  "tratamento" : "medicamento x em x e x horas",
-  "numeroRegistroVeterinario" : "1010",
-  "cpfProprietario" : null,
-  "nomeProprietario" : null,
-  "dataHora" : "2021-09-27T12:11:01.807486"
-}, {
   "numeroConsulta" : "6",
   "numeroColeira" : "5",
   "motivo" : "Quebrou a pata",
@@ -78,14 +68,4 @@
   "cpfProprietario" : "123.456.789-582",
   "nomeProprietario" : "Isac",
   "dataHora" : "2021-09-25T22:28:25.166428"
-}, {
-  "numeroConsulta" : "17",
-  "numeroColeira" : "29",
-  "motivo" : "Dor de Barriga",
-  "diagnostico" : "Infeccao",
-  "tratamento" : "medicamento x em x e x horas",
-  "numeroRegistroVeterinario" : "1010",
-  "cpfProprietario" : null,
-  "nomeProprietario" : null,
-  "dataHora" : "2021-09-27T12:12:01.674323"
-} ]
+}, ]
