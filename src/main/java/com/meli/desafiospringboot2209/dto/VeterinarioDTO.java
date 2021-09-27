@@ -1,6 +1,5 @@
 package com.meli.desafiospringboot2209.dto;
 
-
 public class VeterinarioDTO {
 
     private String cpf;
@@ -9,11 +8,6 @@ public class VeterinarioDTO {
     private String dataNascimento;
     private String numeroRegistro;
     private String especialidade;
-
-    public VeterinarioDTO(){
-    }
-
-
 
     public String getCpf() {
         return cpf;
@@ -39,8 +33,6 @@ public class VeterinarioDTO {
         return especialidade;
     }
 
-
-
     public VeterinarioDTO comCpf(String cpf) {
         this.cpf = cpf;
         return this;
@@ -60,7 +52,6 @@ public class VeterinarioDTO {
         this.dataNascimento = dataNascimento;
         return this;
     }
-
 
     public VeterinarioDTO comEspecialidade(String especialidade) {
         this.especialidade = especialidade;
