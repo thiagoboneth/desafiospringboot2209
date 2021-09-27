@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.meli.desafiospringboot2209.exception.PersistenceException;
 import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -35,11 +36,11 @@ public class ProprietarioPersistence {
         mapearObjeto();
         try {
             if (verificaNull(proprietarioDTO)) {
-                throw new RuntimeException("Os campos não podem ser nulos");
+                throw new PersistenceException("Os campos não podem ser nulos");
             }
             
             if (proprietarioJaCadastrado(proprietarioDTO.getCpf())) {
-                throw new RuntimeException("Proprietario já cadastrado");
+                throw new PersistenceException("Proprietario já cadastrado");
             }
             listaProprietarios.add(proprietarioDTO);
             objectMapper.writeValue(new File(cC), listaProprietarios);
@@ -91,7 +92,7 @@ public class ProprietarioPersistence {
             for (ProprietarioDTO item : proprietarioDTOS) {
                 if (item.getCpf().equals(cpf)) {
                     if(ConsultaProprietarioRegistrada(cpf)){
-                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
+                        throw new PersistenceException("Impossivel excluir, existe uma consulta agendada");
                     }
                     proprietarioDTOS.remove(item);
                     break;
@@ -100,7 +101,7 @@ public class ProprietarioPersistence {
             objectMapper.writeValue(new File(cC), proprietarioDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
+            throw new PersistenceException("Erro ao deletar ID");
         }
     }
 
@@ -121,7 +122,7 @@ public class ProprietarioPersistence {
 
             for (ProprietarioDTO item : proprietarioDTOS) {
                 if (registros.getCpf() == null)
-                {throw new RuntimeException("Impossivel aterar sem o numero do CPF");}
+                {throw new PersistenceException("Impossivel aterar sem o numero do CPF");}
 
                 if (item.getCpf().equals(cpf)) {
 
@@ -159,7 +160,7 @@ public class ProprietarioPersistence {
             objectMapper.writeValue(new File(cC), proprietarioDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
+            throw new PersistenceException("Erro ao alterar ID");
         }
     }
 

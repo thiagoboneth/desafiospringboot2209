@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.exception.PersistenceException;
 import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -38,11 +39,11 @@ public class VeterinarioPersistence {
 
         try {
             if (verificaNull(veterinarioDTO)) {
-                throw new RuntimeException("Os campos não podem ser nulos");
+                throw new PersistenceException("Os campos não podem ser nulos");
             }
 
             if (veterinarioJaCadastrado(veterinarioDTO.getNumeroRegistro())) {
-                throw new RuntimeException("Veterinario já cadastrado");
+                throw new PersistenceException("Veterinario já cadastrado");
             }
             listaVeterinarios.add(veterinarioDTO);
             objectMapper.writeValue(new File(cC), listaVeterinarios);
@@ -101,7 +102,7 @@ public class VeterinarioPersistence {
             for (VeterinarioDTO item: veterinarioDTOS) {
                 if (item.getNumeroRegistro().equals(id)){
                     if(ConsultaVeterinarioRegistrada(id)){
-                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
+                        throw new PersistenceException("Impossivel excluir, existe uma consulta agendada");
                     }
                     veterinarioDTOS.remove(item);
                     break;
@@ -110,7 +111,7 @@ public class VeterinarioPersistence {
             objectMapper.writeValue(new File(cC),veterinarioDTOS );
         }catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
+            throw new PersistenceException("Erro ao deletar ID");
         }
     }
 
@@ -129,7 +130,7 @@ public class VeterinarioPersistence {
 
             for (VeterinarioDTO item: veterinarioDTOS) {
                 if (registros.getNumeroRegistro() == null)
-                {throw new RuntimeException("Impossivel aterar sem o numero do Registro");}
+                {throw new PersistenceException("Impossivel aterar sem o numero do Registro");}
 
                 if (item.getNumeroRegistro().equals(NumeroRegistro)){
 
@@ -165,7 +166,7 @@ public class VeterinarioPersistence {
             objectMapper.writeValue(new File(cC),veterinarioDTOS );
         }catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
+            throw new PersistenceException("Erro ao alterar ID");
         }
     }
 

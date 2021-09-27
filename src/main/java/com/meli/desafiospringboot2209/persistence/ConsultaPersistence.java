@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
+import com.meli.desafiospringboot2209.exception.PersistenceException;
 import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -22,9 +23,11 @@ import java.util.stream.Collectors;
 
 public class ConsultaPersistence {
 
-    String arquivo = "consultas.json";
+    String arquivoConsultas = "consultas.json";
+    String arquivoPacientes = "pacientes.json";
     String caminho = "db";
-    String cC = caminho + "/" + arquivo;
+    String cConsultas= caminho + "/" + arquivoConsultas;
+    String cPacientes = caminho + "/" + arquivoPacientes;
 
     List<ConsultaDTO> listaConsultas = new ArrayList<>();
 
@@ -40,7 +43,7 @@ public class ConsultaPersistence {
 
         String coleira = consultaDTO.getNumeroColeira();
 
-        String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
+        String consultaArquivo = ReadFileUtil.readFile(cPacientes);
         List<PacienteDTO> pacienteDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<PacienteDTO>>() {
         }.getType());
 
@@ -65,28 +68,27 @@ public class ConsultaPersistence {
         }
     }
 
-
     public void salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
         mapearObjeto();
         listaConsultas = buscarConsulta();
 
         try {
             if (verificaNull(consultaDTO)) {
-                throw new RuntimeException("É necessário o número da coleira e o número de registro do veterinário");
+                throw new PersistenceException("É necessário o número da coleira e o número de registro do veterinário");
             }
 
             if (consultaJaCadastrada(consultaDTO.getNumeroConsulta())) {
-                throw new RuntimeException("Consulta já cadastrada");
+                throw new PersistenceException("Consulta já cadastrada");
             }
 
             listaConsultas.add(consultaDTO);
 
             dadosProprietario(consultaDTO);
 
-            objectMapper.writeValue(new File(cC), listaConsultas);
+            objectMapper.writeValue(new File(cConsultas), listaConsultas);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error na escrita do arquivo");
+            throw new PersistenceException("Error na escrita do arquivo");
         }
     }
 
@@ -126,7 +128,7 @@ public class ConsultaPersistence {
 
         LocalDate dataConvertida = LocalDate.of(ano,mes,dia);
 
-        String json = ReadFileUtil.readFile("db/consultas.json");
+        String json = ReadFileUtil.readFile(cConsultas);
         Gson gson = new Gson();
 
         List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>(){}.getType());
@@ -144,7 +146,7 @@ public class ConsultaPersistence {
     public List<ConsultaDTO> buscarConsulta() {
         mapearObjeto();
         try {
-            listaConsultas = objectMapper.readValue(new File(cC), new TypeReference<List<ConsultaDTO>>() {
+            listaConsultas = objectMapper.readValue(new File(cConsultas), new TypeReference<List<ConsultaDTO>>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,7 +157,7 @@ public class ConsultaPersistence {
 
     public void alterarConsulta(ConsultaDTO payLoad) {
         try {
-            String json = ReadFileUtil.readFile(cC);
+            String json = ReadFileUtil.readFile(cConsultas);
             Gson gson = new Gson();
 
             String numeroConsulta = payLoad.getNumeroConsulta();
@@ -168,7 +170,7 @@ public class ConsultaPersistence {
 
             for (ConsultaDTO item : consultaDTOS) {
                 if (payLoad.getNumeroConsulta() == null)
-                {throw new RuntimeException("Impossivel aterar sem o numero da consulta");}
+                {throw new PersistenceException("Impossivel aterar sem o numero da consulta");}
 
                 if (item.getNumeroConsulta().equals(numeroConsulta)) {
 
@@ -210,16 +212,16 @@ public class ConsultaPersistence {
                     break;
                 }
             }
-            objectMapper.writeValue(new File(cC), consultaDTOS);
+            objectMapper.writeValue(new File(cConsultas), consultaDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
+            throw new PersistenceException("Erro ao alterar ID");
         }
     }
 
     public void removerConsultaPorId(String id) {
         try {
-            String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            String consultaArquivo = ReadFileUtil.readFile(cConsultas);
             List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>() {
             }.getType());
 
@@ -230,15 +232,15 @@ public class ConsultaPersistence {
                 }
             }
 
-            objectMapper.writeValue(new File(cC), consultaDTOS);
+            objectMapper.writeValue(new File(cConsultas), consultaDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
+            throw new PersistenceException("Erro ao deletar ID");
         }
     }
 
     public List<String> listarTotalCadaVeterinario() throws IOException {
-        String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+        String consultaArquivo = ReadFileUtil.readFile(cConsultas);
         List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
 
         List<String> contagemConsultasMedicos= new ArrayList<>();
@@ -258,10 +260,9 @@ public class ConsultaPersistence {
         consultas.sort(((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
     }
 
-
     public List<ConsultaDTO> consultaPaciente() throws IOException {
 
-        String consultaPacienteArquivo = ReadFileUtil.readFile("db/consultas.json");
+        String consultaPacienteArquivo = ReadFileUtil.readFile(cConsultas);
         List<ConsultaDTO> consultaPacienteDTOS = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
 
         List<ConsultaDTO> consultas = consultaPacienteDTOS.stream()
@@ -270,8 +271,6 @@ public class ConsultaPersistence {
          ordenaConsultaPorNome(consultas);
 
         return consultas;
-
-
     }
 
 }

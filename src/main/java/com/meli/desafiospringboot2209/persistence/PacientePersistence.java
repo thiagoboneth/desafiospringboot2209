@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.exception.PersistenceException;
 import com.meli.desafiospringboot2209.util.ErrosNulos;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -37,11 +38,11 @@ public class PacientePersistence {
 
         try {
             if (verificaNull(pacienteDTO)) {
-                throw new RuntimeException("Os campos não podem ser nulos");
+                throw new PersistenceException("Os campos não podem ser nulos");
             }
 
             if (pacienteJaCadastrado(pacienteDTO.getNumeroColeira())) {
-                throw new RuntimeException("paciente já cadastrado");
+                throw new PersistenceException("paciente já cadastrado");
             }
 
             listaPacientes.add(pacienteDTO);
@@ -103,7 +104,7 @@ public class PacientePersistence {
             for (PacienteDTO item: pacienteDTOS) {
                 if (item.getNumeroColeira().equals(id)){
                     if(ConsultaPacienteRegistrada(id)){
-                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
+                        throw new PersistenceException("Impossivel excluir, existe uma consulta agendada");
                     }
                     pacienteDTOS.remove(item);
                     break;
@@ -112,7 +113,7 @@ public class PacientePersistence {
             objectMapper.writeValue(new File(cC),pacienteDTOS);
         }catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
+            throw new PersistenceException("Erro ao deletar ID");
         }
     }
 
@@ -134,7 +135,7 @@ public class PacientePersistence {
             for (PacienteDTO item : pacienteDTOS) {
 
                 if (registros.getNumeroColeira() == null)
-                {throw new RuntimeException("Impossivel aterar sem o numero da coleira");}
+                {throw new PersistenceException("Impossivel aterar sem o numero da coleira");}
 
                 if (item.getNumeroColeira().equals(NumeroColeira)) {
 
@@ -180,7 +181,7 @@ public class PacientePersistence {
             objectMapper.writeValue(new File(cC), pacienteDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
+            throw new PersistenceException("Erro ao alterar ID");
         }
     }
 
