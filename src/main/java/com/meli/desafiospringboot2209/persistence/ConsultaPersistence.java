@@ -39,7 +39,8 @@ public class ConsultaPersistence {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    private void dadosProprietario(ConsultaDTO consultaDTO) throws IOException {
+    // Teste unitário OK
+    public ConsultaDTO dadosProprietario(ConsultaDTO consultaDTO) throws IOException {
 
         String coleira = consultaDTO.getNumeroColeira();
 
@@ -66,6 +67,7 @@ public class ConsultaPersistence {
                 break;
             }
         }
+        return consultaDTO;
     }
 
     public void salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
