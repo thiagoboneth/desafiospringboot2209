@@ -31,7 +31,7 @@ public class ConsultaPersistenceTest {
         lista.add(consulta);
 
         Mockito.when(mock.dadosProprietario(Mockito.any(ConsultaDTO.class))).thenReturn(consulta);
-        Mockito.when(mock.buscarConsulta()).thenReturn(lista);
+        //Mockito.when(mock.buscarConsulta()).thenReturn(lista);
     }
 
     @Test
@@ -74,15 +74,4 @@ public class ConsultaPersistenceTest {
 
         Mockito.when(mock.consultasDoDia("28-09-2021")).thenReturn(lista);
     }
-
-/*    @Test
-    void deve_listar_asConsultas_doDia() throws IOException {
-        ConsultaPersistence consulta = new ConsultaPersistence();
-
-        List<ConsultaDTO> lista = consulta.consultasDoDia("25-09-2021");
-
-        Assert.assertEquals("15", lista.get(0).getNumeroConsulta());
-
-
-    }*/
 }
