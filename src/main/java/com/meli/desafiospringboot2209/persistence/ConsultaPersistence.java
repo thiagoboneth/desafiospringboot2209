@@ -70,7 +70,8 @@ public class ConsultaPersistence {
         return consultaDTO;
     }
 
-    public void salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
+    // Teste unitário OK
+    public ConsultaDTO salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
         mapearObjeto();
         listaConsultas = buscarConsulta();
 
@@ -92,6 +93,7 @@ public class ConsultaPersistence {
             e.printStackTrace();
             throw new PersistenceException("Error na escrita do arquivo");
         }
+        return consultaDTO;
     }
 
     public boolean consultaJaCadastrada(String numeroConsulta) {
