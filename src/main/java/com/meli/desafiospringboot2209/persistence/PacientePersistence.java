@@ -8,8 +8,8 @@ import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.exception.PersistenceException;
-import com.meli.desafiospringboot2209.util.ErrosNulos;
-import com.meli.desafiospringboot2209.util.ReadFileUtil;
+import com.meli.desafiospringboot2209.utils.ErrosNulos;
+import com.meli.desafiospringboot2209.utils.ReadFileUtil;
 
 import java.io.File;
 import java.io.IOException;

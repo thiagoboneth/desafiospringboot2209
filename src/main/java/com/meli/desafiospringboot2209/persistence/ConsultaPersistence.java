@@ -9,8 +9,8 @@ import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.exception.PersistenceException;
-import com.meli.desafiospringboot2209.util.ErrosNulos;
-import com.meli.desafiospringboot2209.util.ReadFileUtil;
+import com.meli.desafiospringboot2209.utils.ErrosNulos;
+import com.meli.desafiospringboot2209.utils.ReadFileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -270,11 +270,10 @@ public class ConsultaPersistence {
         List<ConsultaDTO> consultaPacienteDTOS = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
 
         List<ConsultaDTO> consultas = consultaPacienteDTOS.stream()
-                                .sorted(Comparator.comparing(ConsultaDTO::getNomeProprietario))
-                                        .collect(Collectors.toList());
-         ordenaConsultaPorNome(consultas);
+                .sorted(Comparator.comparing(ConsultaDTO::getNomeProprietario))
+                .collect(Collectors.toList());
+        ordenaConsultaPorNome(consultas);
 
         return consultas;
     }
-
 }
