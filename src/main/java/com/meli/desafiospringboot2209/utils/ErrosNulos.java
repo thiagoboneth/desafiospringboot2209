@@ -1,4 +1,4 @@
-package com.meli.desafiospringboot2209.util;
+package com.meli.desafiospringboot2209.utils;
 
 import com.meli.desafiospringboot2209.exception.PersistenceException;
 
