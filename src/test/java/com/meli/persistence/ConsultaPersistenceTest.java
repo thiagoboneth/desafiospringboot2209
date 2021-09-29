@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class ConsultaPersistenceTest {
 
     @Test
@@ -31,7 +33,8 @@ public class ConsultaPersistenceTest {
         lista.add(consulta);
 
         Mockito.when(mock.dadosProprietario(Mockito.any(ConsultaDTO.class))).thenReturn(consulta);
-        //Mockito.when(mock.buscarConsulta()).thenReturn(lista);
+        Mockito.when(mock.buscarConsulta()).thenReturn(lista);
+        assertNotNull(consulta.getNumeroConsulta());
     }
 
     @Test
@@ -53,6 +56,7 @@ public class ConsultaPersistenceTest {
 
         Mockito.when(mock.salvarConsultaNoArquivo(Mockito.any(ConsultaDTO.class))).thenReturn(consulta);
         Mockito.when(mock.buscarConsulta()).thenReturn(lista);
+        assertNotNull(consulta.getNumeroConsulta());
     }
 
     @Test
@@ -73,5 +77,6 @@ public class ConsultaPersistenceTest {
         lista.add(consulta);
 
         Mockito.when(mock.consultasDoDia("28-09-2021")).thenReturn(lista);
+        assertNotNull(consulta.getDataHora());
     }
 }
