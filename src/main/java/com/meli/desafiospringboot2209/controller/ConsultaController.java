@@ -1,7 +1,8 @@
 package com.meli.desafiospringboot2209.controller;
 
+import com.meli.desafiospringboot2209.Service.ConsultaService;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
-import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
+import com.meli.desafiospringboot2209.entity.Consulta;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -14,44 +15,48 @@ import java.util.List;
 @RequestMapping("/consultas")
 public class ConsultaController {
 
-    private ConsultaPersistence consultaPersistence = new ConsultaPersistence();
+    private ConsultaService consultaService = new ConsultaService();
 
     @PostMapping("/cadastra")
     public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO payLoad, UriComponentsBuilder uriBuilder) {
-        consultaPersistence.salvarConsultaNoArquivo(payLoad);
+        Consulta consulta = ConsultaDTO.converte(payLoad);
+        consultaService.cadastrar(consulta);
         URI uri = uriBuilder.path("/consultas/{codigo}").buildAndExpand(payLoad.getNumeroConsulta()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
     }
 
-    @GetMapping("/listar")
+/*    @GetMapping("/listar")
     public List<ConsultaDTO> mostrarConsulta() {
-        return consultaPersistence.buscarConsulta();
-    }
+        return consultaService.buscarConsulta();
+    }*/
 
-    @GetMapping("listarPorDia/{data}")
+/*    @GetMapping("listarPorDia/{data}")
     public List<ConsultaDTO> mostrarConsultaPorDia(@PathVariable ("data") String data) throws IOException {
-        return consultaPersistence.consultasDoDia(data);
-    }
+        return consultaService.consultasDoDia(data);
+    }*/
 
-    @GetMapping("/listarPorPaciente")
+/*    @GetMapping("/listarPorPaciente")
     public List<ConsultaDTO> mostrarConsultaPaciente() throws IOException {
-        return consultaPersistence.consultaPaciente();
-    }
+        return consultaService.consultaPaciente();
+    }*/
 
     @PutMapping("/alterar/{codigo}")
     public ResponseEntity<ConsultaDTO> alterarConsulta(@RequestBody ConsultaDTO payLoad, UriComponentsBuilder uriBuilder) {
-        consultaPersistence.alterarConsulta(payLoad);
+        Consulta consulta = ConsultaDTO.converte(payLoad);
+        consultaService.alterarConsulta(consulta);
         URI uri = uriBuilder.path("/alterado/{codigo}").buildAndExpand(payLoad.getNumeroConsulta()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
     }
 
+/*
     @DeleteMapping("/deleta/{codigo}")
     public void removerConsulta(@PathVariable String codigo){
-        consultaPersistence.removerConsultaPorId(codigo);
+        consultaService.removerConsultaPorId(codigo);
     }
+*/
 
     @GetMapping("/listarTotalCadaVeterinario")
     public List<String> listaTotalCadaVeterinario() throws IOException {
-        return consultaPersistence.listarTotalCadaVeterinario();
+        return consultaService.listarTotalCadaVeterinario();
     }
 }

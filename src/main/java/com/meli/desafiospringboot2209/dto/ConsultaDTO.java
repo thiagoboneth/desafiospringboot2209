@@ -1,6 +1,6 @@
 package com.meli.desafiospringboot2209.dto;
 
-import java.time.LocalDateTime;
+import com.meli.desafiospringboot2209.entity.Consulta;
 
 public class ConsultaDTO {
 
@@ -10,24 +10,14 @@ public class ConsultaDTO {
     private String diagnostico;
     private String tratamento;
     private String numeroRegistroVeterinario;
-    private String cpfProprietario;
-    private String nomeProprietario;
-    private String dataHora = LocalDateTime.now().toString();
 
-    public ConsultaDTO(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario, String cpfProprietario, String nomeProprietario, String dataHora) {
+    public ConsultaDTO(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario) {
         this.numeroConsulta = numeroConsulta;
         this.numeroColeira = numeroColeira;
         this.motivo = motivo;
         this.diagnostico = diagnostico;
         this.tratamento = tratamento;
         this.numeroRegistroVeterinario = numeroRegistroVeterinario;
-        this.cpfProprietario = cpfProprietario;
-        this.nomeProprietario = nomeProprietario;
-        this.dataHora = dataHora;
-    }
-
-    public String getNomeProprietario() {
-        return nomeProprietario;
     }
 
     public String getNumeroConsulta() {
@@ -54,21 +44,6 @@ public class ConsultaDTO {
         return numeroRegistroVeterinario;
     }
 
-
-    public String getCpfProprietario() {
-        return cpfProprietario;
-    }
-
-    public String getDataHora() {
-        return dataHora;
-    }
-
-
-    public ConsultaDTO comCpfProprietario(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
-        return this;
-    }
-
     public ConsultaDTO comNumeroColeira(String numeroColeira) {
         this.numeroColeira = numeroColeira;
         return this;
@@ -89,12 +64,28 @@ public class ConsultaDTO {
         return this;
     }
 
-    public ConsultaDTO comNomeProprietario(String nomeProprietario) {
-        this.nomeProprietario = nomeProprietario;
-        return this;
-    }
     public ConsultaDTO comNumeroRegistroVeterinario(String numeroRegistroVeterinario) {
         this.numeroRegistroVeterinario = numeroRegistroVeterinario;
         return this;
+    }
+
+    public static Consulta converte(Consulta consulta) {
+        return new Consulta(
+                consulta.getNumeroConsulta(),
+                consulta.getNumeroColeira(),
+                consulta.getMotivo(),
+                consulta.getDiagnostico(),
+                consulta.getTratamento(),
+                consulta.getNumeroRegistroVeterinario());
+    }
+
+    public static Consulta converte(ConsultaDTO payload) {
+        return new Consulta(
+                payload.getNumeroConsulta(),
+                payload.getNumeroColeira(),
+                payload.getMotivo(),
+                payload.getDiagnostico(),
+                payload.getTratamento(),
+                payload.getNumeroRegistroVeterinario());
     }
 }

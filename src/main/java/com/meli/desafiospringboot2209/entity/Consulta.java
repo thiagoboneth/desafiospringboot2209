@@ -26,6 +26,15 @@ public class Consulta {
         this.dataHora = dataHora;
     }
 
+    public Consulta(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario) {
+        this.numeroConsulta = numeroConsulta;
+        this.numeroColeira = numeroColeira;
+        this.motivo = motivo;
+        this.diagnostico = diagnostico;
+        this.tratamento = tratamento;
+        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
+    }
+
     public String getNomeProprietario() {
         return nomeProprietario;
     }

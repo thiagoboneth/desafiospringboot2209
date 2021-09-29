@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
+import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.exception.PersistenceException;
 import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
 import com.meli.desafiospringboot2209.utils.ErrosNulos;
@@ -21,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ConsultaService {
@@ -36,7 +36,7 @@ public class ConsultaService {
     String cConsultas= caminho + "/" + arquivoConsultas;
     String cPacientes = caminho + "/" + arquivoPacientes;
 
-    List<ConsultaDTO> listaConsultas = new ArrayList<>();
+    List<Consulta> listaConsultas = new ArrayList<>();
 
     ObjectMapper objectMapper = new ObjectMapper();
     Gson gson = new Gson();
@@ -46,14 +46,12 @@ public class ConsultaService {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    // Teste unitário OK
-    public ConsultaDTO dadosProprietario(ConsultaDTO consultaDTO) throws IOException {
+/*    public ConsultaDTO dadosProprietario(Consulta consulta) throws IOException {
 
-        String coleira = consultaDTO.getNumeroColeira();
+        String coleira = consulta.getNumeroColeira();
 
-        String consultaArquivo = ReadFileUtil.readFile(cPacientes);
-        List<PacienteDTO> pacienteDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<PacienteDTO>>() {
-        }.getType());
+        persistence.dadosProprietario(consulta);
+
 
         for (PacienteDTO item : pacienteDTOS) {
             if (item.getNumeroColeira().equals(coleira)) {
@@ -75,39 +73,27 @@ public class ConsultaService {
             }
         }
         return consultaDTO;
-    }
+    }*/
 
-    // Teste unitário OK
-    public ConsultaDTO salvarConsultaNoArquivo(ConsultaDTO consultaDTO) {
+
+
+    public List<Consulta> buscarConsulta() {
         mapearObjeto();
-        listaConsultas = buscarConsulta();
-
         try {
-            if (verificaNull(consultaDTO)) {
-                throw new PersistenceException("É necessário o número da coleira e o número de registro do veterinário");
-            }
-
-            if (consultaJaCadastrada(consultaDTO.getNumeroConsulta())) {
-                throw new PersistenceException("Consulta já cadastrada");
-            }
-
-            listaConsultas.add(consultaDTO);
-
-            dadosProprietario(consultaDTO);
-
-            objectMapper.writeValue(new File(cConsultas), listaConsultas);
+            listaConsultas = objectMapper.readValue(new File(cConsultas), new TypeReference<List<Consulta>>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PersistenceException("Error na escrita do arquivo");
         }
-        return consultaDTO;
+        //ordemListaConsultaDescrescente();
+        return listaConsultas;
     }
 
     public boolean consultaJaCadastrada(String numeroConsulta) {
         listaConsultas = buscarConsulta();
         if (listaConsultas.size() > 0) {
-            for (ConsultaDTO consultaDTO : listaConsultas) {
-                if (consultaDTO.getNumeroConsulta().equals(numeroConsulta)) {
+            for (Consulta consulta : listaConsultas) {
+                if (consulta.getNumeroConsulta().equals(numeroConsulta)) {
                     return true;
                 }
             }
@@ -117,18 +103,19 @@ public class ConsultaService {
         }
     }
 
-    public boolean verificaNull(ConsultaDTO consultaDTO) {
-        return consultaDTO.getNumeroColeira() == null || consultaDTO.getNumeroRegistroVeterinario() == null;
+    public boolean verificaNull(Consulta consulta) {
+        return consulta.getNumeroColeira() == null || consulta.getNumeroRegistroVeterinario() == null;
     }
 
-    public void ordemListaConsultaDescrescente(){
+/*    public void ordemListaConsultaDescrescente(){
         listaConsultas.sort(((o1, o2) -> o2.getDataHora().compareTo(o1.getDataHora())));
-    }
+    }*/
 
-    public void ordemListaConsultaCrescente(){
+/*    public void ordemListaConsultaCrescente(){
         listaConsultas.sort((Comparator.comparing(ConsultaDTO::getDataHora)));
-    }
+    }*/
 
+/*
     public List<ConsultaDTO> consultasDoDia(String data) throws IOException {
 
         String[] diaConvertida = data.split("-");
@@ -152,101 +139,72 @@ public class ConsultaService {
         ordemListaConsultaCrescente();
         return consultas;
     }
+*/
 
-
-    public List<ConsultaDTO> buscarConsulta() {
-        mapearObjeto();
-        try {
-            listaConsultas = objectMapper.readValue(new File(cConsultas), new TypeReference<List<ConsultaDTO>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ordemListaConsultaDescrescente();
-        return listaConsultas;
-    }
-
-    public void alterarConsulta(ConsultaDTO payLoad) {
+    // Fica
+    public void alterarConsulta(Consulta consulta) {
         try {
             String json = ReadFileUtil.readFile(cConsultas);
             Gson gson = new Gson();
 
-            String numeroConsulta = payLoad.getNumeroConsulta();
+            String numeroConsulta = consulta.getNumeroConsulta();
 
-            List<ConsultaDTO> consultaDTOS = gson.fromJson(json, new TypeToken<List<ConsultaDTO>>() {
+            List<Consulta> consultaLista = gson.fromJson(json, new TypeToken<List<Consulta>>() {
             }.getType());
 
             Integer contNull = 0;
             Integer contOk = 0;
 
-            for (ConsultaDTO item : consultaDTOS) {
-                if (payLoad.getNumeroConsulta() == null)
+            for (Consulta item : consultaLista) {
+                if (consulta.getNumeroConsulta() == null)
                 {throw new PersistenceException("Impossivel aterar sem o numero da consulta");}
 
                 if (item.getNumeroConsulta().equals(numeroConsulta)) {
 
-                    if (payLoad.getMotivo() != null){
-                        if(payLoad.getMotivo().equals(item.getMotivo())){contOk++;}
-                        item.comMotivo(payLoad.getMotivo());
+                    if (consulta.getMotivo() != null){
+                        if(consulta.getMotivo().equals(item.getMotivo())){contOk++;}
+                        item.comMotivo(consulta.getMotivo());
                     }else {
-                        payLoad.comMotivo(item.getMotivo());contNull++;}
+                        consulta.comMotivo(item.getMotivo());contNull++;}
 
-                    if (payLoad.getDiagnostico() != null)
-                    {if(payLoad.getDiagnostico().equals(item.getDiagnostico())){contOk++;}
-                        item.comDiagnnostico(payLoad.getDiagnostico());
+                    if (consulta.getDiagnostico() != null)
+                    {if(consulta.getDiagnostico().equals(item.getDiagnostico())){contOk++;}
+                        item.comDiagnnostico(consulta.getDiagnostico());
                     }else {
-                        payLoad.comDiagnnostico(item.getDiagnostico());contNull++;}
+                        consulta.comDiagnnostico(item.getDiagnostico());contNull++;}
 
-                    if (payLoad.getTratamento() != null)
-                    {if(payLoad.getTratamento().equals(item.getTratamento())){contOk++;}
-                        item.comTratamento(payLoad.getTratamento());
+                    if (consulta.getTratamento() != null)
+                    {if(consulta.getTratamento().equals(item.getTratamento())){contOk++;}
+                        item.comTratamento(consulta.getTratamento());
                     }else {
-                        payLoad.comTratamento(item.getTratamento());contNull++;}
+                        consulta.comTratamento(item.getTratamento());contNull++;}
 
 
-                    if (payLoad.getNumeroColeira() != null)
-                    {if(payLoad.getNumeroColeira().equals(item.getNumeroColeira())){contOk++;}
-                        item.comNumeroColeira(payLoad.getNumeroColeira());
+                    if (consulta.getNumeroColeira() != null)
+                    {if(consulta.getNumeroColeira().equals(item.getNumeroColeira())){contOk++;}
+                        item.comNumeroColeira(consulta.getNumeroColeira());
                     }else {
-                        payLoad.comNumeroColeira(item.getNumeroColeira());contNull++;}
+                        consulta.comNumeroColeira(item.getNumeroColeira());contNull++;}
 
-                    if (payLoad.getNumeroRegistroVeterinario() != null)
-                    {if(payLoad.getNumeroRegistroVeterinario().equals(item.getNumeroRegistroVeterinario())){contOk++;}
-                        item.comNumeroRegistroVeterinario(payLoad.getNumeroRegistroVeterinario());
+                    if (consulta.getNumeroRegistroVeterinario() != null)
+                    {if(consulta.getNumeroRegistroVeterinario().equals(item.getNumeroRegistroVeterinario())){contOk++;}
+                        item.comNumeroRegistroVeterinario(consulta.getNumeroRegistroVeterinario());
                     }else {
-                        payLoad.comNumeroRegistroVeterinario(item.getNumeroRegistroVeterinario());contNull++;}
+                        consulta.comNumeroRegistroVeterinario(item.getNumeroRegistroVeterinario());contNull++;}
 
-                    payLoad.comCpfProprietario(item.getCpfProprietario());
-                    payLoad.comNomeProprietario(item.getNomeProprietario());
+                    consulta.comCpfProprietario(item.getCpfProprietario());
+                    consulta.comNomeProprietario(item.getNomeProprietario());
 
                     ErrosNulos.erros(5,contNull," numero da consulta ",contOk);
                     break;
                 }
             }
-            objectMapper.writeValue(new File(cConsultas), consultaDTOS);
+
+            persistence.altera(consulta);
+
         } catch (IOException e) {
             e.printStackTrace();
             throw new PersistenceException("Erro ao alterar ID");
-        }
-    }
-
-    public void removerConsultaPorId(String id) {
-        try {
-            String consultaArquivo = ReadFileUtil.readFile(cConsultas);
-            List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>() {
-            }.getType());
-
-            for (ConsultaDTO item : consultaDTOS) {
-                if (item.getNumeroConsulta().equals(id)) {
-                    consultaDTOS.remove(item);
-                    break;
-                }
-            }
-
-            objectMapper.writeValue(new File(cConsultas), consultaDTOS);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new PersistenceException("Erro ao deletar ID");
         }
     }
 
@@ -267,11 +225,11 @@ public class ConsultaService {
         return contagemConsultasMedicos;
     }
 
-    public void ordenaConsultaPorNome(List<ConsultaDTO> consultas){
+    public void ordenaConsultaPorNome(List<Consulta> consultas){
         consultas.sort(((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
     }
 
-    public List<ConsultaDTO> consultaPaciente() throws IOException {
+/*    public List<ConsultaDTO> consultaPaciente() throws IOException {
 
         String consultaPacienteArquivo = ReadFileUtil.readFile(cConsultas);
         List<ConsultaDTO> consultaPacienteDTOS = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
@@ -282,6 +240,24 @@ public class ConsultaService {
         ordenaConsultaPorNome(consultas);
 
         return consultas;
-    }
+    }*/
 
+    // Fica
+    public void cadastrar(Consulta consulta) {
+        try {
+            if (verificaNull(consulta)) {
+                throw new PersistenceException("É necessário o número da coleira e o número de registro do veterinário");
+            }
+
+            if (consultaJaCadastrada(consulta.getNumeroConsulta())) {
+                throw new PersistenceException("Consulta já cadastrada");
+            }
+
+            persistence.cadastro(consulta);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new PersistenceException("Error na escrita do arquivo");
+        }
+
+    }
 }
