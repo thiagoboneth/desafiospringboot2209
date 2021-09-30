@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PacientePersistence {
+public class PacientePersistence implements Repository<Paciente> {
 
     String arquivo = "paciente.json";
     String caminho = "db";
@@ -162,5 +163,18 @@ public class PacientePersistence {
             return false;
         }
         return false;
+    }
+
+    @Override
+    public List<Paciente> getList() {
+        List<Paciente> pacientes = new ArrayList<>();
+        try {
+            String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
+            pacientes = gson.fromJson(consultaArquivo, new TypeToken<List<Paciente>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return pacientes;
     }
 }

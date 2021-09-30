@@ -14,9 +14,18 @@ public class ConsultaDTO {
     private String nomeProprietario;
     private String dataHora = LocalDateTime.now().toString();
 
-    public ConsultaDTO() {
-
+    public ConsultaDTO(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario, String cpfProprietario, String nomeProprietario, String dataHora) {
+        this.numeroConsulta = numeroConsulta;
+        this.numeroColeira = numeroColeira;
+        this.motivo = motivo;
+        this.diagnostico = diagnostico;
+        this.tratamento = tratamento;
+        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
+        this.cpfProprietario = cpfProprietario;
+        this.nomeProprietario = nomeProprietario;
+        this.dataHora = dataHora;
     }
+
 
     public String getNomeProprietario() {
         return nomeProprietario;
