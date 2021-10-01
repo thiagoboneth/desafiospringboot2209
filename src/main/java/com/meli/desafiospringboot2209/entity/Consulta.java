@@ -5,50 +5,65 @@ import java.time.LocalDateTime;
 public class Consulta {
 
     private String numeroConsulta;
-    private String numeroColeira;
+    private LocalDateTime dataHora = LocalDateTime.now();
+    private Paciente paciente;
+    private Proprietario proprietario;
     private String motivo;
+    private Veterinario veterinario;
     private String diagnostico;
     private String tratamento;
-    private String numeroRegistroVeterinario;
-    private String cpfProprietario;
-    private String nomeProprietario;
-    private String dataHora = LocalDateTime.now().toString();
+    private String numeroColeita;
 
-    public Consulta(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario, String cpfProprietario, String nomeProprietario, String dataHora) {
-        this.numeroConsulta = numeroConsulta;
-        this.numeroColeira = numeroColeira;
-        this.motivo = motivo;
-        this.diagnostico = diagnostico;
-        this.tratamento = tratamento;
-        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
-        this.cpfProprietario = cpfProprietario;
-        this.nomeProprietario = nomeProprietario;
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 
-    public Consulta(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario) {
-        this.numeroConsulta = numeroConsulta;
-        this.numeroColeira = numeroColeira;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+
+    public void setVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
+    }
+
+    public void setDiagnostico(String diagnostico) {
         this.diagnostico = diagnostico;
+    }
+
+    public void setTratamento(String tratamento) {
         this.tratamento = tratamento;
-        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
     }
 
-    public String getNomeProprietario() {
-        return nomeProprietario;
+    public String getNumeroColeita() {
+        return numeroColeita;
     }
 
-    public String getNumeroConsulta() {
-        return numeroConsulta;
+    public void setNumeroColeita(String numeroColeita) {
+        this.numeroColeita = numeroColeita;
     }
 
-    public String getNumeroColeira() {
-        return numeroColeira;
+    public Consulta() {
+
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
     }
 
     public String getMotivo() {
         return motivo;
+    }
+
+    public Veterinario getVeterinario() {
+        return veterinario;
     }
 
     public String getDiagnostico() {
@@ -59,27 +74,13 @@ public class Consulta {
         return tratamento;
     }
 
-    public String getNumeroRegistroVeterinario() {
-        return numeroRegistroVeterinario;
-    }
-
-
-    public String getCpfProprietario() {
-        return cpfProprietario;
-    }
-
-    public String getDataHora() {
-        return dataHora;
-    }
-
-
-    public Consulta comCpfProprietario(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
+    public Consulta comDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
         return this;
     }
 
-    public Consulta comNumeroColeira(String numeroColeira) {
-        this.numeroColeira = numeroColeira;
+    public Consulta comPaciente(Paciente paciente) {
+        this.paciente = paciente;
         return this;
     }
 
@@ -88,7 +89,12 @@ public class Consulta {
         return this;
     }
 
-    public Consulta comDiagnnostico(String diagnostico) {
+    public Consulta comVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
+        return this;
+    }
+
+    public Consulta comDiagnostico(String diagnostico) {
         this.diagnostico = diagnostico;
         return this;
     }
@@ -98,12 +104,40 @@ public class Consulta {
         return this;
     }
 
-    public Consulta comNomeProprietario(String nomeProprietario) {
-        this.nomeProprietario = nomeProprietario;
-        return this;
+    public String getNumeroColeira() {
+        return numeroColeita;
     }
-    public Consulta comNumeroRegistroVeterinario(String numeroRegistroVeterinario) {
-        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
-        return this;
+
+    public void setNumeroColeira(String numeroColeita) {
+        this.numeroColeita = numeroColeita;
     }
+
+    public Proprietario getProprietario() {
+        return proprietario;
+    }
+
+    public void setProprietario(Proprietario proprietario) {
+        this.proprietario = proprietario;
+    }
+
+    public String getNumeroConsulta() {
+        return numeroConsulta;
+    }
+
+    public void setNumeroConsulta(String numeroConsulta) {
+        this.numeroConsulta = numeroConsulta;
+    }
+
+    @Override
+    public String toString() {
+        return "Consulta{" +
+                "dataHora=" + dataHora +
+                ", paciente=" + paciente +
+                ", motivo='" + motivo + '\'' +
+                ", veterinario=" + veterinario +
+                ", diagnostico='" + diagnostico + '\'' +
+                ", tratamento='" + tratamento + '\'' +
+                '}';
+    }
+
 }

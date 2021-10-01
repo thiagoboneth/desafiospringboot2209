@@ -7,9 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
-import com.meli.desafiospringboot2209.exception.PersistenceException;
-import com.meli.desafiospringboot2209.utils.ErrosNulos;
-import com.meli.desafiospringboot2209.utils.ReadFileUtil;
+import com.meli.desafiospringboot2209.entity.Paciente;
+import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PacientePersistence {
+public class PacientePersistence implements Repository<Paciente> {
 
     String arquivo = "paciente.json";
     String caminho = "db";
@@ -38,11 +37,11 @@ public class PacientePersistence {
 
         try {
             if (verificaNull(pacienteDTO)) {
-                throw new PersistenceException("Os campos não podem ser nulos");
+                throw new RuntimeException("Os campos não podem ser nulos");
             }
 
             if (pacienteJaCadastrado(pacienteDTO.getNumeroColeira())) {
-                throw new PersistenceException("paciente já cadastrado");
+                throw new RuntimeException("paciente já cadastrado");
             }
 
             listaPacientes.add(pacienteDTO);
@@ -70,7 +69,9 @@ public class PacientePersistence {
 
     public boolean pacienteJaCadastrado(String numeroColeira) throws IOException {
         listaPacientes = buscarPaciente();
+        System.out.println(numeroColeira);
         if (listaPacientes.size() > 0) {
+            System.out.println(numeroColeira);
             for (PacienteDTO pacienteDTO : listaPacientes) {
                 if (pacienteDTO.getNumeroColeira().equals(numeroColeira)) {
                     return true;
@@ -104,7 +105,7 @@ public class PacientePersistence {
             for (PacienteDTO item: pacienteDTOS) {
                 if (item.getNumeroColeira().equals(id)){
                     if(ConsultaPacienteRegistrada(id)){
-                        throw new PersistenceException("Impossivel excluir, existe uma consulta agendada");
+                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
                     }
                     pacienteDTOS.remove(item);
                     break;
@@ -113,7 +114,7 @@ public class PacientePersistence {
             objectMapper.writeValue(new File(cC),pacienteDTOS);
         }catch (IOException e) {
             e.printStackTrace();
-            throw new PersistenceException("Erro ao deletar ID");
+            throw new RuntimeException("Erro ao deletar ID");
         }
     }
 
@@ -128,63 +129,24 @@ public class PacientePersistence {
 
             List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>() {
             }.getType());
-
-            Integer contNull = 0;
-            Integer contOk = 0;
-
             for (PacienteDTO item : pacienteDTOS) {
-
-                if (registros.getNumeroColeira() == null)
-                {throw new PersistenceException("Impossivel aterar sem o numero da coleira");}
-
                 if (item.getNumeroColeira().equals(NumeroColeira)) {
-
-                    if (registros.getEspecie() != null){
-                        if(registros.getEspecie().equals(item.getEspecie())){contOk++;}
-                        item.comEspecie(registros.getEspecie());
-                    }else {registros.comEspecie(item.getEspecie());contNull++;}
-
-                    if (registros.getRaca() != null){
-                        if(registros.getRaca().equals(item.getRaca())){contOk++;}
-                        item.comRaca(registros.getRaca());
-                    }else {registros.comRaca(item.getRaca());contNull++;}
-
-                    if (registros.getCor() != null){
-                        if(registros.getCor().equals(item.getCor())){contOk++;}
-                        item.comCor(registros.getCor());
-                    }else {registros.comCor(item.getCor());contNull++;}
-
-                    if (registros.getDataNascimento() != null){
-                        if(registros.getDataNascimento().equals(item.getDataNascimento())){contOk++;}
-                        item.comDataNascimento(registros.getDataNascimento());
-                    }else {registros.comDataNascimento(item.getDataNascimento());contNull++;}
-
-                    if (registros.getNome() != null){
-                        if(registros.getNome().equals(item.getNome())){contOk++;}
-                        item.comNome(registros.getNome());
-                    }else {registros.comNome(item.getNome());contNull++;}
-
-                    if (registros.getSexo() != null){
-                        if(registros.getSexo().equals(item.getSexo())){contOk++;}
-                        item.comSexo(registros.getSexo());
-                    }else {registros.comSexo(item.getSexo());contNull++;}
-
-                    if (registros.getCpfProprietario() != null){
-                        if(registros.getCpfProprietario().equals(item.getCpfProprietario())){contOk++;}
-                        item.comCpfProprietario(registros.getCpfProprietario());
-                    }else {registros.comCpfProprietario(item.getCpfProprietario());contNull++;}
-
-                    ErrosNulos.erros(7,contNull,"Numero do paciente",contOk);
+                    item.comEspecie(registros.getEspecie());
+                    item.comRaca(registros.getRaca());
+                    item.comCor(registros.getCor());
+                    item.comDataNascimento(registros.getDataNascimento());
+                    item.comNome(registros.getNome());
+                    item.comSexo(registros.getSexo());
+                    item.comCpfProprietario(registros.getCpfProprietario());
                     break;
                 }
             }
             objectMapper.writeValue(new File(cC), pacienteDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PersistenceException("Erro ao alterar ID");
+            throw new RuntimeException("Erro ao alterar ID");
         }
     }
-
 
 
     public boolean ConsultaPacienteRegistrada(String NumeroColeira){
@@ -201,5 +163,18 @@ public class PacientePersistence {
             return false;
         }
         return false;
+    }
+
+    @Override
+    public List<Paciente> getList() {
+        List<Paciente> pacientes = new ArrayList<>();
+        try {
+            String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
+            pacientes = gson.fromJson(consultaArquivo, new TypeToken<List<Paciente>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return pacientes;
     }
 }

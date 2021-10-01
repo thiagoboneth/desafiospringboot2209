@@ -7,9 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.meli.desafiospringboot2209.exception.PersistenceException;
-import com.meli.desafiospringboot2209.utils.ErrosNulos;
-import com.meli.desafiospringboot2209.utils.ReadFileUtil;
+import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,21 +30,22 @@ public class ProprietarioPersistence {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public void salvarProprietarioNoArquivo(ProprietarioDTO proprietarioDTO) {
+    public ProprietarioDTO salvarProprietarioNoArquivo(ProprietarioDTO proprietarioDTO) {
         mapearObjeto();
         try {
             if (verificaNull(proprietarioDTO)) {
-                throw new PersistenceException("Os campos não podem ser nulos");
+                throw new RuntimeException("Os campos não podem ser nulos");
             }
             
             if (proprietarioJaCadastrado(proprietarioDTO.getCpf())) {
-                throw new PersistenceException("Proprietario já cadastrado");
+                throw new RuntimeException("Proprietario já cadastrado");
             }
             listaProprietarios.add(proprietarioDTO);
             objectMapper.writeValue(new File(cC), listaProprietarios);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return proprietarioDTO;
     }
 
     public boolean proprietarioJaCadastrado(String cpf) throws IOException {
@@ -64,12 +63,16 @@ public class ProprietarioPersistence {
     }
 
     public boolean verificaNull(ProprietarioDTO proprietarioDTO) {
-        return proprietarioDTO.getCpf() == null
+        if (proprietarioDTO.getCpf() == null
                 || proprietarioDTO.getNome() == null
                 || proprietarioDTO.getSobrenome() == null
                 || proprietarioDTO.getDataNascimento() == null
                 || proprietarioDTO.getEndereco() == null
-                || proprietarioDTO.getTelefone() == null;
+                || proprietarioDTO.getTelefone() == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<ProprietarioDTO> buscarProprietario() {
@@ -92,7 +95,7 @@ public class ProprietarioPersistence {
             for (ProprietarioDTO item : proprietarioDTOS) {
                 if (item.getCpf().equals(cpf)) {
                     if(ConsultaProprietarioRegistrada(cpf)){
-                        throw new PersistenceException("Impossivel excluir, existe uma consulta agendada");
+                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
                     }
                     proprietarioDTOS.remove(item);
                     break;
@@ -101,7 +104,7 @@ public class ProprietarioPersistence {
             objectMapper.writeValue(new File(cC), proprietarioDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PersistenceException("Erro ao deletar ID");
+            throw new RuntimeException("Erro ao deletar ID");
         }
     }
 
@@ -111,56 +114,25 @@ public class ProprietarioPersistence {
             String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
 
-            ProprietarioDTO registros = payLoad;
-            String cpf = registros.getCpf();
+            ProprietarioDTO registro = payLoad;
+            String cpf = registro.getCpf();
 
             List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
             }.getType());
-
-            Integer contNull = 0;
-            Integer contOk = 0;
-
             for (ProprietarioDTO item : proprietarioDTOS) {
-                if (registros.getCpf() == null)
-                {throw new PersistenceException("Impossivel aterar sem o numero do CPF");}
-
                 if (item.getCpf().equals(cpf)) {
-
-                    if (registros.getNome() != null){
-                        if(registros.getNome().equals(item.getNome())){contOk++;}
-                        item.comNome(registros.getNome());
-                    }else {registros.comNome(item.getNome());contNull++;}
-
-                    if (registros.getSobrenome() != null){
-                        if(registros.getSobrenome().equals(item.getSobrenome())){contOk++;}
-                        item.comSobrenome(registros.getSobrenome());
-                    }else {registros.comSobrenome(item.getSobrenome());contNull++;}
-
-                    if (registros.getDataNascimento() != null){
-                        if(registros.getDataNascimento().equals(item.getDataNascimento())){contOk++;}
-                        item.comDataNascimento(registros.getDataNascimento());
-                    }else {registros.comDataNascimento(item.getDataNascimento());contNull++;}
-
-                    if (registros.getEndereco() != null){
-                        if(registros.getEndereco().equals(item.getEndereco())){contOk++;}
-                        item.comEndereco(registros.getEndereco());
-                    }else {registros.comEndereco(item.getEndereco());contNull++;}
-
-                    if (registros.getTelefone() != null){
-                        if(registros.getTelefone().equals(item.getTelefone())){contOk++;}
-                        item.comTelefone(registros.getTelefone());
-                    }else {registros.comTelefone(item.getTelefone());contNull++;}
-
-
-                    ErrosNulos.erros(5,contNull," CPF",contOk);
-
+                    item.comNome(registro.getNome());
+                    item.comSobrenome(registro.getSobrenome());
+                    item.comDataNascimento(registro.getDataNascimento());
+                    item.comEndereco(registro.getEndereco());
+                    item.comTelefone(registro.getTelefone());
                     break;
                 }
             }
             objectMapper.writeValue(new File(cC), proprietarioDTOS);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PersistenceException("Erro ao alterar ID");
+            throw new RuntimeException("Erro ao alterar ID");
         }
     }
 

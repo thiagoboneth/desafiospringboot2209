@@ -8,9 +8,49 @@ public class Paciente {
     private String dataNascimento;
     private String nome;
     private String sexo;
-    private String cpfProprietario;
-    private String numeroColeira;
+    private Proprietario proprietario;
 
+    private String numeroColeira;
+    private boolean consutado = false;
+
+
+
+    public Paciente() {
+    }
+
+    public String getNumeroColeira() {
+        return numeroColeira;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public String getRaca() {
+        return raca;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public Proprietario getProprietario() {
+        return proprietario;
+    }
+
+    // Interfaces fluentes
     public Paciente comEspecie(String especie) {
         this.especie = especie;
         return this;
@@ -41,40 +81,21 @@ public class Paciente {
         return this;
     }
 
-    public Paciente comCpfProprietario(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
+    public Paciente comProprietario(Proprietario proprietario) {
+        this.proprietario = proprietario;
         return this;
     }
 
-    public String getEspecie() {
-        return especie;
-    }
-
-    public String getRaca() {
-        return raca;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public String getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public String getCpfProprietario() {
-        return cpfProprietario;
-    }
-
-    public String getNumeroColeira() {
-        return numeroColeira;
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "especie='" + especie + '\'' +
+                ", raca='" + raca + '\'' +
+                ", cor='" + cor + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
+                ", nome='" + nome + '\'' +
+                ", sexo=" + sexo +
+                ", proprietario=" + proprietario +
+                '}';
     }
 }

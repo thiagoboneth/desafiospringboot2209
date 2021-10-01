@@ -1,12 +1,12 @@
-package com.meli.desafiospringboot2209.utils;
+package com.meli.desafiospringboot2209.util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class WriterFileUtil {
+public class ReadFileUtil {
 
-    public static String writerFile(String file) throws IOException {
+    public static String readFile(String file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String         line = null;
         StringBuilder  stringBuilder = new StringBuilder();

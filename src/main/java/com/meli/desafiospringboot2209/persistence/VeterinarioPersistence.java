@@ -7,14 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
-import com.meli.desafiospringboot2209.exception.PersistenceException;
-import com.meli.desafiospringboot2209.utils.ErrosNulos;
-import com.meli.desafiospringboot2209.utils.ReadFileUtil;
+import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 
 public class VeterinarioPersistence {
@@ -33,27 +31,28 @@ public class VeterinarioPersistence {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public void salvarVeterinarioNoArquivo(VeterinarioDTO veterinarioDTO) {
+    public VeterinarioDTO salvarVeterinarioNoArquivo(VeterinarioDTO veterinarioDTO) {
         mapearObjeto();
         listaVeterinarios = buscarVeterinario();
 
         try {
             if (verificaNull(veterinarioDTO)) {
-                throw new PersistenceException("Os campos não podem ser nulos");
+                throw new RuntimeException("Os campos não podem ser nulos");
             }
 
             if (veterinarioJaCadastrado(veterinarioDTO.getNumeroRegistro())) {
-                throw new PersistenceException("Veterinario já cadastrado");
+                throw new RuntimeException("Veterinario já cadastrado");
             }
             listaVeterinarios.add(veterinarioDTO);
             objectMapper.writeValue(new File(cC), listaVeterinarios);
         } catch(IOException e) {
             e.printStackTrace();
         }
+        return veterinarioDTO;
     }
 
     public void ordemListaConsultaDescrescente(){
-        listaVeterinarios.sort((Comparator.comparing(VeterinarioDTO::getNumeroRegistro)));
+        Collections.sort(listaVeterinarios,((o1, o2) -> o1.getNumeroRegistro().compareTo(o2.getNumeroRegistro())));
     }
 
 
@@ -86,12 +85,16 @@ public class VeterinarioPersistence {
     }
 
     public boolean verificaNull(VeterinarioDTO veterinarioDTO) {
-        return veterinarioDTO.getCpf() == null
+        if (veterinarioDTO.getCpf() == null
                 || veterinarioDTO.getNome() == null
                 || veterinarioDTO.getSobrenome() == null
                 || veterinarioDTO.getDataNascimento() == null
                 || veterinarioDTO.getNumeroRegistro() == null
-                || veterinarioDTO.getEspecialidade() == null;
+                || veterinarioDTO.getEspecialidade() == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void removerMedicoPorId(String id){
@@ -102,7 +105,7 @@ public class VeterinarioPersistence {
             for (VeterinarioDTO item: veterinarioDTOS) {
                 if (item.getNumeroRegistro().equals(id)){
                     if(ConsultaVeterinarioRegistrada(id)){
-                        throw new PersistenceException("Impossivel excluir, existe uma consulta agendada");
+                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
                     }
                     veterinarioDTOS.remove(item);
                     break;
@@ -111,7 +114,7 @@ public class VeterinarioPersistence {
             objectMapper.writeValue(new File(cC),veterinarioDTOS );
         }catch (IOException e) {
             e.printStackTrace();
-            throw new PersistenceException("Erro ao deletar ID");
+            throw new RuntimeException("Erro ao deletar ID");
         }
     }
 
@@ -124,49 +127,20 @@ public class VeterinarioPersistence {
             String NumeroRegistro = registros.getNumeroRegistro();
 
             List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
-
-            Integer contNull = 0;
-            Integer contOk = 0;
-
             for (VeterinarioDTO item: veterinarioDTOS) {
-                if (registros.getNumeroRegistro() == null)
-                {throw new PersistenceException("Impossivel aterar sem o numero do Registro");}
-
                 if (item.getNumeroRegistro().equals(NumeroRegistro)){
-
-                    if (registros.getCpf() != null){
-                        if(registros.getCpf().equals(item.getCpf())){contOk++;}
-                        item.comCpf(registros.getCpf());
-                    }else {registros.comCpf(item.getCpf());contNull++;}
-
-                    if (registros.getNome() != null){
-                        if(registros.getNome().equals(item.getNome())){contOk++;}
-                        item.comNome(registros.getNome());
-                    }else {registros.comNome(item.getNome());contNull++;}
-
-                    if (registros.getSobrenome() != null){
-                        if(registros.getSobrenome().equals(item.getSobrenome())){contOk++;}
-                        item.comSobrenome(registros.getSobrenome());
-                    }else {registros.comSobrenome(item.getSobrenome());contNull++;}
-
-                    if (registros.getDataNascimento() != null){
-                        if(registros.getDataNascimento().equals(item.getDataNascimento())){contOk++;}
-                        item.comDataNascimento(registros.getDataNascimento());
-                    }else {registros.comDataNascimento(item.getDataNascimento());contNull++;}
-
-                    if (registros.getEspecialidade() != null){
-                        if(registros.getEspecialidade().equals(item.getEspecialidade())){contOk++;}
-                        item.comEspecialidade(registros.getEspecialidade());
-                    }else {registros.comEspecialidade(item.getEspecialidade());contNull++;}
-
-                    ErrosNulos.erros(5,contNull,"do Registro",contOk);
+                    item.comCpf(registros.getCpf());
+                    item.comNome(registros.getNome());
+                    item.comSobrenome(registros.getSobrenome());
+                    item.comDataNascimento(registros.getDataNascimento());
+                    item.comEspecialidade(registros.getEspecialidade());
                     break;
                 }
             }
             objectMapper.writeValue(new File(cC),veterinarioDTOS );
         }catch (IOException e) {
             e.printStackTrace();
-            throw new PersistenceException("Erro ao alterar ID");
+            throw new RuntimeException("Erro ao alterar ID");
         }
     }
 

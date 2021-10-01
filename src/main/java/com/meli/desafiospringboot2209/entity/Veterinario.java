@@ -6,8 +6,12 @@ public class Veterinario {
     private String nome;
     private String sobrenome;
     private String dataNascimento;
+    private Integer idMedico;
     private String numeroRegistro;
     private String especialidade;
+
+    public Veterinario() {
+    }
 
     public String getCpf() {
         return cpf;
@@ -25,6 +29,7 @@ public class Veterinario {
         return dataNascimento;
     }
 
+
     public String getNumeroRegistro() {
         return numeroRegistro;
     }
@@ -32,6 +37,15 @@ public class Veterinario {
     public String getEspecialidade() {
         return especialidade;
     }
+
+    public void setIdMedico(Integer idMedico) {
+        this.idMedico = idMedico;
+    }
+
+    public Integer getIdMedico() {
+        return this.idMedico;
+    }
+
 
     public Veterinario comCpf(String cpf) {
         this.cpf = cpf;
@@ -53,8 +67,23 @@ public class Veterinario {
         return this;
     }
 
+    public Veterinario comIdMedico(Integer idMedico) {
+        this.idMedico = idMedico;
+        return this;
+    }
+
+    public Veterinario comNumeroRegistro(String numeroRegistro) {
+        this.numeroRegistro = numeroRegistro;
+        return this;
+    }
+
     public Veterinario comEspecialidade(String especialidade) {
         this.especialidade = especialidade;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return   getCpf() + ';' +  getNome() + ';' + getSobrenome() + ';' + getDataNascimento() + ';' +getIdMedico() +";" + getNumeroRegistro() + ';'+ getEspecialidade();
     }
 }
