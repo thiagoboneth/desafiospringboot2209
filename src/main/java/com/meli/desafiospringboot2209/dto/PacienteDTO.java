@@ -1,5 +1,15 @@
 package com.meli.desafiospringboot2209.dto;
 
+import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Paciente;
+import com.meli.desafiospringboot2209.entity.Proprietario;
+import com.meli.desafiospringboot2209.entity.Veterinario;
+import com.meli.desafiospringboot2209.service.PacienteService;
+import com.meli.desafiospringboot2209.service.ProprietarioService;
+import com.meli.desafiospringboot2209.service.VeterinarioService;
+
+import java.io.IOException;
+
 public class PacienteDTO {
 
     private String especie;
@@ -9,6 +19,7 @@ public class PacienteDTO {
     private String nome;
     private String sexo;
     private String cpfProprietario;
+    private Proprietario proprietario;
     private String numeroColeira;
 
     public PacienteDTO() {
@@ -45,14 +56,22 @@ public class PacienteDTO {
         return this;
     }
 
-    public PacienteDTO comCpfProprietario(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
+    public PacienteDTO comProprietario(Proprietario proprietario) {
+        this.proprietario = proprietario;
         return this;
     }
 
     public PacienteDTO comNumeroColeira(String numeroColeira) {
         this.numeroColeira = numeroColeira;
         return this;
+    }
+    public PacienteDTO comCpfProprietario(String cpfProprietario) {
+        this.cpfProprietario = cpfProprietario;
+        return this;
+    }
+
+    public String getCpfProprietario() {
+        return cpfProprietario;
     }
 
     public String getEspecie() {
@@ -79,13 +98,47 @@ public class PacienteDTO {
         return sexo;
     }
 
-    public String getCpfProprietario() {
-        return cpfProprietario;
+    public Proprietario getProprietario() {
+        return proprietario;
     }
 
     public String getNumeroColeira() {
         return numeroColeira;
     }
+
+
+    public static Paciente converte(PacienteDTO dto, ProprietarioService proprietarioService){
+        Proprietario proprietario = proprietarioService.obterProprietario(dto.getCpfProprietario());
+        return new Paciente()
+                .comEspecie(dto.getEspecie())
+                .comRaca(dto.getRaca())
+                .comCor(dto.getCor())
+                .comDataNascimento(dto.getDataNascimento())
+                .comNome(dto.getNome())
+                .comSexo(dto.getSexo())
+                .comNumeroDaColeira(dto.getNumeroColeira())
+                .comCpfProprietario(dto.getCpfProprietario())
+                .comProprietario(proprietario);
+    }
+
+//      "especie" : "Coelho",
+//              "raca" : "Coelho da montanha",
+//              "cor" : "Branco e cinza",
+//              "dataNascimento" : "01/01/2019",
+//              "nome" : "Perna",
+//              "sexo" : "Masculino",
+//              "Proprietario" : [
+//    {
+//        "cpf" : "123.456.789-582",
+//            "nome" : "Isac",
+//            "sobrenome" : "Oliveira",
+//            "dataNascimento" : "01/05/91",
+//            "endereco" : "Rua 4190",
+//            "telefone" : "9988997765"
+//    }
+//  ],
+//          "numeroColeira" : "1"
+
 
     @Override
     public String toString() {
@@ -96,7 +149,7 @@ public class PacienteDTO {
                 ", dataNascimento='" + dataNascimento + '\'' +
                 ", nome='" + nome + '\'' +
                 ", sexo='" + sexo + '\'' +
-                ", cpfProprietario='" + cpfProprietario + '\'' +
+                ", proprietario=" + proprietario +
                 ", numeroColeira='" + numeroColeira + '\'' +
                 '}';
     }

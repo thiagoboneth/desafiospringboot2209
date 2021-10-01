@@ -2,6 +2,7 @@ package com.meli.desafiospringboot2209.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.meli.desafiospringboot2209.entity.Paciente;
+import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.service.PacienteService;
 import com.meli.desafiospringboot2209.service.VeterinarioService;
 import com.meli.desafiospringboot2209.entity.Consulta;
@@ -34,9 +35,7 @@ public class ConsultaDTO {
     private String tratamento;
     private String numeroRegistroVeterinario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String cpfProprietario;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String nomeProprietario;
+    private Proprietario proprietario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String dataHora = LocalDateTime.now().toString();
 
@@ -88,6 +87,7 @@ public class ConsultaDTO {
         Paciente paciente = pacienteService.obterPaciente(dto.getNumeroColeira());
         try {
             return new Consulta()
+                    .comNumeroDaConsulta(dto.getNumeroConsulta())
                     .comColeira(dto.getNumeroColeira())
                     .comMotivo(dto.getMotivo())
                     .comDiagnostico(dto.getDiagnostico())
@@ -109,8 +109,6 @@ public class ConsultaDTO {
                 ", diagnostico='" + diagnostico + '\'' +
                 ", tratamento='" + tratamento + '\'' +
                 ", numeroRegistroVeterinario='" + numeroRegistroVeterinario + '\'' +
-                ", cpfProprietario='" + cpfProprietario + '\'' +
-                ", nomeProprietario='" + nomeProprietario + '\'' +
                 ", dataHora='" + dataHora + '\'' +
                 '}';
     }
