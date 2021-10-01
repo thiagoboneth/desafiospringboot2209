@@ -1,6 +1,4 @@
 package com.meli.desafiospringboot2209.service;
-
-import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
 import org.springframework.stereotype.Service;
@@ -21,9 +19,11 @@ public class PacienteService {
     public Paciente obterPaciente(String numeroColeira){
         List<Paciente> pacientes = pacientePersistence.getList();
         Optional<Paciente> any = pacientes.stream().filter(paciente -> paciente.getNumeroColeira().equals(numeroColeira)).findAny();
+        if (!any.isPresent()){
+            throw new RuntimeException("Numero de coleira nulo");
+        }
         return any.get();
     }
-
     public void cadastrarPaciente(Paciente paciente){
         this.pacientePersistence.salvarConsultaNoArquivo(paciente);
     }

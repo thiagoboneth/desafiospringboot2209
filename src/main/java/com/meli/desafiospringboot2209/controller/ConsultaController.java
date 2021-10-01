@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.meli.desafiospringboot2209.service.ConsultaService;
 
+import java.io.IOException;
 import java.net.URI;
 
 @RestController
@@ -31,7 +32,7 @@ public class ConsultaController {
     private PacienteService pacienteService;
 
     @PostMapping("/cadastra")
-    public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO consultaDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO consultaDTO, UriComponentsBuilder uriBuilder){
         Consulta consulta = ConsultaDTO.converte(consultaDTO, veterinarioService, pacienteService);
         consultaService.marcaConsulta(consulta);
         URI uri = uriBuilder.path("/consultas/{codigo}").buildAndExpand(consulta.getNumeroConsulta()).toUri();

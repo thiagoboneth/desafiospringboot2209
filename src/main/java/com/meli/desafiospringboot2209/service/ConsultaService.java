@@ -49,35 +49,26 @@ public class ConsultaService {
      * deve retornar um objeto da consulta marcada contendo todos os dados da consulta. Nao deve ser void
      * @param consulta
      */
-    public void marcaConsulta(Consulta consulta){
-        //validacoes
-        this.consultaPersistence.salvarConsultaNoArquivo(consulta);
+
+    public boolean verificaNull(Consulta consulta) {
+        return consulta.getNumeroColeira() == null || consulta.getVeterinario().getNumeroRegistro() == null;
     }
 
-//    public ConsultaDTO salvarConsultaNoArquivo(Consulta consulta) {
-//        mapearObjeto();
-//        listaConsultas = buscarConsulta();
-//
-//        try {
-//            if (verificaNull(consultaDTO)) {
-//                throw new RuntimeException("É necessário o número da coleira e o número de registro do veterinário");
-//            }
-//
-//            if (consultaJaCadastrada(consultaDTO.getNumeroConsulta())) {
-//                throw new RuntimeException("Consulta já cadastrada");
-//            }
-//
-//            listaConsultas.add(consultaDTO);
-//
-//            dadosProprietario(consultaDTO);
-//
-//            objectMapper.writeValue(new File(cC), listaConsultas);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("Error na escrita do arquivo");
-//        }
-//        return consultaDTO;
-//    }
+
+    public void marcaConsulta(Consulta consulta){
+       try {
+           if (verificaNull(consulta)) {
+               throw new RuntimeException("É necessário o número da coleira e o número de registro do veterinário");
+           }
+
+           if (consultaJaCadastrada(consulta.getNumeroConsulta())) {
+               throw new RuntimeException("Consulta já cadastrada");
+           }
+           this.consultaPersistence.salvarConsultaNoArquivo(consulta);
+       }catch (RuntimeException | IOException e){
+           throw new RuntimeException("Error em marcar consula");
+       }
+    }
 
     public boolean consultaJaCadastrada(String numeroConsulta) throws IOException {
         return this.consultaPersistence.consultaJaCadastrada(numeroConsulta);
