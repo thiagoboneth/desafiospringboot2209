@@ -1,13 +1,16 @@
 package com.meli.desafiospringboot2209.controller;
 
+import com.meli.desafiospringboot2209.service.VeterinarioService;
+import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
-import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.meli.desafiospringboot2209.service.ConsultaService;
 
 import java.net.URI;
 
@@ -15,14 +18,27 @@ import java.net.URI;
 @RequestMapping("/consultas")
 public class ConsultaController {
 
-    private ConsultaPersistence consultaPersistence = new ConsultaPersistence();
+    @Autowired
+    private ConsultaService consultaService;
 
+    @Autowired
+    private VeterinarioService veterinarioService;
+
+
+//    @PostMapping("/cadastraold")
+//    public ResponseEntity<Consulta> cadastraConsulta(@RequestBody Consulta consulta, UriComponentsBuilder uriBuilder) {
+//        consultaPersistence.salvarConsultaNoArquivo(consulta);
+//        URI uri = uriBuilder.path("/consultas/{codigo}").buildAndExpand(consulta.getNumeroConsulta()).toUri();
+//        return ResponseEntity.created(uri).body(consulta);
+//    }
     @PostMapping("/cadastra")
-    public ResponseEntity<Consulta> cadastraConsulta(@RequestBody Consulta consulta, UriComponentsBuilder uriBuilder) {
-        consultaPersistence.salvarConsultaNoArquivo(consulta);
+    public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO consultaDTO, UriComponentsBuilder uriBuilder) {
+        Consulta consulta = ConsultaDTO.converte(consultaDTO, veterinarioService);
+        consultaService.marcaConsulta(consulta);
         URI uri = uriBuilder.path("/consultas/{codigo}").buildAndExpand(consulta.getNumeroConsulta()).toUri();
-        return ResponseEntity.created(uri).body(consulta);
+        return ResponseEntity.created(uri).body(consultaDTO);
     }
+
 
     /*@GetMapping("/listar")
     public List<ConsultaDTO> mostrarConsulta() {

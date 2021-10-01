@@ -94,7 +94,8 @@ public class ProprietarioPersistence {
             }.getType());
             for (ProprietarioDTO item : proprietarioDTOS) {
                 if (item.getCpf().equals(cpf)) {
-                    if(ConsultaProprietarioRegistrada(cpf)){
+                    //if(ConsultaProprietarioRegistrada(cpf)){
+                    if(false){
                         throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
                     }
                     proprietarioDTOS.remove(item);
@@ -136,21 +137,21 @@ public class ProprietarioPersistence {
         }
     }
 
-    public boolean ConsultaProprietarioRegistrada(String Cpf){
-        try {
-            String proprietarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
-            List<ConsultaDTO> ConsultaS = gson.fromJson(proprietarioConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
-            for (ConsultaDTO item: ConsultaS) {
-                if (item.getCpfProprietario().equals(Cpf)){
-                    return true;
-                }
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
-        }
-        return false;
-    }
+//    public boolean ConsultaProprietarioRegistrada(String Cpf){
+//        try {
+//            String proprietarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+//            List<ConsultaDTO> ConsultaS = gson.fromJson(proprietarioConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
+//            for (ConsultaDTO item: ConsultaS) {
+//                if (item.getCpfProprietario().equals(Cpf)){
+//                    return true;
+//                }
+//            }
+//        }catch (IOException e){
+//            e.printStackTrace();
+//            return false;
+//        }
+//        return false;
+//    }
 
 
 }

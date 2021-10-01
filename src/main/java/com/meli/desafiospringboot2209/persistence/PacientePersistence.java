@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@org.springframework.stereotype.Repository
 public class PacientePersistence implements Repository<Paciente> {
 
     String arquivo = "paciente.json";

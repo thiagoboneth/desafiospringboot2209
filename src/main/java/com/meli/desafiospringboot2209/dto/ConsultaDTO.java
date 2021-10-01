@@ -1,7 +1,28 @@
 package com.meli.desafiospringboot2209.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.meli.desafiospringboot2209.service.VeterinarioService;
+import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Veterinario;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 
+
+/**
+ *
+ * {
+ *   "numeroConsulta": "300",
+ *   "numeroColeira": "5",
+ *   "motivo" : "Quebrou a pata",
+ *   "diagnostico" : "Pata enfaixada",
+ *   "tratamento" : "repouso",
+ *   "numeroRegistroVeterinario" : "2"
+ * }
+ *
+ *
+ *
+ */
 public class ConsultaDTO {
 
     private String numeroConsulta;
@@ -10,26 +31,23 @@ public class ConsultaDTO {
     private String diagnostico;
     private String tratamento;
     private String numeroRegistroVeterinario;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String cpfProprietario;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String nomeProprietario;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String dataHora = LocalDateTime.now().toString();
 
-    public ConsultaDTO(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario, String cpfProprietario, String nomeProprietario, String dataHora) {
+
+    public ConsultaDTO(String numeroConsulta, String numeroColeira, String motivo, String diagnostico, String tratamento, String numeroRegistroVeterinario) {
         this.numeroConsulta = numeroConsulta;
         this.numeroColeira = numeroColeira;
         this.motivo = motivo;
         this.diagnostico = diagnostico;
         this.tratamento = tratamento;
         this.numeroRegistroVeterinario = numeroRegistroVeterinario;
-        this.cpfProprietario = cpfProprietario;
-        this.nomeProprietario = nomeProprietario;
-        this.dataHora = dataHora;
     }
 
-
-    public String getNomeProprietario() {
-        return nomeProprietario;
-    }
 
     public String getNumeroConsulta() {
         return numeroConsulta;
@@ -56,57 +74,25 @@ public class ConsultaDTO {
     }
 
 
-    public String getCpfProprietario() {
-        return cpfProprietario;
-    }
+//this.numeroConsulta = numeroConsulta;
+//        this.numeroColeira = numeroColeira;
+//        this.motivo = motivo;
+//        this.diagnostico = diagnostico;
+//        this.tratamento = tratamento;
+//        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
 
-    public String getDataHora() {
-        return dataHora;
-    }
-
-
-    public ConsultaDTO comCpfProprietario(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
-        return this;
-    }
-
-    public ConsultaDTO comConsultaDTO(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
-        return this;
-    }
-
-    public ConsultaDTO comNumeroColeira(String numeroColeira) {
-        this.numeroColeira = numeroColeira;
-        return this;
-    }
-
-    public ConsultaDTO comMotivo(String motivo) {
-        this.motivo = motivo;
-        return this;
-    }
-
-    public ConsultaDTO comDiagnnostico(String diagnostico) {
-        this.diagnostico = diagnostico;
-        return this;
-    }
-
-    public ConsultaDTO comTratamento(String tratamento) {
-        this.tratamento = tratamento;
-        return this;
-    }
-
-    public ConsultaDTO comNumeroConsulta(String numeroConsulta) {
-        this.numeroConsulta = numeroConsulta;
-        return this;
-    }
-
-    public ConsultaDTO comDataHora(String dataHora) {
-        this.dataHora = dataHora;
-        return this;
-    }
-
-    public ConsultaDTO comNomeProprietario(String nomeProprietario) {
-        this.nomeProprietario = nomeProprietario;
-        return this;
+    public static Consulta converte(ConsultaDTO dto, VeterinarioService veterinarioService){
+        Veterinario veterinario = veterinarioService.obterVeterinario(dto.getNumeroRegistroVeterinario());
+        try {
+            return new Consulta()
+                    .comColeira(dto.getNumeroColeira())
+                    .comMotivo(dto.getMotivo())
+                    .comDiagnostico(dto.getDiagnostico())
+                    .comTratamento(dto.getTratamento())
+                    .comVeterinario(veterinario);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return null;
     }
 }

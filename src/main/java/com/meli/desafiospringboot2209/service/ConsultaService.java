@@ -6,6 +6,7 @@ import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ConsultaService {
 
 
@@ -43,6 +45,10 @@ public class ConsultaService {
     }
 
 
+    /**
+     * deve retornar um objeto da consulta marcada contendo todos os dados da consulta. Nao deve ser void
+     * @param consulta
+     */
     public void marcaConsulta(Consulta consulta){
         //validacoes
         this.consultaPersistence.salvarConsultaNoArquivo(consulta);
@@ -115,11 +121,6 @@ public class ConsultaService {
     public List<Consulta> listarTotalCadaVeterinario(Veterinario veterinario) throws IOException {
         return this.consultaPersistence.getList(veterinario.getNumeroRegistro());
     }
-
-    public void ordenaConsultaPorNome(List<ConsultaDTO> consultas){
-        Collections.sort(consultas,((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
-    }
-
 
 //    public List<ConsultaDTO> consultaPaciente() throws IOException {
 //

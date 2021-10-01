@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@org.springframework.stereotype.Repository
 public class ConsultaPersistence implements Repository<Consulta>{
 
     ReadFileUtil readFileUtil = new ReadFileUtil();
@@ -31,9 +32,9 @@ public class ConsultaPersistence implements Repository<Consulta>{
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public Consulta criarConsulta(Consulta consulta){
+/*    public Consulta criarConsulta(Consulta consulta){
         //Proprietario proprietario = new Proprietario();
-    }
+    }*/
 
     public Consulta salvarConsultaNoArquivo(Consulta consulta) {
         List<Consulta> consultas = getList();
@@ -69,7 +70,7 @@ public class ConsultaPersistence implements Repository<Consulta>{
         consultaExistente.setDiagnostico(consultaNova.getDiagnostico());
         consultaExistente.setMotivo(consultaNova.getMotivo());
         consultaExistente.setTratamento(consultaNova.getTratamento());
-        consultaExistente.setPaciente(consultaNova.getPaciente());
+        //consultaExistente.setPaciente(consultaNova.getPaciente());
         consultaExistente.setVeterinario(consultaNova.getVeterinario());
         return consultaExistente;
     }
@@ -120,24 +121,24 @@ public class ConsultaPersistence implements Repository<Consulta>{
     }
 
     public void ordenaConsultaPorNome(List<ConsultaDTO> consultas){
-        Collections.sort(consultas,((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
+        //Collections.sort(consultas,((o1, o2) -> o1.getNomeProprietario().compareToIgnoreCase(o2.getNomeProprietario())));
     }
 
 
-    public List<ConsultaDTO> consultaPaciente() throws IOException {
-
-        String consultaPacienteArquivo = ReadFileUtil.readFile("db/consultas.json");
-        List<ConsultaDTO> consultaPacienteDTOS = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
-
-        List<ConsultaDTO> consultas = consultaPacienteDTOS.stream()
-                                .sorted(Comparator.comparing(ConsultaDTO::getNomeProprietario))
-                                        .collect(Collectors.toList());
-         ordenaConsultaPorNome(consultas);
-
-        return consultas;
-
-
-    }
+//    public List<ConsultaDTO> consultaPaciente() throws IOException {
+//
+//        String consultaPacienteArquivo = ReadFileUtil.readFile("db/consultas.json");
+//        List<ConsultaDTO> consultaPacienteDTOS = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
+//
+//        List<ConsultaDTO> consultas = consultaPacienteDTOS.stream()
+//                                .sorted(Comparator.comparing(ConsultaDTO::getNomeProprietario))
+//                                        .collect(Collectors.toList());
+//         ordenaConsultaPorNome(consultas);
+//
+//        return consultas;
+//
+//
+//    }
 
     @Override
     public List<Consulta> getList() {
@@ -158,8 +159,8 @@ public class ConsultaPersistence implements Repository<Consulta>{
         return consultasDoVeterinario;
     }
 
-    public List<Proprietario>getListProprietario(String registro){
+/*    public List<Proprietario>getListProprietario(String registro){
         List<Proprietario> list = getListProprietario();
         
-    }
+    }*/
 }

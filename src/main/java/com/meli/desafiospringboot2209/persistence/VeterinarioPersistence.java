@@ -7,7 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class VeterinarioPersistence {
+@Repository
+public class VeterinarioPersistence implements com.meli.desafiospringboot2209.persistence.Repository<Veterinario>{
 
     String arquivo = "veterinario.json";
     String caminho = "db";
@@ -158,6 +161,18 @@ public class VeterinarioPersistence {
             return false;
         }
         return false;
+    }
+
+    @Override
+    public List<Veterinario> getList() {
+        List<Veterinario> veterinarios = new ArrayList<>();
+        try {
+            String consultaArquivo = ReadFileUtil.readFile("db/veterinarios.json");
+            veterinarios = gson.fromJson(consultaArquivo, new TypeToken<List<Veterinario>>() {}.getType());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return veterinarios;
     }
 
 
