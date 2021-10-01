@@ -1,15 +1,15 @@
 package com.meli.desafiospringboot2209.controller;
 
-import com.meli.desafiospringboot2209.dto.ConsultaDTO;
+import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/consultas")
@@ -18,13 +18,13 @@ public class ConsultaController {
     private ConsultaPersistence consultaPersistence = new ConsultaPersistence();
 
     @PostMapping("/cadastra")
-    public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO payLoad, UriComponentsBuilder uriBuilder) {
-        consultaPersistence.salvarConsultaNoArquivo(payLoad);
-        URI uri = uriBuilder.path("/consultas/{codigo}").buildAndExpand(payLoad.getNumeroConsulta()).toUri();
-        return ResponseEntity.created(uri).body(payLoad);
+    public ResponseEntity<Consulta> cadastraConsulta(@RequestBody Consulta consulta, UriComponentsBuilder uriBuilder) {
+        consultaPersistence.salvarConsultaNoArquivo(consulta);
+        URI uri = uriBuilder.path("/consultas/{codigo}").buildAndExpand(consulta.getNumeroConsulta()).toUri();
+        return ResponseEntity.created(uri).body(consulta);
     }
 
-    @GetMapping("/listar")
+    /*@GetMapping("/listar")
     public List<ConsultaDTO> mostrarConsulta() {
         return consultaPersistence.buscarConsulta();
     }
@@ -54,5 +54,5 @@ public class ConsultaController {
     @GetMapping("/listarTotalCadaVeterinario")
     public List<String> listaTotalCadaVeterinario() throws IOException {
         return consultaPersistence.listarTotalCadaVeterinario();
-    }
+    }*/
 }

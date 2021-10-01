@@ -6,11 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -30,6 +29,10 @@ public class ConsultaPersistence implements Repository<Consulta>{
     private void mapearObjeto() {
         objectMapper.findAndRegisterModules();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    public Consulta criarConsulta(Consulta consulta){
+        //Proprietario proprietario = new Proprietario();
     }
 
     public Consulta salvarConsultaNoArquivo(Consulta consulta) {
@@ -99,23 +102,6 @@ public class ConsultaPersistence implements Repository<Consulta>{
         }
     }
 
-    private String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String         line = null;
-        StringBuilder  stringBuilder = new StringBuilder();
-        String         ls = System.getProperty("line.separator");
-
-        try {
-            while((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
-
-            return stringBuilder.toString();
-        } finally {
-            reader.close();
-        }
-    }
     public List<String> listarTotalCadaVeterinario() throws IOException {
         String consultaArquivo = ReadFileUtil.readFile("db/consultas.json");
         List<ConsultaDTO> consultaDTOS = gson.fromJson(consultaArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
@@ -170,5 +156,10 @@ public class ConsultaPersistence implements Repository<Consulta>{
         List<Consulta> list = getList();
         List<Consulta> consultasDoVeterinario = list.stream().filter(c -> c.getVeterinario().getNumeroRegistro().equals(registro)).collect(Collectors.toList());
         return consultasDoVeterinario;
+    }
+
+    public List<Proprietario>getListProprietario(String registro){
+        List<Proprietario> list = getListProprietario();
+        
     }
 }

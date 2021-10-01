@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Consulta {
 
     private String numeroConsulta;
-    private LocalDateTime dataHora;
+    private LocalDateTime dataHora = LocalDateTime.now();
     private Paciente paciente;
     private Proprietario proprietario;
     private String motivo;
