@@ -109,6 +109,7 @@ public class Consulta {
         return this;
     }
 
+
     public Consulta comDiagnostico(String diagnostico) {
         this.diagnostico = diagnostico;
         return this;
@@ -145,18 +146,6 @@ public class Consulta {
 
     public void setNumeroConsulta(String numeroConsulta) {
         this.numeroConsulta = numeroConsulta;
-    }
-
-    public List<Paciente> retornaPaciente() throws IOException {
-        String consultaPacienteArquivo = ReadFileUtil.readFile("db/pacientes.json");
-        List<Paciente> paciente = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<Paciente>>() {}.getType());
-
-        List<Paciente> pacientesLista = paciente.stream()
-                .sorted(Comparator.comparing(Paciente::getNumeroColeira))
-                .collect(Collectors.toList());
-
-        return pacientesLista;
-
     }
 
     @Override
