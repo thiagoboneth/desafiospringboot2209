@@ -31,6 +31,11 @@ public class ConsultaService {
         this.consultaPersistence = consultaPersistence;
     }
 
+    public ConsultaService() {
+
+    }
+
+
     /**
      * associa o proprietario do animal em uma consulta
      * @param consulta
@@ -50,17 +55,15 @@ public class ConsultaService {
      * @param consulta
      */
 
-    public boolean verificaNull(Consulta consulta) {
-        return consulta.getNumeroColeira() == null || consulta.getVeterinario().getNumeroRegistro() == null;
-    }
 
 
-    public void marcaConsulta(Consulta consulta){
+    public Boolean marcaConsulta(Consulta consulta){
        try {
            if (consultaJaCadastrada(consulta.getNumeroConsulta())) {
                throw new RuntimeException("Consulta já cadastrada");
            }
            this.consultaPersistence.salvarConsultaNoArquivo(consulta);
+           return true;
        }catch (RuntimeException | IOException e){
            throw new RuntimeException("Error em marcar consula");
        }
@@ -68,14 +71,6 @@ public class ConsultaService {
 
     public boolean consultaJaCadastrada(String numeroConsulta) throws IOException {
         return this.consultaPersistence.consultaJaCadastrada(numeroConsulta);
-    }
-
-    public boolean verificaNull(ConsultaDTO consultaDTO) {
-        if (consultaDTO.getNumeroColeira() == null || consultaDTO.getNumeroRegistroVeterinario() == null) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public List<Consulta> consultasDoDia(LocalDate data) throws IOException {

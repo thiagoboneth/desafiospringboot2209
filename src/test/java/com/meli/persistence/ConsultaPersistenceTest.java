@@ -2,7 +2,6 @@ package com.meli.persistence;
 
 import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Paciente;
-import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
 import com.meli.desafiospringboot2209.service.ConsultaService;
@@ -19,35 +18,16 @@ public class ConsultaPersistenceTest {
 
     @Test
     void deveCadastrarPaciente() throws IOException {
-
         ConsultaPersistence mock = Mockito.mock(ConsultaPersistence.class);
 
         List<Consulta> list = new ArrayList<>();
-
-        Proprietario proprietario = new Proprietario()
-                .comCpf("531.088.254-20")
-                .comNome("Saint")
-                .comSobrenome("Santos")
-                .comDataNascimento("25/10/92")
-                .comEndereco("Rua Lacoruna")
-                .comTelefone("(48)988406591");
-
         Paciente paciente = new Paciente()
-                .comEspecie("Coelho da montanha")
-                .comRaca("Coelho")
-                .comCor("Branco")
-                .comDataNascimento("25/10/92")
                 .comNome("Coelhao")
-                .comSexo("Masculino")
-                .comProprietario(proprietario)
                 .comEspecie("Coelho")
-                .comNumeroColeira("77");
+                .comNumeroDaColeira("77");
 
         Veterinario veterinario = new Veterinario()
-                .comCpf("123.456.789-20")
                 .comNome("Pedro")
-                .comSobrenome("Souza")
-                .comDataNascimento("24/10/82")
                 .comNumeroRegistro("1020")
                 .comEspecialidade("Animais Silvestres");
 
@@ -55,16 +35,13 @@ public class ConsultaPersistenceTest {
                 .comNumeroDaConsulta("16")
                 .comPaciente(paciente)
                 .comMotivo("Dor de Cabeça")
-                .comVeterinario(veterinario)
-                .comDiagnostico("Animal com forte dores decorrente a uma infecção")
-                .comTratamento("Tomar medicação")
-                .comColeira("77");
+                .comVeterinario(veterinario);
 
         list.add(consulta);
 
         Mockito.when(mock.salvarConsultaNoArquivo(consulta)).thenReturn(consulta);
 
-        ConsultaService consultaService = new ConsultaService(mock);
+        ConsultaService consultaService = new ConsultaService();
 
         Boolean retorno = consultaService.marcaConsulta(consulta);
 
