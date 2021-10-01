@@ -1,6 +1,8 @@
 package com.meli.desafiospringboot2209.dto;
 
 
+import com.meli.desafiospringboot2209.entity.Proprietario;
+
 public class ProprietarioDTO {
     private String cpf;
     private String nome;
@@ -9,7 +11,13 @@ public class ProprietarioDTO {
     private String endereco;
     private String telefone;
 
-    public ProprietarioDTO() {
+    public ProprietarioDTO(String cpf, String nome, String sobrenome, String dataNascimento, String endereco, String telefone) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.dataNascimento = dataNascimento;
+        this.endereco = endereco;
+        this.telefone = telefone;
     }
 
     public ProprietarioDTO comCpf(String cpf) {
@@ -42,7 +50,9 @@ public class ProprietarioDTO {
         return this;
     }
 
-
+    public ProprietarioDTO build() {
+        return this;
+    }
 
     public String getCpf() {
         return cpf;
@@ -68,4 +78,13 @@ public class ProprietarioDTO {
         return endereco;
     }
 
+    public static Proprietario converte(ProprietarioDTO dto) {
+        return new Proprietario()
+                .comCpf(dto.getCpf())
+                .comNome(dto.getNome())
+                .comSobrenome(dto.getSobrenome())
+                .comDataNascimento(dto.getDataNascimento())
+                .comEndereco(dto.getEndereco())
+                .comTelefone(dto.getTelefone());
+    }
 }
