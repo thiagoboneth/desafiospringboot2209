@@ -15,12 +15,11 @@ public class Consulta {
     private String numeroConsulta;
     private String dataHora = LocalDateTime.now().toString();
     private Paciente paciente;
-    private Proprietario proprietario;
     private String motivo;
     private Veterinario veterinario;
     private String diagnostico;
     private String tratamento;
-    private String numeroColeita;
+    private String numeroColeira;
 
     public Consulta() throws IOException {
 
@@ -51,7 +50,7 @@ public class Consulta {
     }
 
     public String getNumeroColeita() {
-        return numeroColeita;
+        return numeroColeira;
     }
 
     public String getDataHora() {
@@ -78,6 +77,11 @@ public class Consulta {
         return tratamento;
     }
 
+    public Consulta comNumeroDaConsulta(String numeroDaConsulta){
+        this.numeroConsulta = numeroDaConsulta;
+        return this;
+    }
+
     public Consulta comDataHora(String dataHora) {
         this.dataHora = dataHora;
         return this;
@@ -89,7 +93,7 @@ public class Consulta {
     }
 
     public Consulta comColeira(String numeroColeira){
-        this.numeroColeita = numeroColeira;
+        this.numeroColeira = numeroColeira;
         return this;
     }
 
@@ -119,19 +123,11 @@ public class Consulta {
     }
 
     public String getNumeroColeira() {
-        return numeroColeita;
+        return numeroColeira;
     }
 
     public void setNumeroColeira(String numeroColeita) {
-        this.numeroColeita = numeroColeita;
-    }
-
-    public Proprietario getProprietario() {
-        return proprietario;
-    }
-
-    public void setProprietario(Proprietario proprietario) {
-        this.proprietario = proprietario;
+        this.numeroColeira = numeroColeita;
     }
 
     public String getNumeroConsulta() {
