@@ -22,4 +22,5 @@ public class ProprietarioService {
         Optional<Proprietario> any = veterinarios.stream().filter(v -> v.getCpf().equals(cpf)).findAny();
         return any.get();
     }
+
 }
