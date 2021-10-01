@@ -39,6 +39,9 @@ public class VeterinarioService {
     public Veterinario obterVeterinario(String numeroRegistro) {
         List<Veterinario> veterinarios = veterinarioPersistence.getList();
         Optional<Veterinario> any = veterinarios.stream().filter(v -> v.getNumeroRegistro().equals(numeroRegistro)).findAny();
+        if (!any.isPresent()){
+            throw new RuntimeException("Numero de veterinário nulo");
+        }
         return any.get();
     }
 

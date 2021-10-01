@@ -57,10 +57,6 @@ public class ConsultaService {
 
     public void marcaConsulta(Consulta consulta){
        try {
-           if (verificaNull(consulta)) {
-               throw new RuntimeException("É necessário o número da coleira e o número de registro do veterinário");
-           }
-
            if (consultaJaCadastrada(consulta.getNumeroConsulta())) {
                throw new RuntimeException("Consulta já cadastrada");
            }
