@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -19,152 +20,24 @@ import java.util.List;
 @org.springframework.stereotype.Repository
 public class PacientePersistence implements Repository<Paciente> {
 
-    String arquivo = "paciente.json";
+    String arquivo = "pacientes.json";
     String caminho = "db";
-    String cC = caminho+"/"+arquivo;
+    String cC = caminho + "/" + arquivo;
+
+    ObjectMapper objectMapper = new ObjectMapper();
     Gson gson = new Gson();
 
-    List<PacienteDTO> listaPacientes = new ArrayList<>();
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    private void mapearObjeto() {
-        objectMapper.findAndRegisterModules();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    }
-
-    public PacienteDTO salvarPacienteNoArquivo(PacienteDTO pacienteDTO) {
-        mapearObjeto();
-        listaPacientes = buscarPaciente();
-
+    public Paciente salvarConsultaNoArquivo(Paciente paciente) {
+        List<Paciente> listaPaciente = getList();
+        listaPaciente.add(paciente);
         try {
-            if (verificaNull(pacienteDTO)) {
-                throw new RuntimeException("Os campos não podem ser nulos");
-            }
-
-            if (pacienteJaCadastrado(pacienteDTO.getNumeroColeira())) {
-                throw new RuntimeException("paciente já cadastrado");
-            }
-
-            listaPacientes.add(pacienteDTO);
-            objectMapper.writeValue(new File(cC), listaPacientes);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-        return pacienteDTO;
-    }
-
-    public void ordemListaPacienteCrescente(){
-        Collections.sort(listaPacientes,((o1, o2) -> o1.getCpfProprietario().compareTo(o2.getCpfProprietario())));
-    }
-
-    public List<PacienteDTO> buscarPaciente() {
-        mapearObjeto();
-        try {
-            listaPacientes = objectMapper.readValue(new File(cC), new TypeReference<List<PacienteDTO>>() {});
+            objectMapper.writeValue(new File(cC), listaPaciente);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ordemListaPacienteCrescente();
-        return listaPacientes;
+        return paciente;
     }
 
-    public boolean pacienteJaCadastrado(String numeroColeira) throws IOException {
-        listaPacientes = buscarPaciente();
-        System.out.println(numeroColeira);
-        if (listaPacientes.size() > 0) {
-            System.out.println(numeroColeira);
-            for (PacienteDTO pacienteDTO : listaPacientes) {
-                if (pacienteDTO.getNumeroColeira().equals(numeroColeira)) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean verificaNull(PacienteDTO pacienteDTO) {
-        if (pacienteDTO.getEspecie() == null
-                || pacienteDTO.getRaca() == null
-                || pacienteDTO.getCor() == null
-                || pacienteDTO.getDataNascimento() == null
-                || pacienteDTO.getNome() == null
-                || pacienteDTO.getSexo() == null
-                || pacienteDTO.getNumeroColeira() == null) {
-           return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void removerPacientePorId(String id){
-        try {
-            String json = ReadFileUtil.readFile(cC);
-            Gson gson = new Gson();
-            List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>(){}.getType());
-            for (PacienteDTO item: pacienteDTOS) {
-                if (item.getNumeroColeira().equals(id)){
-                    if(ConsultaPacienteRegistrada(id)){
-                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
-                    }
-                    pacienteDTOS.remove(item);
-                    break;
-                }
-            }
-            objectMapper.writeValue(new File(cC),pacienteDTOS);
-        }catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
-        }
-    }
-
-
-    public void alterarPaciente(PacienteDTO payLoad) {
-        try {
-            String json = ReadFileUtil.readFile(cC);
-            Gson gson = new Gson();
-
-            PacienteDTO registros = payLoad;
-            String NumeroColeira = registros.getNumeroColeira();
-
-            List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>() {
-            }.getType());
-            for (PacienteDTO item : pacienteDTOS) {
-                if (item.getNumeroColeira().equals(NumeroColeira)) {
-                    item.comEspecie(registros.getEspecie());
-                    item.comRaca(registros.getRaca());
-                    item.comCor(registros.getCor());
-                    item.comDataNascimento(registros.getDataNascimento());
-                    item.comNome(registros.getNome());
-                    item.comSexo(registros.getSexo());
-                    item.comCpfProprietario(registros.getCpfProprietario());
-                    break;
-                }
-            }
-            objectMapper.writeValue(new File(cC), pacienteDTOS);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
-        }
-    }
-
-
-    public boolean ConsultaPacienteRegistrada(String NumeroColeira){
-        try {
-            String pacienteConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
-            List<ConsultaDTO> ConsultaDTOS = gson.fromJson(pacienteConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
-            for (ConsultaDTO item: ConsultaDTOS) {
-                if (item.getNumeroColeira().equals(NumeroColeira)){
-                    return true;
-                }
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
-        }
-        return false;
-    }
 
     @Override
     public List<Paciente> getList() {

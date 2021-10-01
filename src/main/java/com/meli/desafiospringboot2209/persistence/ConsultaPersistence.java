@@ -6,16 +6,17 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
-import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Repository
-public class ConsultaPersistence implements GetList<Consulta>{
+@org.springframework.stereotype.Repository
+public class ConsultaPersistence implements Repository<Consulta>{
 
     ReadFileUtil readFileUtil = new ReadFileUtil();
 
@@ -50,15 +51,12 @@ public class ConsultaPersistence implements GetList<Consulta>{
         List<Consulta> listaConsultas = getList();
         if (listaConsultas.size() > 0) {
             Optional<Consulta> any = listaConsultas.stream().filter(c -> c.getNumeroConsulta().equals(numeroConsulta)).findAny();
-            if(!any.isPresent()){
-                return false;
-            }
-            return true;
+            return any.isPresent();
         }
         return false;
     }
 
-    public List<Consulta> consultasDoDia(String data) throws IOException {
+    public List<Consulta> consultasDoDia(LocalDate data) throws IOException {
         List<Consulta> consultas = getList();
         List<Consulta> consultasDoDia = consultas.stream().filter(c -> c.getDataHora().equals(data)).collect(Collectors.toList());
         consultasDoDia.sort((Consulta c1, Consulta c2) -> c1.getDataHora().compareTo(c2.getDataHora()));
@@ -66,39 +64,39 @@ public class ConsultaPersistence implements GetList<Consulta>{
     }
 
     private Consulta atualizaConsulta(Consulta consultaExistente, Consulta consultaNova){
-        //consultaExistente.setNumeroColeira(consultaNova.getNumeroColeira());
+        consultaExistente.setNumeroColeira(consultaNova.getNumeroColeira());
         //consultaExistente.setProprietario(consultaNova.getProprietario());
         consultaExistente.setDataHora(consultaNova.getDataHora());
         consultaExistente.setDiagnostico(consultaNova.getDiagnostico());
         consultaExistente.setMotivo(consultaNova.getMotivo());
         consultaExistente.setTratamento(consultaNova.getTratamento());
         //consultaExistente.setPaciente(consultaNova.getPaciente());
-        //consultaExistente.setVeterinario(consultaNova.getVeterinario());
+        consultaExistente.setVeterinario(consultaNova.getVeterinario());
         return consultaExistente;
     }
 
 
-    public Boolean alterarConsulta(Consulta consulta) throws IOException {
+    public void alterarConsulta(Consulta consulta) {
         List<Consulta> todasAsConsultas = getList();
         Optional<Consulta> aConsulta = todasAsConsultas.stream().filter(c -> c.getNumeroConsulta().equals(consulta.getNumeroConsulta())).findAny();
         if(aConsulta.isPresent()){
             Consulta c = atualizaConsulta(aConsulta.get(), consulta);
             todasAsConsultas.set(todasAsConsultas.indexOf(c), c);
         }
-        objectMapper.writeValue(new File(cC), todasAsConsultas);
-        return true;
-
+        try {
+            objectMapper.writeValue(new File(cC), todasAsConsultas);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-
-    public boolean removerConsultaPorId(String id) {
-        List<Consulta> consultaList = getList();
-        Optional<Consulta> any = consultaList.stream().filter(c -> c.getNumeroConsulta().equals(id)).findAny();
+    public void removerConsultaPorId(String numeroConsulta) {
+        List<Consulta> consultas = getList();
+        Optional<Consulta> any = consultas.stream().filter(c -> c.getNumeroConsulta().equals(numeroConsulta)).findAny();
         if(any.isPresent())
-            consultaList.remove(any.get());
+            consultas.remove(any.get());
         try {
-            objectMapper.writeValue(new File(cC), consultaList);
-            return true;
+            objectMapper.writeValue(new File(cC), consultas);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao deletar ID");
@@ -155,26 +153,14 @@ public class ConsultaPersistence implements GetList<Consulta>{
         return consultas;
     }
 
-    public List<Consulta> getList(String NumeroRegistro, String dia){
-        List<Consulta> list = getList();
-        List<Consulta> consultasDoVeterinario = list.stream().filter(c -> c.getVeterinario().getNumeroRegistro().equals(NumeroRegistro)).collect(Collectors.toList());
-        return consultasDoVeterinario;
-    }
-
     public List<Consulta> getList(String registro){
         List<Consulta> list = getList();
         List<Consulta> consultasDoVeterinario = list.stream().filter(c -> c.getVeterinario().getNumeroRegistro().equals(registro)).collect(Collectors.toList());
         return consultasDoVeterinario;
     }
-/*    @Override
-  public List<Paciente> getList(String NumeroDaColeira){
-        List<Paciente> list = getList();
-        List<Paciente> consultasDoPaciente = list.stream().filter(c -> c.getNumeroColeira().equals(NumeroDaColeira)).collect(Collectors.toList());
-        return consultasDoPaciente;
-    }*/
 
 /*    public List<Proprietario>getListProprietario(String registro){
         List<Proprietario> list = getListProprietario();
-
+        
     }*/
 }
