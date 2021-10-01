@@ -9,7 +9,6 @@ import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
-import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,15 +16,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Repository
-public class PacientePersistence implements GetList<Paciente> {
+@org.springframework.stereotype.Repository
+public class PacientePersistence implements Repository<Paciente> {
 
-    String arquivo = "pacientes.json";
+    String arquivo = "paciente.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;
     Gson gson = new Gson();
 
-    List<Paciente> listaPacientes = new ArrayList<>();
+    List<PacienteDTO> listaPacientes = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
 
     private void mapearObjeto() {
@@ -33,32 +32,35 @@ public class PacientePersistence implements GetList<Paciente> {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-
-    public boolean salvarPacienteNoArquivo(Paciente paciente) throws IOException {
+    public PacienteDTO salvarPacienteNoArquivo(PacienteDTO pacienteDTO) {
         mapearObjeto();
         listaPacientes = buscarPaciente();
 
-            if (verificaNull(paciente)) {
+        try {
+            if (verificaNull(pacienteDTO)) {
                 throw new RuntimeException("Os campos não podem ser nulos");
             }
 
-            if (pacienteJaCadastrado(paciente.getNumeroColeira())) {
+            if (pacienteJaCadastrado(pacienteDTO.getNumeroColeira())) {
                 throw new RuntimeException("paciente já cadastrado");
             }
-            listaPacientes.add(paciente);
-            objectMapper.writeValue(new File(cC), listaPacientes);
-            return true;
 
+            listaPacientes.add(pacienteDTO);
+            objectMapper.writeValue(new File(cC), listaPacientes);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return pacienteDTO;
     }
 
     public void ordemListaPacienteCrescente(){
-        Collections.sort(listaPacientes,((o1, o2) -> o1.getProprietario().getCpf().compareTo(o2.getProprietario().getCpf())));
+        Collections.sort(listaPacientes,((o1, o2) -> o1.getCpfProprietario().compareTo(o2.getCpfProprietario())));
     }
 
-    public List<Paciente> buscarPaciente() {
+    public List<PacienteDTO> buscarPaciente() {
         mapearObjeto();
         try {
-            listaPacientes = objectMapper.readValue(new File(cC), new TypeReference<List<Paciente>>() {});
+            listaPacientes = objectMapper.readValue(new File(cC), new TypeReference<List<PacienteDTO>>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,8 +73,8 @@ public class PacientePersistence implements GetList<Paciente> {
         System.out.println(numeroColeira);
         if (listaPacientes.size() > 0) {
             System.out.println(numeroColeira);
-            for (Paciente paciente : listaPacientes) {
-                if (paciente.getNumeroColeira().equals(numeroColeira)) {
+            for (PacienteDTO pacienteDTO : listaPacientes) {
+                if (pacienteDTO.getNumeroColeira().equals(numeroColeira)) {
                     return true;
                 }
             }
@@ -82,8 +84,7 @@ public class PacientePersistence implements GetList<Paciente> {
         }
     }
 
-
-    public boolean verificaNull(Paciente pacienteDTO) {
+    public boolean verificaNull(PacienteDTO pacienteDTO) {
         if (pacienteDTO.getEspecie() == null
                 || pacienteDTO.getRaca() == null
                 || pacienteDTO.getCor() == null
@@ -91,13 +92,14 @@ public class PacientePersistence implements GetList<Paciente> {
                 || pacienteDTO.getNome() == null
                 || pacienteDTO.getSexo() == null
                 || pacienteDTO.getNumeroColeira() == null) {
-            return true;
+           return true;
         } else {
             return false;
         }
     }
 
-    public boolean removerPacientePorId(String id) throws IOException {
+    public void removerPacientePorId(String id){
+        try {
             String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
             List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>(){}.getType());
@@ -107,20 +109,23 @@ public class PacientePersistence implements GetList<Paciente> {
                         throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
                     }
                     pacienteDTOS.remove(item);
-                    objectMapper.writeValue(new File(cC),pacienteDTOS);
-                    return true;
+                    break;
                 }
             }
-        return false;
+            objectMapper.writeValue(new File(cC),pacienteDTOS);
+        }catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao deletar ID");
+        }
     }
 
 
-    public boolean alterarPaciente(Paciente payLoad) {
+    public void alterarPaciente(PacienteDTO payLoad) {
         try {
             String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
 
-            Paciente registros = payLoad;
+            PacienteDTO registros = payLoad;
             String NumeroColeira = registros.getNumeroColeira();
 
             List<PacienteDTO> pacienteDTOS = gson.fromJson(json, new TypeToken<List<PacienteDTO>>() {
@@ -133,12 +138,11 @@ public class PacientePersistence implements GetList<Paciente> {
                     item.comDataNascimento(registros.getDataNascimento());
                     item.comNome(registros.getNome());
                     item.comSexo(registros.getSexo());
-                 //   item.comCpfProprietario(registros.getCpfProprietario());
+                    item.comCpfProprietario(registros.getCpfProprietario());
                     break;
                 }
             }
             objectMapper.writeValue(new File(cC), pacienteDTOS);
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao alterar ID");
@@ -166,7 +170,7 @@ public class PacientePersistence implements GetList<Paciente> {
     public List<Paciente> getList() {
         List<Paciente> pacientes = new ArrayList<>();
         try {
-            String consultaArquivo = ReadFileUtil.readFile(cC);
+            String consultaArquivo = ReadFileUtil.readFile("db/pacientes.json");
             pacientes = gson.fromJson(consultaArquivo, new TypeToken<List<Paciente>>() {
             }.getType());
         } catch (IOException e) {
@@ -174,5 +178,4 @@ public class PacientePersistence implements GetList<Paciente> {
         }
         return pacientes;
     }
-
 }

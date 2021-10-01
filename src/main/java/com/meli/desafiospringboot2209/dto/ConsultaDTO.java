@@ -99,4 +99,19 @@ public class ConsultaDTO {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "ConsultaDTO{" +
+                "numeroConsulta='" + numeroConsulta + '\'' +
+                ", numeroColeira='" + numeroColeira + '\'' +
+                ", motivo='" + motivo + '\'' +
+                ", diagnostico='" + diagnostico + '\'' +
+                ", tratamento='" + tratamento + '\'' +
+                ", numeroRegistroVeterinario='" + numeroRegistroVeterinario + '\'' +
+                ", cpfProprietario='" + cpfProprietario + '\'' +
+                ", nomeProprietario='" + nomeProprietario + '\'' +
+                ", dataHora='" + dataHora + '\'' +
+                '}';
+    }
 }

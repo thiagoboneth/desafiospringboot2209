@@ -82,4 +82,16 @@ public class VeterinarioDTO {
         this.especialidade = especialidade;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "VeterinarioDTO{" +
+                "cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
+                ", numeroRegistro='" + numeroRegistro + '\'' +
+                ", especialidade='" + especialidade + '\'' +
+                '}';
+    }
 }
