@@ -2,11 +2,13 @@ package com.meli.desafiospringboot2209.service;
 
 import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PacienteService {
 
     private PacientePersistence pacientePersistence;

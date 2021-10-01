@@ -2,7 +2,6 @@ package com.meli.desafiospringboot2209.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.meli.desafiospringboot2209.entity.Paciente;
-import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.service.PacienteService;
 import com.meli.desafiospringboot2209.service.VeterinarioService;
 import com.meli.desafiospringboot2209.entity.Consulta;
@@ -11,6 +10,21 @@ import com.meli.desafiospringboot2209.entity.Veterinario;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+
+/**
+ *
+ * {
+ *   "numeroConsulta": "300",
+ *   "numeroColeira": "5",
+ *   "motivo" : "Quebrou a pata",
+ *   "diagnostico" : "Pata enfaixada",
+ *   "tratamento" : "repouso",
+ *   "numeroRegistroVeterinario" : "2"
+ * }
+ *
+ *
+ *
+ */
 public class ConsultaDTO {
 
     private String numeroConsulta;
@@ -20,7 +34,9 @@ public class ConsultaDTO {
     private String tratamento;
     private String numeroRegistroVeterinario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Proprietario proprietario;
+    private String cpfProprietario;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String nomeProprietario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String dataHora = LocalDateTime.now().toString();
 
@@ -60,6 +76,12 @@ public class ConsultaDTO {
     }
 
 
+//this.numeroConsulta = numeroConsulta;
+//        this.numeroColeira = numeroColeira;
+//        this.motivo = motivo;
+//        this.diagnostico = diagnostico;
+//        this.tratamento = tratamento;
+//        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
 
     public static Consulta converte(ConsultaDTO dto, VeterinarioService veterinarioService, PacienteService pacienteService){
         Veterinario veterinario = veterinarioService.obterVeterinario(dto.getNumeroRegistroVeterinario());

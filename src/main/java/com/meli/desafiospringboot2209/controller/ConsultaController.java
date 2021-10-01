@@ -27,6 +27,9 @@ public class ConsultaController {
     @Autowired
     private VeterinarioService veterinarioService;
 
+    @Autowired
+    private PacienteService pacienteService;
+
     @PostMapping("/cadastra")
     public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO consultaDTO, UriComponentsBuilder uriBuilder) {
         Consulta consulta = ConsultaDTO.converte(consultaDTO, veterinarioService, pacienteService);
