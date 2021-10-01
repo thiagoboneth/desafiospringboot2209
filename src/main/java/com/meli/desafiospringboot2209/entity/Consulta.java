@@ -22,8 +22,6 @@ public class Consulta {
     private String tratamento;
     private String numeroColeita;
 
-    Gson gson = new Gson();
-
     public Consulta() throws IOException {
 
     }
@@ -55,10 +53,6 @@ public class Consulta {
     public String getNumeroColeita() {
         return numeroColeita;
     }
-
-    /*public void setNumeroColeita(String numeroColeita) {
-        this.numeroColeita = numeroColeita;
-    }*/
 
     public String getDataHora() {
         return dataHora;

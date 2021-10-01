@@ -171,7 +171,7 @@ public class PacientePersistence implements GetList<Paciente> {
     public List<Paciente> getList() {
         List<Paciente> pacientes = new ArrayList<>();
         try {
-            String consultaArquivo = ReadFileUtil.readFile("db/paciente.json");
+            String consultaArquivo = ReadFileUtil.readFile("db/pacientes.json");
             pacientes = gson.fromJson(consultaArquivo, new TypeToken<List<Paciente>>() {
             }.getType());
         } catch (IOException e) {
