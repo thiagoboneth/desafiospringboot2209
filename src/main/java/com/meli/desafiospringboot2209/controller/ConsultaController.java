@@ -29,7 +29,7 @@ public class ConsultaController {
 
     @PostMapping("/cadastra")
     public ResponseEntity<ConsultaDTO> cadastraConsulta(@RequestBody ConsultaDTO consultaDTO, UriComponentsBuilder uriBuilder) {
-        Consulta consulta = ConsultaDTO.converte(consultaDTO, veterinarioService, PacienteService );
+        Consulta consulta = ConsultaDTO.converte(consultaDTO, veterinarioService, pacienteService);
         consultaService.marcaConsulta(consulta);
         URI uri = uriBuilder.path("/consultas/{codigo}").buildAndExpand(consulta.getNumeroConsulta()).toUri();
         return ResponseEntity.created(uri).body(consultaDTO);
