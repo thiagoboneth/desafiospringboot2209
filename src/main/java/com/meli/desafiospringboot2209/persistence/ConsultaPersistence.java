@@ -52,7 +52,10 @@ public class ConsultaPersistence implements Repository<Consulta>{
         List<Consulta> listaConsultas = getList();
         if (listaConsultas.size() > 0) {
             Optional<Consulta> any = listaConsultas.stream().filter(c -> c.getNumeroConsulta().equals(numeroConsulta)).findAny();
-            return any.isPresent();
+            if(!any.isPresent()){
+                throw new RuntimeException("Numero da consulta nao eiste");
+            }
+            return true;
         }
         return false;
     }

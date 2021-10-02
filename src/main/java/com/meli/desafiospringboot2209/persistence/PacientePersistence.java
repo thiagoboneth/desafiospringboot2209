@@ -51,4 +51,9 @@ public class PacientePersistence implements Repository<Paciente> {
         }
         return pacientes;
     }
+
+/*    public List<Paciente> buscarPaciente() {
+
+
+    }*/
 }

@@ -121,23 +121,7 @@ public class PacienteDTO {
                 .comProprietario(proprietario);
     }
 
-//      "especie" : "Coelho",
-//              "raca" : "Coelho da montanha",
-//              "cor" : "Branco e cinza",
-//              "dataNascimento" : "01/01/2019",
-//              "nome" : "Perna",
-//              "sexo" : "Masculino",
-//              "Proprietario" : [
-//    {
-//        "cpf" : "123.456.789-582",
-//            "nome" : "Isac",
-//            "sobrenome" : "Oliveira",
-//            "dataNascimento" : "01/05/91",
-//            "endereco" : "Rua 4190",
-//            "telefone" : "9988997765"
-//    }
-//  ],
-//          "numeroColeira" : "1"
+
 
 
     @Override

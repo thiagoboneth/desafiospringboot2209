@@ -35,7 +35,9 @@ public class ConsultaDTO {
     private String tratamento;
     private String numeroRegistroVeterinario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Proprietario proprietario;
+    private Paciente paciente;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Veterinario veterinario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String dataHora = LocalDateTime.now().toString();
 

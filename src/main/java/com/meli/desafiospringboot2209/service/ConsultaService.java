@@ -6,6 +6,7 @@ import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,8 +22,10 @@ public class ConsultaService {
 
     List<ConsultaDTO> listaConsultas = new ArrayList<>();
 
-
+    @Autowired
     private PacientePersistence pacientePersistence;
+
+    @Autowired
     private ConsultaPersistence consultaPersistence;
 
 
@@ -41,15 +44,11 @@ public class ConsultaService {
      * @param consulta
      */
 
-    public Consulta marcaConsulta(Consulta consulta){
+    public void marcaConsulta(Consulta consulta){
        try {
-           if (consultaJaCadastrada(consulta.getNumeroConsulta())) {
-               throw new RuntimeException("Consulta já cadastrada");
-           }
-
-           return this.consultaPersistence.salvarConsultaNoArquivo(consulta);
-       }catch (RuntimeException | IOException e){
-           throw new RuntimeException("Error em marcar consula");
+           this.consultaPersistence.salvarConsultaNoArquivo(consulta);
+       }catch (RuntimeException e){
+           throw new RuntimeException("Consulta já cadastrada");
        }
     }
 

@@ -15,8 +15,8 @@ public class Consulta {
     private String numeroConsulta;
     private String dataHora = LocalDateTime.now().toString();
     private Paciente paciente;
-    private String motivo;
     private Veterinario veterinario;
+    private String motivo;
     private String diagnostico;
     private String tratamento;
     private String numeroColeira;

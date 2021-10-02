@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/paciente")
+@RequestMapping("paciente")
 public class PacienteController {
 
     @Autowired
@@ -36,11 +36,11 @@ public class PacienteController {
         URI uri = uriBuilder.path("/codigo/{codigo}").buildAndExpand(paciente.getNumeroColeira()).toUri();
         return ResponseEntity.created(uri).body(pacienteDTO);
     }
-//
-//    @GetMapping("listar")
-//    public List<PacienteDTO> mostrarPacientes() {
-//        return pacientePersistence.buscarPaciente();
-//    }
+
+/*    @GetMapping("listar")
+    public List<PacienteDTO> mostrarPacientes() {
+        return pacientePersistence.buscarPaciente();
+    }*/
 //
 //    @PutMapping("/alterar/{numeroColeira}")
 //    public ResponseEntity<PacienteDTO> alterarPaciente(@RequestBody PacienteDTO payLoad, UriComponentsBuilder uriBuilder) {
