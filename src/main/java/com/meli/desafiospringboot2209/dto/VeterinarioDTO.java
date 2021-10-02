@@ -2,6 +2,7 @@ package com.meli.desafiospringboot2209.dto;
 
 
 import com.meli.desafiospringboot2209.entity.Veterinario;
+import com.meli.desafiospringboot2209.service.VeterinarioService;
 
 public class VeterinarioDTO {
 
@@ -21,8 +22,15 @@ public class VeterinarioDTO {
         this.especialidade = especialidade;
     }
 
-
-
+    public static Veterinario converte(VeterinarioDTO veterinarioDTO) {
+        return new Veterinario()
+                .comCpf(veterinarioDTO.getCpf())
+                .comNome(veterinarioDTO.getNome())
+                .comSobrenome(veterinarioDTO.getSobrenome())
+                .comDataNascimento(veterinarioDTO.getDataNascimento())
+                .comNumeroRegistro(veterinarioDTO.getNumeroRegistro())
+                .comEspecialidade(veterinarioDTO.getEspecialidade());
+    }
     public String getCpf() {
         return cpf;
     }
@@ -73,14 +81,5 @@ public class VeterinarioDTO {
     public VeterinarioDTO comEspecialidade(String especialidade) {
         this.especialidade = especialidade;
         return this;
-    }
-    public static Veterinario converte(VeterinarioDTO veterinarioDTO) {
-        return new Veterinario()
-                .comCpf(veterinarioDTO.getCpf())
-                .comNome(veterinarioDTO.getNome())
-                .comSobrenome(veterinarioDTO.getSobrenome())
-                .comDataNascimento(veterinarioDTO.getDataNascimento())
-                .comNumeroRegistro(veterinarioDTO.getNumeroRegistro())
-                .comEspecialidade(veterinarioDTO.getEspecialidade());
     }
 }

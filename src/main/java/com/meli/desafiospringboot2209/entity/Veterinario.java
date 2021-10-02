@@ -9,18 +9,8 @@ public class Veterinario {
     private String numeroRegistro;
     private String especialidade;
 
-    public Veterinario(String cpf, String nome, String sobrenome, String dataNascimento, String numeroRegistro, String especialidade) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.dataNascimento = dataNascimento;
-        this.numeroRegistro = numeroRegistro;
-        this.especialidade = especialidade;
-    }
-
     public Veterinario() {
     }
-
 
     public String getCpf() {
         return cpf;
@@ -46,6 +36,7 @@ public class Veterinario {
     public String getEspecialidade() {
         return especialidade;
     }
+
 
     public Veterinario comCpf(String cpf) {
         this.cpf = cpf;
@@ -79,6 +70,6 @@ public class Veterinario {
 
     @Override
     public String toString() {
-        return   getCpf() + ';' +  getNome() + ';' + getSobrenome() + ';' + getDataNascimento()  +";" + getNumeroRegistro() + ';'+ getEspecialidade();
+        return   getCpf() + ';' +  getNome() + ';' + getSobrenome() + ';' + getDataNascimento() + ';' + getNumeroRegistro() + ';'+ getEspecialidade();
     }
 }

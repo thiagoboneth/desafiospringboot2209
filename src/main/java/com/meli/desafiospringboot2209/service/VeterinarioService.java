@@ -3,9 +3,15 @@ package com.meli.desafiospringboot2209.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.meli.desafiospringboot2209.dto.ConsultaDTO;
+import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
+import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,8 +25,10 @@ public class VeterinarioService {
     String arquivo = "veterinarios.json";
     String caminho = "db";
     String cC = caminho + "/" + arquivo;
+    Gson gson = new Gson();
     List<Veterinario> listaVeterinarios = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
+
 
     private VeterinarioPersistence veterinarioPersistence;
 
@@ -28,72 +36,75 @@ public class VeterinarioService {
         this.veterinarioPersistence = veterinarioPersistence;
     }
 
-    //Método Post
-    public boolean cadastrarVeterinario(Veterinario veterinario) {
-        if (!veterinarioJaCadastrado(veterinario.getNumeroRegistro(), veterinario.getCpf())) {
-            try {
-                veterinarioPersistence.verificaNull(veterinario);
-                veterinarioPersistence.salvarVeterinarioNoArquivo(veterinario);
+    public Veterinario obterVeterinario(String numeroRegistro) {
+        List<Veterinario> veterinarios = veterinarioPersistence.getList();
+        Optional<Veterinario> any = veterinarios.stream().filter(v -> v.getNumeroRegistro().equals(numeroRegistro)).findAny();
+        return any.get();
+    }
 
+    public void cadastrarVeterinario(Veterinario veterinario) {
+        if (!veterinarioJaCadastrado(veterinario.getNumeroRegistro(),veterinario.getCpf())) {
+            try {
+                this.veterinarioPersistence.salvarVeterinarioNoArquivo(veterinario);
             } catch (RuntimeException e) {
-                throw new RuntimeException("Não é permitido cadastrar o veterinario com algum parâmetro nulo");
+                throw new RuntimeException("Erro ao cadastrar o Veterinário");
             }
         } else {
             throw new RuntimeException("Veterinário já cadastrado");
         }
-        return true;
     }
 
-    //Método Get
+    public void ordemListaConsultaDescrescente() {
+        listaVeterinarios.sort((Comparator.comparing(Veterinario::getNumeroRegistro)));
+    }
+
     public List<Veterinario> buscarVeterinario() {
+        // veterinarioPersistence.mapearObjeto();
         try {
             listaVeterinarios = objectMapper.readValue(new File(cC), new TypeReference<List<Veterinario>>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ordemListaConsultaCrescente();
+        ordemListaConsultaDescrescente();
         return listaVeterinarios;
     }
 
-    //Usado no Método Get
-    public void ordemListaConsultaCrescente() {
-        listaVeterinarios.sort((Comparator.comparing(Veterinario::getNumeroRegistro)));
-    }
-
-    //Usado no Método Get
     public boolean veterinarioJaCadastrado(String numeroRegistro, String cpf) {
         return veterinarioPersistence.veterinarioJaCadastrado(numeroRegistro, cpf);
     }
 
-    //Método Put
-    public boolean alterarVeterinario(Veterinario veterinario) {
-        try {
-            veterinarioPersistence.verificaNull(veterinario);
-            veterinarioPersistence.alterarVeterinario(veterinario);
-        }catch (RuntimeException e){
-            throw new RuntimeException("Não é permitido Alterar o veterinario passando algum parâmetro nulo");
-        }
-        return true;
+    public boolean verificaNull(VeterinarioDTO veterinarioDTO) {
+        return veterinarioDTO.getCpf() == null
+                || veterinarioDTO.getNome() == null
+                || veterinarioDTO.getSobrenome() == null
+                || veterinarioDTO.getDataNascimento() == null
+                || veterinarioDTO.getNumeroRegistro() == null
+                || veterinarioDTO.getEspecialidade() == null;
     }
 
-    //Método Delete
-    public boolean removerVeterinarioPorRegistro(String numeroRegistro) {
-        try {
-            veterinarioPersistence.removerVeterinarioPorRegistro(numeroRegistro);
-        }catch (RuntimeException e){
-            throw new RuntimeException("Não é possível deletar um veterinário a qual o paciente está registrado em uma consulta");
-        }
-        return true;
+        public void alterarVeterinario(Veterinario veterinario) {
+        veterinarioPersistence.alterarVeterinario(veterinario);
+    }
+    public void removerVeterinarioPorRegistro(String numeroRegistro) {
+        veterinarioPersistence.removerVeterinarioPorRegistro(numeroRegistro);
     }
 
-    //Usado em Consulta
-    public Veterinario obterVeterinario(String numeroRegistro) {
-        List<Veterinario> veterinarios = veterinarioPersistence.getList();
-        Optional<Veterinario> any = veterinarios.stream().filter(v -> v.getNumeroRegistro().equals(numeroRegistro)).findAny();
-        if (!any.isPresent()) {
-            throw new RuntimeException("Numero de veterinário nulo");
+    public boolean consultaVeterinarioRegistrada(String NumeroRegistro) {
+        try {
+            String veterinarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            List<Consulta> consultas = gson.fromJson(veterinarioConsultaArquivo, new TypeToken<List<Consulta>>() {
+            }.getType());
+            for (Consulta item : consultas) {
+                if (item.getVeterinario().getNumeroRegistro().equals(NumeroRegistro)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        return any.get();
+        return false;
+
     }
 }

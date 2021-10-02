@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class VeterinarioController {
     @Autowired
     private VeterinarioService veterinarioService;
 
-    //Post Ok
+    //cadastrar Ok
     @PostMapping("/cadastrar")
     public ResponseEntity<VeterinarioDTO> cadastrarVeterinario(@RequestBody VeterinarioDTO veterinarioDTO, UriComponentsBuilder uriBuilder) {
         Veterinario veterinario = VeterinarioDTO.converte(veterinarioDTO);
@@ -26,8 +26,7 @@ public class VeterinarioController {
         URI uri = uriBuilder.path("/veterinarios/{codigo}").buildAndExpand(veterinarioDTO.getNumeroRegistro()).toUri();
         return ResponseEntity.created(uri).body(veterinarioDTO);
     }
-
-    //Get Ok
+    //listar Ok
     @GetMapping("/listar")
     public List<Veterinario> mostrarVeterinario() {
         return veterinarioService.buscarVeterinario();
@@ -41,9 +40,35 @@ public class VeterinarioController {
         return ResponseEntity.created(uri).body(veterinario);
     }
 
-    //Delete ok
     @DeleteMapping("/deletar/{numeroRegistro}")
-    public void removerVeterinario(@PathVariable String numeroRegistro) {
+    public void removerVeterinario(@PathVariable String numeroRegistro){
         veterinarioService.removerVeterinarioPorRegistro(numeroRegistro);
     }
-}
+
+
+   /* private VeterinarioPersistence veterinarioPersistence = new VeterinarioPersistence();
+
+    @PostMapping("/cadastra")
+    public ResponseEntity<VeterinarioDTO> cadastraVeterinario(@RequestBody VeterinarioDTO veterinarioDTO, UriComponentsBuilder uriBuilder) {
+        veterinarioPersistence.salvarVeterinarioNoArquivo(veterinarioDTO);
+        URI uri = uriBuilder.path("/veterinarios/{codigo}").buildAndExpand(veterinarioDTO.getNumeroRegistro()).toUri();
+        return ResponseEntity.created(uri).body(veterinarioDTO);
+    }
+
+    @GetMapping("listar")
+    public List<VeterinarioDTO> mostrarVeterinario() {
+        return veterinarioPersistence.buscarVeterinario();
+    }
+
+    @PutMapping("/alterar/{codigo}")
+    public ResponseEntity<VeterinarioDTO> alterarVeterinario(@RequestBody VeterinarioDTO veterinarioDTO, UriComponentsBuilder uriBuilder) {
+        veterinarioPersistence.alterarVeterinario(veterinarioDTO);
+        URI uri = uriBuilder.path("/alterado/{codigo}").buildAndExpand(veterinarioDTO.getNumeroRegistro()).toUri();
+        return ResponseEntity.created(uri).body(veterinarioDTO);
+    }
+
+    @DeleteMapping("/deleta/{codigo}")
+    public v*//*oid removerVeterinario(@PathVariable String codigo){
+        veterinarioPersistence.removerMedicoPorId(codigo);
+    }
+*/}
