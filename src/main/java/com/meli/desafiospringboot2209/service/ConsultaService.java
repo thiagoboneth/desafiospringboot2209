@@ -37,33 +37,17 @@ public class ConsultaService {
 
 
     /**
-     * associa o proprietario do animal em uma consulta
-     * @param consulta
-     * @throws IOException
-     */
-//    private void dadosProprietario(Consulta consulta) throws IOException {
-//        String coleira = consulta.getNumeroColeira();
-//        List<Paciente> pacientes = this.pacientePersistence.getList();
-//        Optional<Paciente> pacienteOptional = pacientes.stream().filter(paciente -> paciente.getNumeroColeira().equals(coleira)).findAny();
-//        if(pacienteOptional.isPresent())
-//            consulta.setProprietario(pacienteOptional.get().getProprietario());
-//    }
-
-
-    /**
      * deve retornar um objeto da consulta marcada contendo todos os dados da consulta. Nao deve ser void
      * @param consulta
      */
 
-
-
-    public Boolean marcaConsulta(Consulta consulta){
+    public Consulta marcaConsulta(Consulta consulta){
        try {
            if (consultaJaCadastrada(consulta.getNumeroConsulta())) {
                throw new RuntimeException("Consulta já cadastrada");
            }
-           this.consultaPersistence.salvarConsultaNoArquivo(consulta);
-           return true;
+
+           return this.consultaPersistence.salvarConsultaNoArquivo(consulta);
        }catch (RuntimeException | IOException e){
            throw new RuntimeException("Error em marcar consula");
        }
@@ -104,19 +88,10 @@ public class ConsultaService {
         return this.consultaPersistence.getList(veterinario.getNumeroRegistro());
     }
 
-//    public List<ConsultaDTO> consultaPaciente() throws IOException {
-//
-//        String consultaPacienteArquivo = ReadFileUtil.readFile("db/consultas.json");
-//        List<ConsultaDTO> consultaPacienteDTOS = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<ConsultaDTO>>() {}.getType());
-//
-//        List<ConsultaDTO> consultas = consultaPacienteDTOS.stream()
-//                                .sorted(Comparator.comparing(ConsultaDTO::getNomeProprietario))
-//                                        .collect(Collectors.toList());
-//         ordenaConsultaPorNome(consultas);
-//
-//        return consultas;
-//
-//
-//    }
+
+/*    public List<ConsultaDTO> consultaPaciente() throws IOException {
+    // RECEBER CONSULTA paiente da persistencia
+        return consultas;
+    }*/
 
 }

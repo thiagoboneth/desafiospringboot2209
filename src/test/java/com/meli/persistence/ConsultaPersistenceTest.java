@@ -43,9 +43,9 @@ public class ConsultaPersistenceTest {
 
         ConsultaService consultaService = new ConsultaService();
 
-        Boolean retorno = consultaService.marcaConsulta(consulta);
+        Consulta retorno = consultaService.marcaConsulta(consulta);
 
-        Assertions.assertTrue(retorno);
+        Assertions.assertNotNull(retorno);
 
     }
 

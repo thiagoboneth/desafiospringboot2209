@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
@@ -158,6 +159,12 @@ public class ConsultaPersistence implements Repository<Consulta>{
         List<Consulta> consultasDoVeterinario = list.stream().filter(c -> c.getVeterinario().getNumeroRegistro().equals(registro)).collect(Collectors.toList());
         return consultasDoVeterinario;
     }
+/*    @Override
+  public List<Paciente> getList(String NumeroDaColeira){
+        List<Paciente> list = getList();
+        List<Paciente> consultasDoPaciente = list.stream().filter(c -> c.getNumeroColeira().equals(NumeroDaColeira)).collect(Collectors.toList());
+        return consultasDoPaciente;
+    }*/
 
 /*    public List<Proprietario>getListProprietario(String registro){
         List<Proprietario> list = getListProprietario();
