@@ -45,7 +45,7 @@ public class ConsultaController {
     }
 
    @GetMapping("listarPorDia/{data}")
-    public List<Consulta> mostrarConsultaPorDia(@PathVariable ("data") LocalDate data) throws IOException {
+    public List<Consulta> mostrarConsultaPorDia(@PathVariable ("data") String data) throws IOException {
         return consultaService.consultasDoDia(data);
     }
 

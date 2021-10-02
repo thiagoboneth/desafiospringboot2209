@@ -8,6 +8,7 @@ import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Proprietario;
+import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public class ConsultaPersistence implements Repository<Consulta>{
         return false;
     }
 
-    public List<Consulta> consultasDoDia(LocalDate data) throws IOException {
+    public List<Consulta> consultasDoDia(String data) throws IOException {
         List<Consulta> consultas = getList();
         List<Consulta> consultasDoDia = consultas.stream().filter(c -> c.getDataHora().equals(data)).collect(Collectors.toList());
         consultasDoDia.sort((Consulta c1, Consulta c2) -> c1.getDataHora().compareTo(c2.getDataHora()));
@@ -68,14 +69,14 @@ public class ConsultaPersistence implements Repository<Consulta>{
     }
 
     private Consulta atualizaConsulta(Consulta consultaExistente, Consulta consultaNova){
-        consultaExistente.setNumeroColeira(consultaNova.getNumeroColeira());
+        //consultaExistente.setNumeroColeira(consultaNova.getNumeroColeira());
         //consultaExistente.setProprietario(consultaNova.getProprietario());
         consultaExistente.setDataHora(consultaNova.getDataHora());
         consultaExistente.setDiagnostico(consultaNova.getDiagnostico());
         consultaExistente.setMotivo(consultaNova.getMotivo());
         consultaExistente.setTratamento(consultaNova.getTratamento());
         //consultaExistente.setPaciente(consultaNova.getPaciente());
-        consultaExistente.setVeterinario(consultaNova.getVeterinario());
+        //consultaExistente.setVeterinario(consultaNova.getVeterinario());
         return consultaExistente;
     }
 
@@ -94,13 +95,13 @@ public class ConsultaPersistence implements Repository<Consulta>{
         }
     }
 
-    public void removerConsultaPorId(String numeroConsulta) {
-        List<Consulta> consultas = getList();
-        Optional<Consulta> any = consultas.stream().filter(c -> c.getNumeroConsulta().equals(numeroConsulta)).findAny();
+    public void removerConsultaPorId(String id) {
+        List<Consulta> consultaList = getList();
+        Optional<Consulta> any = consultaList.stream().filter(c -> c.getNumeroConsulta().equals(id)).findAny();
         if(any.isPresent())
-            consultas.remove(any.get());
+            consultaList.remove(any.get());
         try {
-            objectMapper.writeValue(new File(cC), consultas);
+            objectMapper.writeValue(new File(cC), consultaList);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao deletar ID");
@@ -155,6 +156,12 @@ public class ConsultaPersistence implements Repository<Consulta>{
             e.printStackTrace();
         }
         return consultas;
+    }
+
+    public List<Consulta> getList(String NumeroRegistro, String dia){
+        List<Consulta> list = getList();
+        List<Consulta> consultasDoVeterinario = list.stream().filter(c -> c.getVeterinario().getNumeroRegistro().equals(NumeroRegistro)).collect(Collectors.toList());
+        return consultasDoVeterinario;
     }
 
     public List<Consulta> getList(String registro){

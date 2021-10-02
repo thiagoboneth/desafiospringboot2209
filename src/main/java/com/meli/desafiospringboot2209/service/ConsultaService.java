@@ -56,7 +56,7 @@ public class ConsultaService {
         return this.consultaPersistence.consultaJaCadastrada(numeroConsulta);
     }
 
-    public List<Consulta> consultasDoDia(LocalDate data) throws IOException {
+    public List<Consulta> consultasDoDia(String data) throws IOException {
         return this.consultaPersistence.consultasDoDia(data);
     }
 
