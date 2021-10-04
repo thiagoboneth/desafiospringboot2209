@@ -1,8 +1,6 @@
 package com.meli.desafiospringboot2209.controller;
 
-import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.service.PacienteService;
-import com.meli.desafiospringboot2209.service.ProprietarioService;
 import com.meli.desafiospringboot2209.service.VeterinarioService;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
@@ -14,7 +12,6 @@ import com.meli.desafiospringboot2209.service.ConsultaService;
 
 import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -44,7 +41,7 @@ public class ConsultaController {
         return consultaService.buscarConsulta("C");
     }
 
-   @GetMapping("listarPorDia/{data}")
+    @GetMapping("listarPorDia/{data}")
     public List<Consulta> mostrarConsultaPorDia(@PathVariable ("data") String data) throws IOException {
         return consultaService.consultasDoDia(data);
     }
@@ -71,4 +68,3 @@ public class ConsultaController {
         return consultaService.listarTotalCadaVeterinario();
     }*/
 }
-

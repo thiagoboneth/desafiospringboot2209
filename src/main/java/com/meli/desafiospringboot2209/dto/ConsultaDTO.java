@@ -35,9 +35,7 @@ public class ConsultaDTO {
     private String tratamento;
     private String numeroRegistroVeterinario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Paciente paciente;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Veterinario veterinario;
+    private Proprietario proprietario;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String dataHora = LocalDateTime.now().toString();
 
@@ -77,12 +75,6 @@ public class ConsultaDTO {
     }
 
 
-//this.numeroConsulta = numeroConsulta;
-//        this.numeroColeira = numeroColeira;
-//        this.motivo = motivo;
-//        this.diagnostico = diagnostico;
-//        this.tratamento = tratamento;
-//        this.numeroRegistroVeterinario = numeroRegistroVeterinario;
 
     public static Consulta converte(ConsultaDTO dto, VeterinarioService veterinarioService, PacienteService pacienteService){
         Veterinario veterinario = veterinarioService.obterVeterinario(dto.getNumeroRegistroVeterinario());

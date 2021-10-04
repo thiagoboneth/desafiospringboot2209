@@ -19,7 +19,6 @@ public class PacienteDTO {
     private String nome;
     private String sexo;
     private String cpfProprietario;
-    private Proprietario proprietario;
     private String numeroColeira;
 
     public PacienteDTO() {
@@ -56,22 +55,14 @@ public class PacienteDTO {
         return this;
     }
 
-    public PacienteDTO comProprietario(Proprietario proprietario) {
-        this.proprietario = proprietario;
+    public PacienteDTO comCpfProprietario(String cpfProprietario) {
+        this.cpfProprietario = cpfProprietario;
         return this;
     }
 
     public PacienteDTO comNumeroColeira(String numeroColeira) {
         this.numeroColeira = numeroColeira;
         return this;
-    }
-    public PacienteDTO comCpfProprietario(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
-        return this;
-    }
-
-    public String getCpfProprietario() {
-        return cpfProprietario;
     }
 
     public String getEspecie() {
@@ -98,16 +89,15 @@ public class PacienteDTO {
         return sexo;
     }
 
-    public Proprietario getProprietario() {
-        return proprietario;
+    public String getCpfProprietario() {
+        return cpfProprietario;
     }
 
     public String getNumeroColeira() {
         return numeroColeira;
     }
 
-
-    public static Paciente converte(PacienteDTO dto, ProprietarioService proprietarioService){
+    public Paciente converte(PacienteDTO dto, ProprietarioService proprietarioService){
         Proprietario proprietario = proprietarioService.obterProprietario(dto.getCpfProprietario());
         return new Paciente()
                 .comEspecie(dto.getEspecie())
@@ -116,25 +106,7 @@ public class PacienteDTO {
                 .comDataNascimento(dto.getDataNascimento())
                 .comNome(dto.getNome())
                 .comSexo(dto.getSexo())
-                .comNumeroDaColeira(dto.getNumeroColeira())
-                .comCpfProprietario(dto.getCpfProprietario())
-                .comProprietario(proprietario);
-    }
-
-
-
-
-    @Override
-    public String toString() {
-        return "PacienteDTO{" +
-                "especie='" + especie + '\'' +
-                ", raca='" + raca + '\'' +
-                ", cor='" + cor + '\'' +
-                ", dataNascimento='" + dataNascimento + '\'' +
-                ", nome='" + nome + '\'' +
-                ", sexo='" + sexo + '\'' +
-                ", proprietario=" + proprietario +
-                ", numeroColeira='" + numeroColeira + '\'' +
-                '}';
+                .comProprietario(proprietario)
+                .comNumeroDaColeira(dto.getNumeroColeira());
     }
 }
