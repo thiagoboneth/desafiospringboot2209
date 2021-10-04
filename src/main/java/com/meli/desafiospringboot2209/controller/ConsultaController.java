@@ -71,3 +71,4 @@ public class ConsultaController {
         return consultaService.listarTotalCadaVeterinario();
     }*/
 }
+
