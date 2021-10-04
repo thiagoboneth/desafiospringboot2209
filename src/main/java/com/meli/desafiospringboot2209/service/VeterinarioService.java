@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ public class VeterinarioService {
     String arquivo = "veterinarios.json";
     String caminho = "db";
     String cC = caminho + "/" + arquivo;
-    Gson gson = new Gson();
     List<Veterinario> listaVeterinarios = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
     private VeterinarioPersistence veterinarioPersistence;
@@ -43,11 +41,6 @@ public class VeterinarioService {
     }
 
     //Método Get
-    public void ordemListaConsultaCrescente() {
-        listaVeterinarios.sort((Comparator.comparing(Veterinario::getNumeroRegistro)));
-    }
-
-    //Método Get
     public List<Veterinario> buscarVeterinario() {
         try {
             listaVeterinarios = objectMapper.readValue(new File(cC), new TypeReference<List<Veterinario>>() {
@@ -59,7 +52,12 @@ public class VeterinarioService {
         return listaVeterinarios;
     }
 
-    //Método Get
+    //Usado no Método Get
+    public void ordemListaConsultaCrescente() {
+        listaVeterinarios.sort((Comparator.comparing(Veterinario::getNumeroRegistro)));
+    }
+
+    //Usado no Método Get
     public boolean veterinarioJaCadastrado(String numeroRegistro, String cpf) {
         return veterinarioPersistence.veterinarioJaCadastrado(numeroRegistro, cpf);
     }

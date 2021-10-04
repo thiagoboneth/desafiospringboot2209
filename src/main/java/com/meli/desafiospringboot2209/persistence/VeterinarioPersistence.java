@@ -5,11 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
-import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Repository;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class VeterinarioPersistence implements GetList {
 
     }
 
-    // Método Post
+    // Usado no Método Post
     public boolean veterinarioJaCadastrado(String numeroRegistro, String cpf) {
         List<Veterinario> veterinarios = getList();
         if (veterinarios.size() > 0) {
@@ -124,7 +122,7 @@ public class VeterinarioPersistence implements GetList {
 
     }
 
-    // Método Delete
+    // Usado no Método Delete
     public boolean veterinarioRegistradoEmConsulta(String NumeroRegistro) {
         try {
             String veterinarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
