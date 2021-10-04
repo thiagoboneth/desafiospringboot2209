@@ -10,6 +10,7 @@ import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +18,8 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@org.springframework.stereotype.Repository
-public class ConsultaPersistence implements Repository<Consulta>{
+@Repository
+public class ConsultaPersistence implements GetList<Consulta>{
 
     ReadFileUtil readFileUtil = new ReadFileUtil();
 
@@ -178,7 +179,6 @@ public class ConsultaPersistence implements Repository<Consulta>{
 
 /*    public List<Proprietario>getListProprietario(String registro){
         List<Proprietario> list = getListProprietario();
-        
+
     }*/
 }
-

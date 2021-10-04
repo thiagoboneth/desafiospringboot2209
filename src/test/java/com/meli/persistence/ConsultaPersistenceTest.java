@@ -39,7 +39,6 @@ public class ConsultaPersistenceTest {
                 .comDataNascimento("25/10/92")
                 .comNome("Coelhao")
                 .comSexo("Masculino")
-                .comCpfProprietario("531.088.254-20")
                 .comProprietario(proprietario)
                 .comEspecie("Coelho")
                 .comNumeroDaColeira("77");

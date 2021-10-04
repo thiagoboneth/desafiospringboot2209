@@ -1,7 +1,12 @@
 package com.meli.desafiospringboot2209.controller;
 
+import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
+import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
+import com.meli.desafiospringboot2209.service.VeterinarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -14,13 +19,16 @@ import java.util.List;
 public class PacienteController {
 
     private PacientePersistence pacientePersistence = new PacientePersistence();
-
-    @PostMapping("/cadastra")
+    @Autowired
+    private VeterinarioService veterinarioService;
+    
+/*    @PostMapping("/cadastra")
     public ResponseEntity<PacienteDTO> cadastraPaciente(@RequestBody PacienteDTO payLoad, UriComponentsBuilder uriBuilder) {
+        Paciente paciente = ConsultaDTO.converte(PacienteDTO, proprietario);
         pacientePersistence.salvarPacienteNoArquivo(payLoad);
         URI uri = uriBuilder.path("/codigo/{codigo}").buildAndExpand(payLoad.getNumeroColeira()).toUri();
         return ResponseEntity.created(uri).body(payLoad);
-    }
+    }*/
 
     @GetMapping("listar")
     public List<PacienteDTO> mostrarPacientes() {

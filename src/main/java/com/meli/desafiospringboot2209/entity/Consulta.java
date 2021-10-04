@@ -15,11 +15,14 @@ public class Consulta {
     private String numeroConsulta;
     private String dataHora = LocalDateTime.now().toString();
     private Paciente paciente;
-    private Veterinario veterinario;
+    private Proprietario proprietario;
     private String motivo;
+    private Veterinario veterinario;
     private String diagnostico;
     private String tratamento;
-    private String numeroColeira;
+    private String numeroColeita;
+
+    Gson gson = new Gson();
 
     public Consulta() throws IOException {
 
@@ -50,8 +53,12 @@ public class Consulta {
     }
 
     public String getNumeroColeita() {
-        return numeroColeira;
+        return numeroColeita;
     }
+
+    /*public void setNumeroColeita(String numeroColeita) {
+        this.numeroColeita = numeroColeita;
+    }*/
 
     public String getDataHora() {
         return dataHora;
@@ -77,11 +84,6 @@ public class Consulta {
         return tratamento;
     }
 
-    public Consulta comNumeroDaConsulta(String numeroDaConsulta){
-        this.numeroConsulta = numeroDaConsulta;
-        return this;
-    }
-
     public Consulta comDataHora(String dataHora) {
         this.dataHora = dataHora;
         return this;
@@ -93,7 +95,7 @@ public class Consulta {
     }
 
     public Consulta comColeira(String numeroColeira){
-        this.numeroColeira = numeroColeira;
+        this.numeroColeita = numeroColeira;
         return this;
     }
 
@@ -107,7 +109,6 @@ public class Consulta {
         return this;
     }
 
-
     public Consulta comDiagnostico(String diagnostico) {
         this.diagnostico = diagnostico;
         return this;
@@ -117,18 +118,25 @@ public class Consulta {
         this.tratamento = tratamento;
         return this;
     }
-    public Consulta comNumeroDaConsulta(String numeroConsulta) {
-        this.numeroConsulta = numeroConsulta;
+    public Consulta comNumeroDaConsulta(String numeroColeita) {
+        this.numeroColeita = numeroColeita;
         return this;
     }
 
-
     public String getNumeroColeira() {
-        return numeroColeira;
+        return numeroColeita;
     }
 
     public void setNumeroColeira(String numeroColeita) {
-        this.numeroColeira = numeroColeita;
+        this.numeroColeita = numeroColeita;
+    }
+
+    public Proprietario getProprietario() {
+        return proprietario;
+    }
+
+    public void setProprietario(Proprietario proprietario) {
+        this.proprietario = proprietario;
     }
 
     public String getNumeroConsulta() {
@@ -137,6 +145,18 @@ public class Consulta {
 
     public void setNumeroConsulta(String numeroConsulta) {
         this.numeroConsulta = numeroConsulta;
+    }
+
+    public List<Paciente> retornaPaciente() throws IOException {
+        String consultaPacienteArquivo = ReadFileUtil.readFile("db/pacientes.json");
+        List<Paciente> paciente = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<Paciente>>() {}.getType());
+
+        List<Paciente> pacientesLista = paciente.stream()
+                .sorted(Comparator.comparing(Paciente::getNumeroColeira))
+                .collect(Collectors.toList());
+
+        return pacientesLista;
+
     }
 
     @Override

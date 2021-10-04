@@ -1,7 +1,5 @@
 package com.meli.desafiospringboot2209.entity;
 
-import com.meli.desafiospringboot2209.dto.PacienteDTO;
-
 public class Paciente {
 
     private String especie;
@@ -10,9 +8,9 @@ public class Paciente {
     private String dataNascimento;
     private String nome;
     private String sexo;
-    private String cpfProprietario;
     private Proprietario proprietario;
     private String numeroColeira;
+
 
 
     public Paciente() {
@@ -51,11 +49,6 @@ public class Paciente {
     }
 
     // Interfaces fluentes
-    public Paciente comCpfProprietario(String cpfProprietario) {
-        this.cpfProprietario = cpfProprietario;
-        return this;
-    }
-
     public Paciente comEspecie(String especie) {
         this.especie = especie;
         return this;
@@ -90,12 +83,8 @@ public class Paciente {
         this.proprietario = proprietario;
         return this;
     }
-    public Paciente comNumeroColeira(String numeroColeira) {
-        this.numeroColeira = numeroColeira;
-        return this;
-    }
 
-    public Paciente comNumeroDaColeira(String numeroColeira){
+    public Paciente comNumeroDaColeira(String numeroColeira) {
         this.numeroColeira = numeroColeira;
         return this;
     }
@@ -112,4 +101,5 @@ public class Paciente {
                 ", proprietario=" + proprietario +
                 '}';
     }
+
 }
