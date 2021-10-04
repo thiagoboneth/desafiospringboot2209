@@ -20,7 +20,7 @@ import java.util.List;
 @Repository
 public class PacientePersistence implements GetList<Paciente> {
 
-    String arquivo = "paciente.json";
+    String arquivo = "pacientes.json";
     String caminho = "db";
     String cC = caminho+"/"+arquivo;
     Gson gson = new Gson();
