@@ -34,6 +34,10 @@ public class ConsultaService {
         this.consultaPersistence = consultaPersistence;
     }
 
+    public ConsultaService(ConsultaPersistence consultaPersistence){
+        this.consultaPersistence = consultaPersistence;
+    }
+
     public ConsultaService() {
 
     }
@@ -44,10 +48,15 @@ public class ConsultaService {
      * @param consulta
      */
 
-    public void marcaConsulta(Consulta consulta){
+    public boolean marcaConsulta(Consulta consulta){
        try {
-           this.consultaPersistence.salvarConsultaNoArquivo(consulta);
-       }catch (RuntimeException e){
+           if(consultaJaCadastrada(consulta.getNumeroConsulta())){
+               throw new RuntimeException("Erro");
+           }else {
+               this.consultaPersistence.salvarConsultaNoArquivo(consulta);
+               return true;
+           }
+       }catch (RuntimeException | IOException e){
            throw new RuntimeException("Consulta já cadastrada");
        }
     }
@@ -83,6 +92,7 @@ public class ConsultaService {
      * @return
      * @throws IOException
      */
+
     public List<Consulta> listarTotalCadaVeterinario(Veterinario veterinario) throws IOException {
         return this.consultaPersistence.getList(veterinario.getNumeroRegistro());
     }
