@@ -25,6 +25,7 @@ public class PacienteService {
         return any.get();
     }
     public void cadastrarPaciente(Paciente paciente){
+
         this.pacientePersistence.salvarConsultaNoArquivo(paciente);
     }
 }
