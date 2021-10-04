@@ -70,6 +70,7 @@ public class ConsultaPersistenceTest {
         Boolean retorno = consultaService.marcaConsulta(consulta);
 
         Assertions.assertTrue(retorno);
+
     }
 
 }
