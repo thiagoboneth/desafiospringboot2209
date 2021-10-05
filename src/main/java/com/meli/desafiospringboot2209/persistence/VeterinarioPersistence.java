@@ -1,12 +1,11 @@
 package com.meli.desafiospringboot2209.persistence;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
+import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Repository;
@@ -14,166 +13,141 @@ import org.springframework.stereotype.Repository;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class VeterinarioPersistence implements com.meli.desafiospringboot2209.persistence.Repository<Veterinario>{
+public class VeterinarioPersistence implements GetList<Veterinario> {
 
-    String arquivo = "veterinario.json";
+    String arquivo = "veterinarios.json";
     String caminho = "db";
-    String cC = caminho+"/"+arquivo;
+    String cC = caminho + "/" + arquivo;
     Gson gson = new Gson();
-
-    List<VeterinarioDTO> listaVeterinarios = new ArrayList<>();
-
     ObjectMapper objectMapper = new ObjectMapper();
 
-    private void mapearObjeto() {
-        objectMapper.findAndRegisterModules();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    }
-
-    public VeterinarioDTO salvarVeterinarioNoArquivo(VeterinarioDTO veterinarioDTO) {
-        mapearObjeto();
-        listaVeterinarios = buscarVeterinario();
-
+    // Método Post
+    public Veterinario salvarVeterinarioNoArquivo(Veterinario veterinario) {
+        List<Veterinario> veterinarios = getList();
+        veterinarios.add(veterinario);
         try {
-            if (verificaNull(veterinarioDTO)) {
-                throw new RuntimeException("Os campos não podem ser nulos");
-            }
-
-            if (veterinarioJaCadastrado(veterinarioDTO.getNumeroRegistro())) {
-                throw new RuntimeException("Veterinario já cadastrado");
-            }
-            listaVeterinarios.add(veterinarioDTO);
-            objectMapper.writeValue(new File(cC), listaVeterinarios);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-        return veterinarioDTO;
-    }
-
-    public void ordemListaConsultaDescrescente(){
-        Collections.sort(listaVeterinarios,((o1, o2) -> o1.getNumeroRegistro().compareTo(o2.getNumeroRegistro())));
-    }
-
-
-    public List<VeterinarioDTO> buscarVeterinario() {
-        mapearObjeto();
-        try {
-            listaVeterinarios = objectMapper.readValue(new File(cC), new TypeReference<List<VeterinarioDTO>>() {});
+            objectMapper.writeValue(new File(cC), veterinarios);
+            return veterinario;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ordemListaConsultaDescrescente();
-        return listaVeterinarios;
+        return veterinario;
     }
 
-    public boolean veterinarioJaCadastrado(String numeroRegistro) throws IOException {
-        listaVeterinarios = buscarVeterinario();
-        System.out.println(numeroRegistro);
-        if (listaVeterinarios.size() > 0) {
-            System.out.println(numeroRegistro);
-            for (VeterinarioDTO veterinarioDTO : listaVeterinarios) {
-                if (veterinarioDTO.getNumeroRegistro().equals(numeroRegistro)) {
-                    return true;
-                }
-                System.out.println(veterinarioDTO.getNumeroRegistro());
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean verificaNull(VeterinarioDTO veterinarioDTO) {
-        if (veterinarioDTO.getCpf() == null
-                || veterinarioDTO.getNome() == null
-                || veterinarioDTO.getSobrenome() == null
-                || veterinarioDTO.getDataNascimento() == null
-                || veterinarioDTO.getNumeroRegistro() == null
-                || veterinarioDTO.getEspecialidade() == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void removerMedicoPorId(String id){
-        try {
-            String json = ReadFileUtil.readFile(cC);
-            Gson gson = new Gson();
-            List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
-            for (VeterinarioDTO item: veterinarioDTOS) {
-                if (item.getNumeroRegistro().equals(id)){
-                    if(ConsultaVeterinarioRegistrada(id)){
-                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
-                    }
-                    veterinarioDTOS.remove(item);
-                    break;
-                }
-            }
-            objectMapper.writeValue(new File(cC),veterinarioDTOS );
-        }catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
-        }
-    }
-
-    public void alterarVeterinario(VeterinarioDTO payLoad) {
-        try {
-            String json = ReadFileUtil.readFile(cC);
-            Gson gson = new Gson();
-
-            VeterinarioDTO registros = payLoad;
-            String NumeroRegistro = registros.getNumeroRegistro();
-
-            List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>(){}.getType());
-            for (VeterinarioDTO item: veterinarioDTOS) {
-                if (item.getNumeroRegistro().equals(NumeroRegistro)){
-                    item.comCpf(registros.getCpf());
-                    item.comNome(registros.getNome());
-                    item.comSobrenome(registros.getSobrenome());
-                    item.comDataNascimento(registros.getDataNascimento());
-                    item.comEspecialidade(registros.getEspecialidade());
-                    break;
-                }
-            }
-            objectMapper.writeValue(new File(cC),veterinarioDTOS );
-        }catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
-        }
-    }
-
-    public boolean ConsultaVeterinarioRegistrada(String NumeroRegistro){
-        try {
-            String veterinarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
-            List<ConsultaDTO> ConsultaDTOS = gson.fromJson(veterinarioConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
-            for (ConsultaDTO item: ConsultaDTOS) {
-                if (item.getNumeroRegistroVeterinario().equals(NumeroRegistro)){
-                    return true;
-                }
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
+    // Usado no Método Post
+    public boolean veterinarioJaCadastrado(String numeroRegistro, String cpf) {
+        List<Veterinario> veterinarios = getList();
+        if (veterinarios.size() > 0) {
+            Optional<Veterinario> anyNumeroRegistro = veterinarios.stream().filter(c -> c.getNumeroRegistro().equals(numeroRegistro)).findAny();
+            Optional<Veterinario> anyCpf = veterinarios.stream().filter(c -> c.getCpf().equals(cpf)).findAny();
+            return anyNumeroRegistro.isPresent() || anyCpf.isPresent();
         }
         return false;
     }
 
-    @Override
+    //Métodos Post e Put
+    public void verificaNull(Veterinario veterinario) {
+        if (veterinario.getCpf() == null
+                || veterinario.getNome() == null
+                || veterinario.getSobrenome() == null
+                || veterinario.getDataNascimento() == null
+                || veterinario.getNumeroRegistro() == null
+                || veterinario.getEspecialidade() == null) {
+            throw new RuntimeException("Não permitido cadastrar");
+        }
+    }
+
+    // Método Get
     public List<Veterinario> getList() {
         List<Veterinario> veterinarios = new ArrayList<>();
         try {
             String consultaArquivo = ReadFileUtil.readFile("db/veterinarios.json");
-            veterinarios = gson.fromJson(consultaArquivo, new TypeToken<List<Veterinario>>() {}.getType());
+            veterinarios = gson.fromJson(consultaArquivo, new TypeToken<List<Veterinario>>() {
+            }.getType());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
         return veterinarios;
     }
 
+    //Método Put
+    public boolean alterarVeterinario(Veterinario veterinario) {
+        try {
+            String json = ReadFileUtil.readFile(cC);
+            Gson gson = new Gson();
+            Veterinario registro = veterinario;
+            String NumeroRegistro = registro.getNumeroRegistro();
+
+            List<Veterinario> veterinarioList = gson.fromJson(json, new TypeToken<List<Veterinario>>() {
+            }.getType());
+            for (Veterinario item : veterinarioList) {
+                if (item.getNumeroRegistro().equals(NumeroRegistro)) {
+                    item.comCpf(registro.getCpf());
+                    item.comNome(registro.getNome());
+                    item.comSobrenome(registro.getSobrenome());
+                    item.comDataNascimento(registro.getDataNascimento());
+                    item.comEspecialidade(registro.getEspecialidade());
+                    break;
+                }
+            }
+            objectMapper.writeValue(new File(cC), veterinarioList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao alterar o Veterinario");
+        }
+        return true;
+    }
+
+    //Método Delete
+    public boolean removerVeterinarioPorRegistro(String numeroRegistro) {
+        List<Veterinario> veterinariosList = getList();
+        Optional<Veterinario> any = veterinariosList.stream().filter(c -> c.getNumeroRegistro().equals(numeroRegistro)).findAny();
+        if(any.isPresent())
+            veterinariosList.remove(any.get());
+        try {
+            objectMapper.writeValue(new File(cC), veterinariosList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao deletar ID");
+        }
+        return true;
+    }
+    /*public void removerVeterinarioPorRegistro(String numeroRegistro) {
+        if (!veterinarioRegistradoEmConsulta(numeroRegistro)) {
+            List<Veterinario> veterinariosList = getList();
+            Optional<Veterinario> any = veterinariosList.stream().filter(c -> c.getNumeroRegistro().equals(numeroRegistro)).findAny();
+            if (any.isPresent())
+                veterinariosList.remove(any.get());
+            try {
+                objectMapper.writeValue(new File(cC), veterinariosList);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro ao deletar ID");
+            }
+        } else {
+            throw new RuntimeException("Não é permitido excluir o veterinario,ele está cadastrada em uma consulta.");
+        }
+    }
+*/
+    // Usado no Método Delete
+    public boolean veterinarioRegistradoEmConsulta(String NumeroRegistro) {
+        try {
+            String veterinarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            List<Consulta> consultasList = gson.fromJson(veterinarioConsultaArquivo, new TypeToken<List<Consulta>>() {
+            }.getType());
+            for (Consulta item : consultasList) {
+                if (item.getVeterinario().getNumeroRegistro().equals(NumeroRegistro)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

@@ -118,6 +118,11 @@ public class Consulta {
         this.tratamento = tratamento;
         return this;
     }
+    public Consulta comNumeroDaConsulta(String numeroConsulta) {
+        this.numeroConsulta = numeroConsulta;
+        return this;
+    }
+
 
     public String getNumeroColeira() {
         return numeroColeita;
@@ -166,5 +171,6 @@ public class Consulta {
                 ", tratamento='" + tratamento + '\'' +
                 '}';
     }
+
 
 }

@@ -1,5 +1,9 @@
 package com.meli.desafiospringboot2209.dto;
 
+import com.meli.desafiospringboot2209.entity.Paciente;
+import com.meli.desafiospringboot2209.entity.Proprietario;
+import com.meli.desafiospringboot2209.service.ProprietarioService;
+
 public class PacienteDTO {
 
     private String especie;
@@ -50,10 +54,7 @@ public class PacienteDTO {
         return this;
     }
 
-    public PacienteDTO comNumeroColeira(String numeroColeira) {
-        this.numeroColeira = numeroColeira;
-        return this;
-    }
+
 
     public String getEspecie() {
         return especie;
@@ -85,5 +86,18 @@ public class PacienteDTO {
 
     public String getNumeroColeira() {
         return numeroColeira;
+    }
+
+    public static Paciente converte(PacienteDTO dto, ProprietarioService proprietarioService){
+        Proprietario proprietario = proprietarioService.obterProprietario(dto.getCpfProprietario());
+        return new Paciente()
+                .comEspecie(dto.getEspecie())
+                .comRaca(dto.getRaca())
+                .comCor(dto.getCor())
+                .comDataNascimento(dto.getDataNascimento())
+                .comNome(dto.getNome())
+                .comSexo(dto.getSexo())
+                .comProprietario(proprietario)
+                .comNumeroColeira(dto.getNumeroColeira());
     }
 }

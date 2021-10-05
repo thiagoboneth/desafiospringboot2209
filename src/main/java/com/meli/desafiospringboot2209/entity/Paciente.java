@@ -9,7 +9,6 @@ public class Paciente {
     private String nome;
     private String sexo;
     private Proprietario proprietario;
-
     private String numeroColeira;
     private boolean consutado = false;
 
@@ -83,6 +82,10 @@ public class Paciente {
 
     public Paciente comProprietario(Proprietario proprietario) {
         this.proprietario = proprietario;
+        return this;
+    }
+    public Paciente comNumeroColeira(String numeroColeira) {
+        this.numeroColeira = numeroColeira;
         return this;
     }
 
