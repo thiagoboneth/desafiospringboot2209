@@ -2,7 +2,6 @@ package com.meli.desafiospringboot2209.controller;
 
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.entity.Veterinario;
-import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
 import com.meli.desafiospringboot2209.service.VeterinarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +44,6 @@ public class VeterinarioController {
     //Delete ok
     @DeleteMapping("/deletar/{numeroRegistro}")
     public void removerVeterinario(@PathVariable String numeroRegistro) {
-            veterinarioService.removerVeterinarioPorRegistro(numeroRegistro);
-        }
+        veterinarioService.removerVeterinarioPorRegistro(numeroRegistro);
     }
+}

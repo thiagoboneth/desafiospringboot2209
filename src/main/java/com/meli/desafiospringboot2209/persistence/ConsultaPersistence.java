@@ -6,15 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
-import com.meli.desafiospringboot2209.entity.Paciente;
-import com.meli.desafiospringboot2209.entity.Proprietario;
-import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -82,27 +78,27 @@ public class ConsultaPersistence implements GetList<Consulta>{
     }
 
 
-    public void alterarConsulta(Consulta consulta) {
+    public Boolean alterarConsulta(Consulta consulta) throws IOException {
         List<Consulta> todasAsConsultas = getList();
         Optional<Consulta> aConsulta = todasAsConsultas.stream().filter(c -> c.getNumeroConsulta().equals(consulta.getNumeroConsulta())).findAny();
         if(aConsulta.isPresent()){
             Consulta c = atualizaConsulta(aConsulta.get(), consulta);
             todasAsConsultas.set(todasAsConsultas.indexOf(c), c);
         }
-        try {
-            objectMapper.writeValue(new File(cC), todasAsConsultas);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        objectMapper.writeValue(new File(cC), todasAsConsultas);
+        return true;
+
     }
 
-    public void removerConsultaPorId(String id) {
+
+    public boolean removerConsultaPorId(String id) {
         List<Consulta> consultaList = getList();
         Optional<Consulta> any = consultaList.stream().filter(c -> c.getNumeroConsulta().equals(id)).findAny();
         if(any.isPresent())
             consultaList.remove(any.get());
         try {
             objectMapper.writeValue(new File(cC), consultaList);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao deletar ID");

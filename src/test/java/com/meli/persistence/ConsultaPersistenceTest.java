@@ -41,7 +41,7 @@ public class ConsultaPersistenceTest {
                 .comSexo("Masculino")
                 .comProprietario(proprietario)
                 .comEspecie("Coelho")
-                .comNumeroDaColeira("77");
+                .comNumeroColeira("77");
 
         Veterinario veterinario = new Veterinario()
                 .comCpf("123.456.789-20")

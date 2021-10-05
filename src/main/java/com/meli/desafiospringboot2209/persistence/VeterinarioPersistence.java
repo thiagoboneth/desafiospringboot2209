@@ -5,9 +5,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Repository;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class VeterinarioPersistence implements GetList {
+public class VeterinarioPersistence implements GetList<Veterinario> {
 
     String arquivo = "veterinarios.json";
     String caminho = "db";
@@ -25,17 +27,15 @@ public class VeterinarioPersistence implements GetList {
 
     // Método Post
     public Veterinario salvarVeterinarioNoArquivo(Veterinario veterinario) {
-        if (!verificaNull(veterinario)) {
-            List<Veterinario> veterinarios = getList();
-            veterinarios.add(veterinario);
-            try {
-                objectMapper.writeValue(new File(cC), veterinarios);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        List<Veterinario> veterinarios = getList();
+        veterinarios.add(veterinario);
+        try {
+            objectMapper.writeValue(new File(cC), veterinarios);
+            return veterinario;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return veterinario;
-
     }
 
     // Usado no Método Post
@@ -50,16 +50,14 @@ public class VeterinarioPersistence implements GetList {
     }
 
     //Métodos Post e Put
-    public boolean verificaNull(Veterinario veterinario) {
+    public void verificaNull(Veterinario veterinario) {
         if (veterinario.getCpf() == null
                 || veterinario.getNome() == null
                 || veterinario.getSobrenome() == null
                 || veterinario.getDataNascimento() == null
                 || veterinario.getNumeroRegistro() == null
                 || veterinario.getEspecialidade() == null) {
-            return true;
-        } else {
-            return false;
+            throw new RuntimeException("Não permitido cadastrar");
         }
     }
 
@@ -77,16 +75,16 @@ public class VeterinarioPersistence implements GetList {
     }
 
     //Método Put
-    public void alterarVeterinario(Veterinario veterinario) {
+    public boolean alterarVeterinario(Veterinario veterinario) {
         try {
             String json = ReadFileUtil.readFile(cC);
             Gson gson = new Gson();
             Veterinario registro = veterinario;
             String NumeroRegistro = registro.getNumeroRegistro();
 
-            List<VeterinarioDTO> veterinarioDTOS = gson.fromJson(json, new TypeToken<List<VeterinarioDTO>>() {
+            List<Veterinario> veterinarioList = gson.fromJson(json, new TypeToken<List<Veterinario>>() {
             }.getType());
-            for (VeterinarioDTO item : veterinarioDTOS) {
+            for (Veterinario item : veterinarioList) {
                 if (item.getNumeroRegistro().equals(NumeroRegistro)) {
                     item.comCpf(registro.getCpf());
                     item.comNome(registro.getNome());
@@ -96,15 +94,29 @@ public class VeterinarioPersistence implements GetList {
                     break;
                 }
             }
-            objectMapper.writeValue(new File(cC), veterinarioDTOS);
+            objectMapper.writeValue(new File(cC), veterinarioList);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
+            throw new RuntimeException("Erro ao alterar o Veterinario");
         }
+        return true;
     }
 
     //Método Delete
-    public void removerVeterinarioPorRegistro(String numeroRegistro) {
+    public boolean removerVeterinarioPorRegistro(String numeroRegistro) {
+        List<Veterinario> veterinariosList = getList();
+        Optional<Veterinario> any = veterinariosList.stream().filter(c -> c.getNumeroRegistro().equals(numeroRegistro)).findAny();
+        if(any.isPresent())
+            veterinariosList.remove(any.get());
+        try {
+            objectMapper.writeValue(new File(cC), veterinariosList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao deletar ID");
+        }
+        return true;
+    }
+    /*public void removerVeterinarioPorRegistro(String numeroRegistro) {
         if (!veterinarioRegistradoEmConsulta(numeroRegistro)) {
             List<Veterinario> veterinariosList = getList();
             Optional<Veterinario> any = veterinariosList.stream().filter(c -> c.getNumeroRegistro().equals(numeroRegistro)).findAny();
@@ -114,14 +126,13 @@ public class VeterinarioPersistence implements GetList {
                 objectMapper.writeValue(new File(cC), veterinariosList);
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Erro ao deletar Veterinário");
+                throw new RuntimeException("Erro ao deletar ID");
             }
         } else {
             throw new RuntimeException("Não é permitido excluir o veterinario,ele está cadastrada em uma consulta.");
         }
-
     }
-
+*/
     // Usado no Método Delete
     public boolean veterinarioRegistradoEmConsulta(String NumeroRegistro) {
         try {
@@ -135,7 +146,6 @@ public class VeterinarioPersistence implements GetList {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
         return false;
     }

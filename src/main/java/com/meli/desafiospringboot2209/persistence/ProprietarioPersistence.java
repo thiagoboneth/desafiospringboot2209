@@ -1,14 +1,11 @@
 package com.meli.desafiospringboot2209.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.meli.desafiospringboot2209.dto.ConsultaDTO;
-import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.meli.desafiospringboot2209.entity.Consulta;
+import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Proprietario;
-import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Repository;
 
@@ -16,116 +13,42 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
-public class ProprietarioPersistence implements com.meli.desafiospringboot2209.persistence.Repository<Proprietario>{
+public class ProprietarioPersistence implements GetList<Proprietario> {
 
-
-    String arquivo = "proprietario.json";
+    String arquivo = "proprietarios.json";
     String caminho = "db";
-    String cC = caminho+"/"+arquivo;
+    String cP = caminho + "/" + arquivo;
     Gson gson = new Gson();
-
-    List<ProprietarioDTO> listaProprietarios = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
 
-    private void mapearObjeto() {
-        objectMapper.findAndRegisterModules();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    }
-
-    public ProprietarioDTO salvarProprietarioNoArquivo(ProprietarioDTO proprietarioDTO) {
-        mapearObjeto();
+    // Método POST OK
+    public Proprietario salvarProprietarioNoArquivo(Proprietario proprietario) {
+        List<Proprietario> proprietarios = getList();
+        proprietarios.add(proprietario);
         try {
-            if (verificaNull(proprietarioDTO)) {
-                throw new RuntimeException("Os campos não podem ser nulos");
-            }
-            
-            if (proprietarioJaCadastrado(proprietarioDTO.getCpf())) {
-                throw new RuntimeException("Proprietario já cadastrado");
-            }
-            listaProprietarios.add(proprietarioDTO);
-            objectMapper.writeValue(new File(cC), listaProprietarios);
+            objectMapper.writeValue(new File(cP), proprietarios);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return proprietarioDTO;
+        return proprietario;
     }
 
-    public boolean proprietarioJaCadastrado(String cpf) throws IOException {
-        listaProprietarios = buscarProprietario();
-        if (listaProprietarios.size() > 0) {
-            for (ProprietarioDTO proprietarioDTO : listaProprietarios) {
-                if (proprietarioDTO.getCpf().equals(cpf)) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean verificaNull(ProprietarioDTO proprietarioDTO) {
-        if (proprietarioDTO.getCpf() == null
-                || proprietarioDTO.getNome() == null
-                || proprietarioDTO.getSobrenome() == null
-                || proprietarioDTO.getDataNascimento() == null
-                || proprietarioDTO.getEndereco() == null
-                || proprietarioDTO.getTelefone() == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public List<ProprietarioDTO> buscarProprietario() {
-        mapearObjeto();
+    // Método PUT OK
+    public boolean alterarProprietario(Proprietario proprietario) {
         try {
-            listaProprietarios = objectMapper.readValue(new File(cC), new TypeReference<List<ProprietarioDTO>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return listaProprietarios;
-    }
-
-    public void removerProprietarioPorCpf(String cpf) {
-        try {
-            String json = ReadFileUtil.readFile(cC);
-            Gson gson = new Gson();
-            List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
-            }.getType());
-            for (ProprietarioDTO item : proprietarioDTOS) {
-                if (item.getCpf().equals(cpf)) {
-                    //if(ConsultaProprietarioRegistrada(cpf)){
-                    if(false){
-                        throw new RuntimeException("Impossivel excluir, existe uma consulta agendada");
-                    }
-                    proprietarioDTOS.remove(item);
-                    break;
-                }
-            }
-            objectMapper.writeValue(new File(cC), proprietarioDTOS);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
-        }
-    }
-
-
-    public void atualizarProprietario(ProprietarioDTO payLoad) {
-        try {
-            String json = ReadFileUtil.readFile(cC);
+            String json = ReadFileUtil.readFile(cP);
             Gson gson = new Gson();
 
-            ProprietarioDTO registro = payLoad;
+            Proprietario registro = proprietario;
             String cpf = registro.getCpf();
 
-            List<ProprietarioDTO> proprietarioDTOS = gson.fromJson(json, new TypeToken<List<ProprietarioDTO>>() {
+            List<Proprietario> proprietarios = gson.fromJson(json, new TypeToken<List<Proprietario>>() {
             }.getType());
-            for (ProprietarioDTO item : proprietarioDTOS) {
+            for (Proprietario item : proprietarios) {
                 if (item.getCpf().equals(cpf)) {
                     item.comNome(registro.getNome());
                     item.comSobrenome(registro.getSobrenome());
@@ -135,38 +58,85 @@ public class ProprietarioPersistence implements com.meli.desafiospringboot2209.p
                     break;
                 }
             }
-            objectMapper.writeValue(new File(cC), proprietarioDTOS);
+            objectMapper.writeValue(new File(cP), proprietarios);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Erro ao alterar ID");
+            throw new RuntimeException("Erro ao alterar o proprietário");
         }
+        return true;
     }
 
-//    public boolean ConsultaProprietarioRegistrada(String Cpf){
-//        try {
-//            String proprietarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
-//            List<ConsultaDTO> ConsultaS = gson.fromJson(proprietarioConsultaArquivo, new TypeToken<List<ConsultaDTO>>(){}.getType());
-//            for (ConsultaDTO item: ConsultaS) {
-//                if (item.getCpfProprietario().equals(Cpf)){
-//                    return true;
-//                }
-//            }
-//        }catch (IOException e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return false;
-//    }
+    // Método DELETE OK
+    public boolean proprietarioJaCadastrado(String cpf) {
+        List<Proprietario> listasProprietarios = getList();
+
+        if (listasProprietarios.size() > 0) {
+            Optional<Proprietario> any = listasProprietarios.stream().filter(p -> p.getCpf().equals(cpf)).findAny();
+            return any.isPresent();
+        }
+        return false;
+    }
+
+    // Método DELETE - Falta implementar a verificacao se o paciente está em uma consulta, logo não pode deletar o proprietário
+    public boolean removerProprietario(String cpf) {
+        List<Proprietario> proprietarioList = getList();
+        Optional<Proprietario> any = proprietarioList.stream().filter(c -> c.getCpf().equals(cpf)).findAny();
+        try {
+            any.ifPresent(proprietarioList::remove);
+            objectMapper.writeValue(new File(cP), proprietarioList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao deletar o proprietário");
+        }
+        return true;
+    }
+
+    public boolean proprietarioRegistradoNaConsulta(String Cpf) {
+        try {
+            String proprietarioConsultaArquivo = ReadFileUtil.readFile("db/consultas.json");
+            List<Consulta> consultaList = gson.fromJson(proprietarioConsultaArquivo, new TypeToken<List<Consulta>>() {
+            }.getType());
+            for (Consulta item : consultaList) {
+                if (item.getProprietario().getCpf().equals(Cpf)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
 
     @Override
     public List<Proprietario> getList() {
         List<Proprietario> proprietarios = new ArrayList<>();
         try {
-            String consultaArquivo = ReadFileUtil.readFile("db/proprietario.json");
-            proprietarios = gson.fromJson(consultaArquivo, new TypeToken<List<Proprietario>>() {}.getType());
-        } catch (IOException exception) {
-            exception.printStackTrace();
+            String consultaArquivo = ReadFileUtil.readFile("db/proprietarios.json");
+            proprietarios = gson.fromJson(consultaArquivo, new TypeToken<List<Proprietario>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return proprietarios;
     }
+
+    public List<Proprietario> getList(String cpf) {
+        List<Proprietario> list = getList();
+        List<Proprietario> proprietarios = list.stream().filter(c -> c.getCpf().equals(cpf)).collect(Collectors.toList());
+        return proprietarios;
+    }
+
+    public void verificaNull(Proprietario proprietario) {
+        if (proprietario.getCpf() == null
+                || proprietario.getNome() == null
+                || proprietario.getSobrenome() == null
+                || proprietario.getDataNascimento() == null
+                || proprietario.getEndereco() == null
+                || proprietario.getTelefone() == null) {
+            throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
+        }
+    }
+
+
 }

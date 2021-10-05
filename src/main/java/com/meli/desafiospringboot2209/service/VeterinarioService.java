@@ -21,6 +21,7 @@ public class VeterinarioService {
     String cC = caminho + "/" + arquivo;
     List<Veterinario> listaVeterinarios = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
+
     private VeterinarioPersistence veterinarioPersistence;
 
     public VeterinarioService(VeterinarioPersistence veterinarioPersistence) {
@@ -28,16 +29,19 @@ public class VeterinarioService {
     }
 
     //Método Post
-    public void cadastrarVeterinario(Veterinario veterinario) {
+    public boolean cadastrarVeterinario(Veterinario veterinario) {
         if (!veterinarioJaCadastrado(veterinario.getNumeroRegistro(), veterinario.getCpf())) {
             try {
-                this.veterinarioPersistence.salvarVeterinarioNoArquivo(veterinario);
+                veterinarioPersistence.verificaNull(veterinario);
+                veterinarioPersistence.salvarVeterinarioNoArquivo(veterinario);
+
             } catch (RuntimeException e) {
-                throw new RuntimeException("Erro ao cadastrar o Veterinário");
+                throw new RuntimeException("Não é permitido cadastrar o veterinario com algum parâmetro nulo");
             }
         } else {
             throw new RuntimeException("Veterinário já cadastrado");
         }
+        return true;
     }
 
     //Método Get
@@ -63,13 +67,24 @@ public class VeterinarioService {
     }
 
     //Método Put
-    public void alterarVeterinario(Veterinario veterinario) {
-        veterinarioPersistence.alterarVeterinario(veterinario);
+    public boolean alterarVeterinario(Veterinario veterinario) {
+        try {
+            veterinarioPersistence.verificaNull(veterinario);
+            veterinarioPersistence.alterarVeterinario(veterinario);
+        }catch (RuntimeException e){
+            throw new RuntimeException("Não é permitido Alterar o veterinario passando algum parâmetro nulo");
+        }
+        return true;
     }
 
     //Método Delete
-    public void removerVeterinarioPorRegistro(String numeroRegistro) {
-        veterinarioPersistence.removerVeterinarioPorRegistro(numeroRegistro);
+    public boolean removerVeterinarioPorRegistro(String numeroRegistro) {
+        try {
+            veterinarioPersistence.removerVeterinarioPorRegistro(numeroRegistro);
+        }catch (RuntimeException e){
+            throw new RuntimeException("Não é possível deletar um veterinário a qual o paciente está registrado em uma consulta");
+        }
+        return true;
     }
 
     //Usado em Consulta

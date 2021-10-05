@@ -2,7 +2,6 @@ package com.meli.desafiospringboot2209.service;
 
 import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
-import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
@@ -10,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ConsultaService {
@@ -49,16 +45,16 @@ public class ConsultaService {
      */
 
     public boolean marcaConsulta(Consulta consulta){
-       try {
-           if(consultaJaCadastrada(consulta.getNumeroConsulta())){
-               throw new RuntimeException("Erro");
-           }else {
-               this.consultaPersistence.salvarConsultaNoArquivo(consulta);
-               return true;
-           }
-       }catch (RuntimeException | IOException e){
-           throw new RuntimeException("Consulta já cadastrada");
-       }
+        try {
+            if(consultaJaCadastrada(consulta.getNumeroConsulta())){
+                throw new RuntimeException("Erro");
+            }else {
+                this.consultaPersistence.salvarConsultaNoArquivo(consulta);
+                return true;
+            }
+        }catch (RuntimeException | IOException e){
+            throw new RuntimeException("Consulta já cadastrada");
+        }
     }
 
     public boolean consultaJaCadastrada(String numeroConsulta) throws IOException {
@@ -78,13 +74,14 @@ public class ConsultaService {
         return lista;
     }
 
-    public void alterarConsulta(Consulta consulta) {
+    public boolean alterarConsulta(Consulta consulta) throws IOException {
         this.consultaPersistence.alterarConsulta(consulta);
-
+        return true;
     }
 
-    public void removerConsultaPorId(String id) {
+    public boolean removerConsultaPorId(String id) {
         this.consultaPersistence.removerConsultaPorId(id);
+        return true;
     }
 
     /**

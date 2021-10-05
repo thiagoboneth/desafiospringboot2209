@@ -30,12 +30,13 @@ public class ProprietarioService {
     }
 
     // Método POST - Falta verificar cadastro com parametros nulos
-    public void cadastrarProprietario(Proprietario proprietario) {
+    public boolean cadastrarProprietario(Proprietario proprietario) {
 
         if (!proprietarioJaCadastrado(proprietario.getCpf())) {
             try{
                 proprietarioPersistence.verificaNull(proprietario);
                 proprietarioPersistence.salvarProprietarioNoArquivo(proprietario);
+                return true;
             } catch (RuntimeException e) {
                 throw new RuntimeException("Erro ao cadastrar o proprietário");
             }
@@ -57,15 +58,17 @@ public class ProprietarioService {
     }
 
     // Método PUT - Falta verificar alteracao com parametros nulos
-    public void alterarProprietario(Proprietario proprietario) {
+    public boolean alterarProprietario(Proprietario proprietario) {
         proprietarioPersistence.verificaNull(proprietario);
         proprietarioPersistence.alterarProprietario(proprietario);
+        return true;
     }
 
     // Método DELETE
-    public void removerProprietario(String cpf) {
+    public boolean removerProprietario(String cpf) {
         proprietarioPersistence.proprietarioJaCadastrado(cpf);
         proprietarioPersistence.removerProprietario(cpf);
+        return true;
     }
 
     public void ordemListaProprietariosCrescente() {

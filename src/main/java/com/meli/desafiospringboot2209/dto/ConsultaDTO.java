@@ -11,21 +11,6 @@ import com.meli.desafiospringboot2209.entity.Veterinario;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-
-/**
- *
- * {
- *   "numeroConsulta": "300",
- *   "numeroColeira": "5",
- *   "motivo" : "Quebrou a pata",
- *   "diagnostico" : "Pata enfaixada",
- *   "tratamento" : "repouso",
- *   "numeroRegistroVeterinario" : "2"
- * }
- *
- *
- *
- */
 public class ConsultaDTO {
 
     private String numeroConsulta;
@@ -81,7 +66,6 @@ public class ConsultaDTO {
         Paciente paciente = pacienteService.obterPaciente(dto.getNumeroColeira());
         try {
             return new Consulta()
-                    .comNumeroDaConsulta(dto.getNumeroConsulta())
                     .comColeira(dto.getNumeroColeira())
                     .comMotivo(dto.getMotivo())
                     .comDiagnostico(dto.getDiagnostico())
@@ -92,18 +76,5 @@ public class ConsultaDTO {
             exception.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return "ConsultaDTO{" +
-                "numeroConsulta='" + numeroConsulta + '\'' +
-                ", numeroColeira='" + numeroColeira + '\'' +
-                ", motivo='" + motivo + '\'' +
-                ", diagnostico='" + diagnostico + '\'' +
-                ", tratamento='" + tratamento + '\'' +
-                ", numeroRegistroVeterinario='" + numeroRegistroVeterinario + '\'' +
-                ", dataHora='" + dataHora + '\'' +
-                '}';
     }
 }
