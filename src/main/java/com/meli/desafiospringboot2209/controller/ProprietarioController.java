@@ -18,7 +18,7 @@ public class ProprietarioController {
     @Autowired
     private ProprietarioService proprietarioService;
 
-    // Endpoint - Falta verificar cadastro com parametros nulos
+    // Endpoint - ok
     @PostMapping("/cadastrar")
     public ResponseEntity<ProprietarioDTO> cadastraProprietario(@RequestBody ProprietarioDTO proprietarioDTO, UriComponentsBuilder uriBuilder) {
         Proprietario proprietario = ProprietarioDTO.converte(proprietarioDTO);
@@ -33,7 +33,7 @@ public class ProprietarioController {
         return proprietarioService.buscarProprietario();
     }
 
-    // Endipoint - Falta verificar alteracao com parametros nulos
+    // Endipoint - OK
     @PutMapping("/alterar/{cpf}")
     public ResponseEntity<Proprietario> alterarProprietario(@RequestBody Proprietario proprietario, UriComponentsBuilder uriBuilder) {
         proprietarioService.alterarProprietario(proprietario);
@@ -41,7 +41,7 @@ public class ProprietarioController {
         return ResponseEntity.created(uri).body(proprietario);
     }
 
-    // Endipoint - Falta implementar a verificacao se o padciente esta em uma consulta, nao pode deletar o proprietario
+    // Endipoint - Falta implementar a verificacao se o paciente está em uma consulta, logo não pode deletar o proprietário
     @DeleteMapping("/deletar/{cpf}")
     public void removerProprietario(@PathVariable String cpf) {
         proprietarioService.removerProprietario(cpf);

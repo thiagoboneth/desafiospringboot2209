@@ -1,10 +1,8 @@
 package com.meli.desafiospringboot2209.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.meli.desafiospringboot2209.dto.ProprietarioDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
@@ -25,7 +23,6 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
     String cP = caminho + "/" + arquivo;
     Gson gson = new Gson();
 
-    List<ProprietarioDTO> listaProprietarios = new ArrayList<>();
     ObjectMapper objectMapper = new ObjectMapper();
 
     // Método POST OK
@@ -41,7 +38,7 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
     }
 
     // Método PUT OK
-    public void alterarProprietario(Proprietario proprietario) {
+    public boolean alterarProprietario(Proprietario proprietario) {
         try {
             String json = ReadFileUtil.readFile(cP);
             Gson gson = new Gson();
@@ -66,6 +63,7 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
             e.printStackTrace();
             throw new RuntimeException("Erro ao alterar o proprietário");
         }
+        return true;
     }
 
     // Método DELETE OK
@@ -79,23 +77,18 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
         return false;
     }
 
-    // Método DELETE OK
-    public void removerProprietario(String cpf) {
-        if (!proprietarioRegistradoNaConsulta(cpf)) {
-            List<Proprietario> proprietarioList = getList();
-            Optional<Proprietario> any = proprietarioList.stream().filter(c -> c.getCpf().equals(cpf)).findAny();
-            if (any.isPresent())
-                proprietarioList.remove(any.get());
-            try {
-                objectMapper.writeValue(new File(cP), proprietarioList);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Erro ao deletar proprietário");
-            }
-
-        } else {
-            throw new RuntimeException("Não é possível deletar um proprietário ao qual o paciente já está com consulta marcada");
+    // Método DELETE - Falta implementar a verificacao se o paciente está em uma consulta, logo não pode deletar o proprietário
+    public boolean removerProprietario(String cpf) {
+        List<Proprietario> proprietarioList = getList();
+        Optional<Proprietario> any = proprietarioList.stream().filter(c -> c.getCpf().equals(cpf)).findAny();
+        try {
+            any.ifPresent(proprietarioList::remove);
+            objectMapper.writeValue(new File(cP), proprietarioList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao deletar o proprietário");
         }
+        return true;
     }
 
     public boolean proprietarioRegistradoNaConsulta(String Cpf) {
@@ -134,36 +127,14 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
         return proprietarios;
     }
 
-    private void mapearObjeto() {
-        objectMapper.findAndRegisterModules();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    }
-
-        public boolean verificaNull(Proprietario proprietario) {
+    public void verificaNull(Proprietario proprietario) {
         if (proprietario.getCpf() == null
                 || proprietario.getNome() == null
                 || proprietario.getSobrenome() == null
                 || proprietario.getDataNascimento() == null
                 || proprietario.getEndereco() == null
                 || proprietario.getTelefone() == null) {
-            try {
-                return true;
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
-            }
-        } else {
-            return false;
+            throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
         }
     }
-
-/*    public List<ProprietarioDTO> buscarProprietario() {
-        mapearObjeto();
-        try {
-            listaProprietarios = objectMapper.readValue(new File(cP), new TypeReference<List<ProprietarioDTO>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return listaProprietarios;
-    }*/
 }

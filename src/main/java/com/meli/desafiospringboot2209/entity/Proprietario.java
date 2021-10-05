@@ -9,6 +9,15 @@ public class Proprietario{
     private String endereco;
     private String telefone;
 
+    public Proprietario(String cpf, String nome, String sobrenome, String dataNascimento, String endereco, String telefone) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.dataNascimento = dataNascimento;
+        this.endereco = endereco;
+        this.telefone = telefone;
+    }
+
     public Proprietario() {
     }
 
