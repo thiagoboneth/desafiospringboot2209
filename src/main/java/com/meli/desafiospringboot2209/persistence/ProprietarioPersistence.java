@@ -22,7 +22,6 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
     String caminho = "db";
     String cP = caminho + "/" + arquivo;
     Gson gson = new Gson();
-
     ObjectMapper objectMapper = new ObjectMapper();
 
     // Método POST OK

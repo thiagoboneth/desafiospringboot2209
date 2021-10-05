@@ -18,7 +18,7 @@ public class ProprietarioController {
     @Autowired
     private ProprietarioService proprietarioService;
 
-    // Endpoint - ok
+    // Endpoint - OK
     @PostMapping("/cadastrar")
     public ResponseEntity<ProprietarioDTO> cadastraProprietario(@RequestBody ProprietarioDTO proprietarioDTO, UriComponentsBuilder uriBuilder) {
         Proprietario proprietario = ProprietarioDTO.converte(proprietarioDTO);

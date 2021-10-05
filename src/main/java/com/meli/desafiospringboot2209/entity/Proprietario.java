@@ -19,6 +19,7 @@ public class Proprietario{
     }
 
     public Proprietario() {
+
     }
 
     public String getCpf() {

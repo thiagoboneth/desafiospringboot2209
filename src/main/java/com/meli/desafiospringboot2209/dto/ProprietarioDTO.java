@@ -11,6 +11,7 @@ public class ProprietarioDTO {
     private String endereco;
     private String telefone;
 
+
     public ProprietarioDTO(String cpf, String nome, String sobrenome, String dataNascimento, String endereco, String telefone) {
         this.cpf = cpf;
         this.nome = nome;

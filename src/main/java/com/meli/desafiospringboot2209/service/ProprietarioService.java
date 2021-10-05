@@ -18,7 +18,6 @@ public class ProprietarioService {
     private ProprietarioPersistence proprietarioPersistence;
 
     List<Proprietario> proprietariosLista = new ArrayList<>();
-
     String arquivo = "proprietarios.json";
     String caminho = "db";
     String cP = caminho + "/" + arquivo;

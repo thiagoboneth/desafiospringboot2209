@@ -101,4 +101,5 @@ public class ProprietarioServiceTest {
         boolean retorno =  proprietarioService.removerProprietario(proprietario.toString());
         assertTrue(retorno);
     }
+
 }
