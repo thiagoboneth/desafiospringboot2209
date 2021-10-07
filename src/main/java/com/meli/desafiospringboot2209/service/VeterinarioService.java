@@ -2,7 +2,6 @@ package com.meli.desafiospringboot2209.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
 import org.springframework.stereotype.Service;
@@ -75,7 +74,7 @@ public class VeterinarioService {
             throw new RuntimeException("Não é permitido Alterar o veterinario passando algum parâmetro nulo");
         }
         return true;
-    }
+      }
 
     //Método Delete
     public boolean removerVeterinarioPorRegistro(String numeroRegistro) {
@@ -84,7 +83,7 @@ public class VeterinarioService {
         }catch (RuntimeException e){
             throw new RuntimeException("Não é possível deletar um veterinário a qual o paciente está registrado em uma consulta");
         }
-        return true;
+      return true;
     }
 
     //Usado em Consulta

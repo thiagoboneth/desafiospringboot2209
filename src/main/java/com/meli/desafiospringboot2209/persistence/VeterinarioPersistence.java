@@ -3,9 +3,7 @@ package com.meli.desafiospringboot2209.persistence;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
-import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Repository;
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class VeterinarioPersistence implements GetList<Veterinario> {
+public class VeterinarioPersistence implements GetList {
 
     String arquivo = "veterinarios.json";
     String caminho = "db";
