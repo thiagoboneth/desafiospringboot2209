@@ -19,7 +19,6 @@ public class ProprietarioService {
     private ProprietarioPersistence proprietarioPersistence;
 
     List<Proprietario> proprietariosLista = new ArrayList<>();
-
     String arquivo = "proprietarios.json";
     String caminho = "db";
     String cP = caminho + "/" + arquivo;
@@ -29,20 +28,20 @@ public class ProprietarioService {
         this.proprietarioPersistence = proprietarioPersistence;
     }
 
-    // Método POST - Falta verificar cadastro com parametros nulos
+    // Método POST - OK
     public boolean cadastrarProprietario(Proprietario proprietario) {
 
         if (!proprietarioJaCadastrado(proprietario.getCpf())) {
             try{
                 proprietarioPersistence.verificaNull(proprietario);
                 proprietarioPersistence.salvarProprietarioNoArquivo(proprietario);
-                return true;
             } catch (RuntimeException e) {
-                throw new RuntimeException("Erro ao cadastrar o proprietário");
+                throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
             }
         } else {
             throw new RuntimeException("Proprietário já cadastrado");
         }
+        return true;
     }
 
     // Método GET OK
@@ -57,17 +56,25 @@ public class ProprietarioService {
         return proprietariosLista;
     }
 
-    // Método PUT - Falta verificar alteracao com parametros nulos
+    // Método PUT - OK
     public boolean alterarProprietario(Proprietario proprietario) {
-        proprietarioPersistence.verificaNull(proprietario);
-        proprietarioPersistence.alterarProprietario(proprietario);
+        try{
+            proprietarioPersistence.verificaNull(proprietario);
+            proprietarioPersistence.alterarProprietario(proprietario);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
+        }
         return true;
     }
 
-    // Método DELETE
+    // Método DELETE - Falta implementar a verificacao se o paciente está em uma consulta, logo não pode deletar o proprietário
     public boolean removerProprietario(String cpf) {
-        proprietarioPersistence.proprietarioJaCadastrado(cpf);
-        proprietarioPersistence.removerProprietario(cpf);
+        try {
+            proprietarioPersistence.proprietarioJaCadastrado(cpf);
+            proprietarioPersistence.removerProprietario(cpf);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Não é possível deletar um proprietário ao qual o paciente já está com consulta marcada");
+        }
         return true;
     }
 
@@ -87,5 +94,4 @@ public class ProprietarioService {
         }
         return any.get();
     }
-
 }

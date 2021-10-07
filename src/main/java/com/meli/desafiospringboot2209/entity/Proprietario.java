@@ -1,6 +1,6 @@
 package com.meli.desafiospringboot2209.entity;
 
-public class Proprietario{
+public class Proprietario {
 
     private String cpf;
     private String nome;
