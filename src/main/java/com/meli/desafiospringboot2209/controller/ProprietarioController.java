@@ -41,7 +41,7 @@ public class ProprietarioController {
         return ResponseEntity.created(uri).body(proprietario);
     }
 
-    // Endipoint - Falta implementar a verificacao se o paciente está em uma consulta, logo não pode deletar o proprietário
+    // Endipoint - OK
     @DeleteMapping("/deletar/{cpf}")
     public void removerProprietario(@PathVariable String cpf) {
         proprietarioService.removerProprietario(cpf);

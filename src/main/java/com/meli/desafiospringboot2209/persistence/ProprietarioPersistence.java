@@ -77,12 +77,13 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
         return false;
     }
 
-    // Método DELETE - Falta implementar a verificacao se o paciente está em uma consulta, logo não pode deletar o proprietário
+    // Método DELETE - OK
     public boolean removerProprietario(String cpf) {
         List<Proprietario> proprietarioList = getList();
         Optional<Proprietario> any = proprietarioList.stream().filter(c -> c.getCpf().equals(cpf)).findAny();
         try {
             any.ifPresent(proprietarioList::remove);
+            proprietarioRegistradoNaConsulta(cpf);
             objectMapper.writeValue(new File(cP), proprietarioList);
         } catch (IOException e) {
             e.printStackTrace();
@@ -127,7 +128,7 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
         return proprietarios;
     }
 
-    public void verificaNull(Proprietario proprietario) {
+    public boolean verificaNull(Proprietario proprietario) {
         if (proprietario.getCpf() == null
                 || proprietario.getNome() == null
                 || proprietario.getSobrenome() == null
@@ -136,5 +137,6 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
                 || proprietario.getTelefone() == null) {
             throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
         }
+        return false;
     }
 }
