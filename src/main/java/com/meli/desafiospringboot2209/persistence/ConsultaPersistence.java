@@ -66,14 +66,11 @@ public class ConsultaPersistence implements GetList<Consulta>{
     }
 
     private Consulta atualizaConsulta(Consulta consultaExistente, Consulta consultaNova){
-        //consultaExistente.setNumeroColeira(consultaNova.getNumeroColeira());
-        //consultaExistente.setProprietario(consultaNova.getProprietario());
-        consultaExistente.setDataHora(consultaNova.getDataHora());
-        consultaExistente.setDiagnostico(consultaNova.getDiagnostico());
-        consultaExistente.setMotivo(consultaNova.getMotivo());
-        consultaExistente.setTratamento(consultaNova.getTratamento());
-        //consultaExistente.setPaciente(consultaNova.getPaciente());
-        //consultaExistente.setVeterinario(consultaNova.getVeterinario());
+
+        consultaExistente.comDataHora(consultaNova.getDataHora());
+        consultaExistente.comDiagnostico(consultaNova.getDiagnostico());
+        consultaExistente.comMotivo(consultaNova.getMotivo());
+        consultaExistente.comTratamento(consultaNova.getTratamento());
         return consultaExistente;
     }
 

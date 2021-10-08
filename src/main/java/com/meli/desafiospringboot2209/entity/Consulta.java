@@ -28,38 +28,6 @@ public class Consulta {
 
     }
 
-    public void setDataHora(String dataHora) {
-        this.dataHora = dataHora;
-    }
-
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }
-
-    public void setVeterinario(Veterinario veterinario) {
-        this.veterinario = veterinario;
-    }
-
-    public void setDiagnostico(String diagnostico) {
-        this.diagnostico = diagnostico;
-    }
-
-    public void setTratamento(String tratamento) {
-        this.tratamento = tratamento;
-    }
-
-    public String getNumeroColeita() {
-        return numeroColeita;
-    }
-
-    /*public void setNumeroColeita(String numeroColeita) {
-        this.numeroColeita = numeroColeita;
-    }*/
-
     public String getDataHora() {
         return dataHora;
     }
@@ -122,6 +90,11 @@ public class Consulta {
         this.numeroConsulta = numeroConsulta;
         return this;
     }
+    public Consulta comProprietario(Proprietario proprietario) {
+        this.proprietario = proprietario;
+        return this;
+    }
+
 
 
     public String getNumeroColeira() {
@@ -148,29 +121,15 @@ public class Consulta {
         this.numeroConsulta = numeroConsulta;
     }
 
-    public List<Paciente> retornaPaciente() throws IOException {
-        String consultaPacienteArquivo = ReadFileUtil.readFile("db/pacientes.json");
-        List<Paciente> paciente = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<Paciente>>() {}.getType());
-
-        List<Paciente> pacientesLista = paciente.stream()
-                .sorted(Comparator.comparing(Paciente::getNumeroColeira))
-                .collect(Collectors.toList());
-
-        return pacientesLista;
-
-    }
-
-    @Override
-    public String toString() {
-        return "Consulta{" +
-                "dataHora=" + dataHora +
-                ", paciente=" + paciente +
-                ", motivo='" + motivo + '\'' +
-                ", veterinario=" + veterinario +
-                ", diagnostico='" + diagnostico + '\'' +
-                ", tratamento='" + tratamento + '\'' +
-                '}';
-    }
-
-
+//    public List<Paciente> retornaPaciente() throws IOException {
+//        String consultaPacienteArquivo = ReadFileUtil.readFile("db/pacientes.json");
+//        List<Paciente> paciente = gson.fromJson(consultaPacienteArquivo, new TypeToken<List<Paciente>>() {}.getType());
+//
+//        List<Paciente> pacientesLista = paciente.stream()
+//                .sorted(Comparator.comparing(Paciente::getNumeroColeira))
+//                .collect(Collectors.toList());
+//
+//        return pacientesLista;
+//
+//    }
 }

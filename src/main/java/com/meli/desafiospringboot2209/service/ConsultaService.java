@@ -14,8 +14,7 @@ import java.util.List;
 
 @Service
 public class ConsultaService {
-
-
+	
     List<ConsultaDTO> listaConsultas = new ArrayList<>();
 
     @Autowired
@@ -24,19 +23,17 @@ public class ConsultaService {
     @Autowired
     private ConsultaPersistence consultaPersistence;
 
-
-    public ConsultaService(PacientePersistence pacientePersistence, ConsultaPersistence consultaPersistence){
+     
+    @Autowired
+    public ConsultaService(ConsultaPersistence consultaPersistence, PacientePersistence pacientePersistence){
+        this.consultaPersistence = consultaPersistence;
         this.pacientePersistence = pacientePersistence;
-        this.consultaPersistence = consultaPersistence;
     }
-
-    public ConsultaService(ConsultaPersistence consultaPersistence){
-        this.consultaPersistence = consultaPersistence;
-    }
-
-    public ConsultaService() {
-
-    }
+    
+   
+    //public ConsultaService() {
+    //
+    //}
 
 
     /**
@@ -47,7 +44,7 @@ public class ConsultaService {
     public boolean marcaConsulta(Consulta consulta){
         try {
             if(consultaJaCadastrada(consulta.getNumeroConsulta())){
-                throw new RuntimeException("Erro");
+            	throw new RuntimeException("Erro");
             }else {
                 this.consultaPersistence.salvarConsultaNoArquivo(consulta);
                 return true;

@@ -88,17 +88,4 @@ public class Paciente {
         this.numeroColeira = numeroColeira;
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "Paciente{" +
-                "especie='" + especie + '\'' +
-                ", raca='" + raca + '\'' +
-                ", cor='" + cor + '\'' +
-                ", dataNascimento='" + dataNascimento + '\'' +
-                ", nome='" + nome + '\'' +
-                ", sexo=" + sexo +
-                ", proprietario=" + proprietario +
-                '}';
-    }
 }

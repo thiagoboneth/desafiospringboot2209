@@ -1,3 +1,4 @@
+/*
 package com.meli.service;
 
 import com.meli.desafiospringboot2209.entity.Consulta;
@@ -190,3 +191,4 @@ public class PacienteServiceTest {
     }
 
 }
+*/

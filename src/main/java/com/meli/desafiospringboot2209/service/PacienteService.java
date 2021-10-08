@@ -35,6 +35,7 @@ public class PacienteService{
     }
 
     // Método POST - Falta verificar cadastro com parametros nulos
+
     public boolean cadastrarPaciente(Paciente paciente) throws IOException {
 
         if (!pacienteJaCadastrado(paciente.getNumeroColeira())) {

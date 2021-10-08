@@ -5,6 +5,7 @@ import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.ConsultaPersistence;
+import com.meli.desafiospringboot2209.persistence.PacientePersistence;
 import com.meli.desafiospringboot2209.persistence.ProprietarioPersistence;
 import com.meli.desafiospringboot2209.service.ConsultaService;
 import com.meli.desafiospringboot2209.service.ProprietarioService;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ConsultaServiceTest {
@@ -24,6 +26,7 @@ public class ConsultaServiceTest {
     void deve_Cadastrar_Consulta() throws IOException {
 
         ConsultaPersistence mock = Mockito.mock(ConsultaPersistence.class);
+        PacientePersistence mock2 = Mockito.mock(PacientePersistence.class);
 
         List<Consulta> list = new ArrayList<>();
 
@@ -67,11 +70,21 @@ public class ConsultaServiceTest {
 
         Mockito.when(mock.salvarConsultaNoArquivo(consulta)).thenReturn(consulta);
 
-        ConsultaService consultaService = new ConsultaService(mock);
+        ConsultaService consultaService = new ConsultaService(mock, mock2);
+        consultaService.marcaConsulta(consulta);
 
-        Boolean retorno = consultaService.marcaConsulta(consulta);
+        //Boolean retorno = consultaService.marcaConsulta(consulta);
 
-        Assertions.assertTrue(retorno);
+        //Assertions.assertTrue(retorno);
+        
+        assertNotNull(consulta.comNumeroDaConsulta(consulta.getNumeroConsulta()));
+        assertNotNull(consulta.comPaciente(paciente));
+        assertNotNull(consulta.comProprietario(proprietario));
+        assertNotNull(consulta.comMotivo(consulta.getMotivo()));
+        assertNotNull(consulta.comVeterinario(veterinario));
+        assertNotNull(consulta.comDiagnostico(consulta.getDiagnostico()));
+        assertNotNull(consulta.comTratamento(consulta.getTratamento()));
+        assertNotNull(consulta.comColeira(consulta.getNumeroColeira()));
 
     }
 
@@ -127,6 +140,7 @@ public class ConsultaServiceTest {
     @Test
     void deve_Alterar_o_consulta() throws IOException {
         ConsultaPersistence mock = Mockito.mock(ConsultaPersistence.class);
+        PacientePersistence mock2 = Mockito.mock(PacientePersistence.class);
 
         List<Consulta> list = new ArrayList<>();
         List<Consulta> alterada = new ArrayList<>();
@@ -212,7 +226,7 @@ public class ConsultaServiceTest {
         Mockito.when(mock.alterarConsulta(consulta)).thenReturn(true);
         Mockito.when(mock.getList()).thenReturn(list);
 
-        ConsultaService consultaService = new ConsultaService(mock);
+        ConsultaService consultaService = new ConsultaService(mock , mock2);
         boolean retorno =  consultaService.alterarConsulta(consulta1);
         assertTrue(retorno);
     }
@@ -220,6 +234,7 @@ public class ConsultaServiceTest {
     @Test
     void deve_Deletar_o_consulta() throws IOException {
         ConsultaPersistence mock = Mockito.mock(ConsultaPersistence.class);
+        PacientePersistence mock2 = Mockito.mock(PacientePersistence.class);
 
         List<Consulta> list = new ArrayList<>();
 
@@ -263,7 +278,7 @@ public class ConsultaServiceTest {
         Mockito.when(mock.removerConsultaPorId(consulta.getNumeroConsulta())).thenReturn(true);
         Mockito.when(mock.getList()).thenReturn(list);
 
-        ConsultaService consultaService = new ConsultaService(mock);
+        ConsultaService consultaService = new ConsultaService(mock, mock2);
         boolean retorno =  consultaService.removerConsultaPorId(consulta.getNumeroConsulta());
         assertTrue(retorno);
     }

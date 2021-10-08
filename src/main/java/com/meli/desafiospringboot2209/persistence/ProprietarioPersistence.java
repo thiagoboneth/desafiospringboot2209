@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Proprietario;
-import com.meli.desafiospringboot2209.persistence.GetList;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
 import org.springframework.stereotype.Repository;
 
