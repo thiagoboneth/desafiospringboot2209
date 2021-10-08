@@ -1,4 +1,3 @@
-/*
 package com.meli.service;
 
 import com.meli.desafiospringboot2209.entity.Consulta;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PacienteServiceTest {
@@ -52,14 +52,21 @@ public class PacienteServiceTest {
 
         list.add(paciente);
 
-        Mockito.when(mock.salvarPacienteNoArquivo((Paciente) list)).thenReturn(true);
+        Mockito.when(mock.salvarPacienteNoArquivo(paciente)).thenReturn(true);
 
         PacienteService pacienteService = new PacienteService(mock);
 
-        Boolean retorno = pacienteService.cadastrarPaciente(paciente);
-
-        Assertions.assertTrue(retorno);
-
+       pacienteService.cadastrarPaciente(paciente);
+        
+        assertNotNull(paciente.comEspecie(paciente.getEspecie()));
+        assertNotNull(paciente.comRaca(paciente.getRaca()));
+        assertNotNull(paciente.comCor(paciente.getCor()));
+        assertNotNull(paciente.comDataNascimento(paciente.getDataNascimento()));
+        assertNotNull(paciente.comNome(paciente.getNome()));
+        assertNotNull(paciente.comSexo(paciente.getSexo()));
+        assertNotNull(paciente.comProprietario(paciente.getProprietario()));
+        assertNotNull(paciente.comEspecie(paciente.getEspecie()));
+        assertNotNull(paciente.comNumeroColeira(paciente.getNumeroColeira()));
     }
 
     @Test
@@ -90,9 +97,9 @@ public class PacienteServiceTest {
 
         list.add(paciente);
 
-        Mockito.when(mock.salvarPacienteNoArquivo((Paciente) list)).thenReturn(true);
+        Mockito.when(mock.salvarPacienteNoArquivo(paciente)).thenReturn(true);
         Mockito.when(mock.getList()).thenReturn(list);
-        assertEquals("16", paciente.getNumeroColeira());
+        assertEquals("77", paciente.getNumeroColeira());
     }
 
     @Test
@@ -189,6 +196,4 @@ public class PacienteServiceTest {
         boolean retorno = pacienteService.removerPaciente(paciente.getNumeroColeira());
         assertTrue(retorno);
     }
-
 }
-*/
