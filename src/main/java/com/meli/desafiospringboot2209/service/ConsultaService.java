@@ -30,8 +30,9 @@ public class ConsultaService {
         this.pacientePersistence = pacientePersistence;
     }
     /**
-     * deve retornar um objeto da consulta marcada contendo todos os dados da consulta. Nao deve ser void
-     * @param consulta
+     * @param marcaConsulta - espera um boleano
+     * @return marca uma consulta e retorna uma ecxecao caso ja exista uma consulta cadastrada
+     * @author Grupo 4 - Tester Pedro Augusto
      */
 
     public boolean marcaConsulta(Consulta consulta){
@@ -44,14 +45,32 @@ public class ConsultaService {
         }catch (RuntimeException | IOException e){throw new RuntimeException("Consulta já cadastrada");}
     }
 
+    /**
+     * @param consultaJaCadastrada - espera um numero de consulta
+     * @return retorna um bollean false caso a consulta ja exista
+     * @author Grupo 4 - Tester Pedro Augusto
+     */
+
     public boolean consultaJaCadastrada(String numeroConsulta) throws IOException {
         return this.consultaPersistence.consultaJaCadastrada(numeroConsulta);
     }
+
+
+    /**
+     * @param consultasDoDia - espera uma data
+     * @return retorna uma lista das consultas ja existente
+     * @author Grupo 4 - Tester Pedro Augusto
+     */
 
     public List<Consulta> consultasDoDia(String data) throws IOException {
         return this.consultaPersistence.consultasDoDia(data);
     }
 
+    /**
+     * @param buscarConsulta - espera a ordem da consulta crecente ou decrecente
+     * @return retorna uma lista das consultas na ordem escolhida
+     * @author Grupo 4 - Tester Pedro Augusto
+     */
     public List<Consulta> buscarConsulta(String ordem) {
         List<Consulta> lista = this.consultaPersistence.getList();
         if(ordem.equals("C"))
@@ -61,11 +80,21 @@ public class ConsultaService {
         return lista;
     }
 
+    /**
+     * @param alterarConsulta - espera uma consulta com os dados n=modificados
+     * @return retorna retorna um verdadeiro ou falso dependendo do acontecimento
+     * @author Grupo 4 - Tester Pedro Augusto
+     */
     public boolean alterarConsulta(Consulta consulta) throws IOException {
         this.consultaPersistence.alterarConsulta(consulta);
         return true;
     }
 
+    /**
+     * @param removerConsultaPorId - espera o numero da consulta
+     * @return retorna retorna um verdadeiro ou falso dependendo se foi excluido
+     * @author Grupo 4 - Tester Pedro Augusto
+     */
     public boolean removerConsultaPorId(String id) {
         this.consultaPersistence.removerConsultaPorId(id);
         return true;
