@@ -14,12 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ConsultaServiceTest {
     @Test
@@ -278,7 +277,23 @@ public class ConsultaServiceTest {
         Mockito.when(mock.removerConsultaPorId(consulta.getNumeroConsulta())).thenReturn(true);
         Mockito.when(mock.getList()).thenReturn(list);
 
-        ConsultaService consultaService = new ConsultaService(mock, mock2);
+        ConsultaService consultaService = new ConsultaService(mock , mock2);
+
+        //buscando consulta
+        List<Consulta> consultaCrecente = consultaService.buscarConsulta("C");
+        assertEquals(list,consultaCrecente);
+
+        //buscando consulta
+        List<Consulta> consultaDecrecente = consultaService.buscarConsulta("D");
+        assertEquals(list,consultaDecrecente);
+
+        //Busca consulta do dia
+        String localDate = LocalDate.now().toString();
+        Mockito.when(mock.consultasDoDia(localDate)).thenReturn(list);
+        List<Consulta> consultasDoDia = consultaService.consultasDoDia("2021-08-10");
+        assertNotEquals(list,consultasDoDia);
+
+        //remover por id
         boolean retorno =  consultaService.removerConsultaPorId(consulta.getNumeroConsulta());
         assertTrue(retorno);
     }

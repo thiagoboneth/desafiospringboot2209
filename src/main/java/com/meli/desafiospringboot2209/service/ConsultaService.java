@@ -81,21 +81,5 @@ public class ConsultaService {
         return true;
     }
 
-    /**
-     * Retorna o total de consultas por veterinario
-     * @return
-     * @throws IOException
-     */
-
-    public List<Consulta> listarTotalCadaVeterinario(Veterinario veterinario) throws IOException {
-        return this.consultaPersistence.getList(veterinario.getNumeroRegistro());
-    }
-
-
-/*    public List<ConsultaDTO> consultaPaciente() throws IOException {
-    // RECEBER CONSULTA paiente da persistencia
-        return consultas;
-    }*/
-
 }
 
