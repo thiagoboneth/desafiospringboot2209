@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.persistence.ProprietarioPersistence;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -24,6 +26,7 @@ public class ProprietarioService {
     String cP = caminho + "/" + arquivo;
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @Autowired
     public ProprietarioService(ProprietarioPersistence proprietarioPersistence) {
         this.proprietarioPersistence = proprietarioPersistence;
     }
