@@ -130,7 +130,8 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
                 || proprietario.getDataNascimento() == null
                 || proprietario.getEndereco() == null
                 || proprietario.getTelefone() == null) {
-            throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
+            //throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
+        	return true;
         }
         return false;
     }

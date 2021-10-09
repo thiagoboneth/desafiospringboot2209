@@ -39,12 +39,8 @@ public class ProprietarioService {
             try{
                 proprietarioPersistence.verificaNull(proprietario);
                 proprietarioPersistence.salvarProprietarioNoArquivo(proprietario);
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
-            }
-        } else {
-            throw new RuntimeException("Proprietário já cadastrado");
-        }
+            } catch (RuntimeException e) {throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");}
+        } else {throw new RuntimeException("Proprietário já cadastrado");}
         return true;
     }
 
@@ -53,9 +49,7 @@ public class ProprietarioService {
         try {
             proprietariosLista = objectMapper.readValue(new File(cP), new TypeReference<List<Proprietario>>() {
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {e.printStackTrace();}
         ordemListaProprietariosCrescente();
         return proprietariosLista;
     }
@@ -65,9 +59,7 @@ public class ProprietarioService {
         try{
             proprietarioPersistence.verificaNull(proprietario);
             proprietarioPersistence.alterarProprietario(proprietario);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");
-        }
+        } catch (RuntimeException e) {throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");}
         return true;
     }
 
@@ -76,9 +68,7 @@ public class ProprietarioService {
         try {
             proprietarioPersistence.proprietarioJaCadastrado(cpf);
             proprietarioPersistence.removerProprietario(cpf);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Não é possível deletar um proprietário ao qual o paciente já está com consulta marcada");
-        }
+        } catch (RuntimeException e) {throw new RuntimeException("Não é possível deletar um proprietário ao qual o paciente já está com consulta marcada");}
         return true;
     }
 
@@ -94,10 +84,7 @@ public class ProprietarioService {
     public Proprietario obterProprietario(String cpf){
         List<Proprietario> proprietarios = proprietarioPersistence.getList(cpf);
         Optional<Proprietario> any = proprietarios.stream().filter(proprietario -> proprietario.getCpf().equals(cpf)).findAny();
-        if (!any.isPresent()) {
-            throw new RuntimeException("Número do cpf não pode ser nulo");
-        } else {
-            return any.get();
-        }
+        if (!any.isPresent()) {throw new RuntimeException("Número do cpf não pode ser nulo");}
+        else {return any.get();}
     }
 }
