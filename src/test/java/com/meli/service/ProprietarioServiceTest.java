@@ -14,7 +14,7 @@ import java.util.List;
 class ProprietarioServiceTest {
 
     @Test
-    void deve_Cadastrar_oProprietario() {
+    void deveCadastrarProprietario() {
         ProprietarioPersistence mock = Mockito.mock(ProprietarioPersistence.class);
 
         List<Proprietario> lista = new ArrayList<>();
@@ -40,11 +40,16 @@ class ProprietarioServiceTest {
         assertNotNull(proprietario.getDataNascimento());
         assertNotNull(proprietario.getEndereco());
         assertNotNull(proprietario.getTelefone());
+        
+        List<Proprietario> ordemCrescente = service.ordemListaProprietariosCrescente();
+        assertNotNull(ordemCrescente);
     }
+    
+    
 
 
     @Test
-    void naoDeve_Cadastrar_oProprietario_Quando_Receber_valoresNull() {
+    void naoDeveCadastrarProprietarioQuandoReceberValoresNull() {
         ProprietarioPersistence mock = Mockito.mock(ProprietarioPersistence.class);
 
         List<Proprietario> lista = new ArrayList<>();
@@ -74,7 +79,7 @@ class ProprietarioServiceTest {
     }
 
     @Test
-    void deve_mostrarProprietario() {
+    void deveMostrarProprietario() {
         ProprietarioPersistence mock = Mockito.mock(ProprietarioPersistence.class);
         List<Proprietario> proprietarioList = new ArrayList<>();
         Proprietario proprietario = new Proprietario(
@@ -85,13 +90,19 @@ class ProprietarioServiceTest {
                 "Avenida Atlas nº32",
                 "9910000000");
         proprietarioList.add(proprietario);
+        
+        
         Mockito.when(mock.salvarProprietarioNoArquivo(proprietario)).thenReturn(proprietario);
         Mockito.when(mock.getList()).thenReturn(proprietarioList);
+        
+        ProprietarioService service = new ProprietarioService(mock);
+        service.cadastrarProprietario(proprietario);
+        
         assertEquals("001.000.000-22", proprietario.getCpf());
     }
 
     @Test
-    void deve_Alterar_oProprietario() {
+    void deveAlterarProprietario() {
         ProprietarioPersistence mock = Mockito.mock(ProprietarioPersistence.class);
 
         List<Proprietario> lista = new ArrayList<>();
@@ -114,7 +125,7 @@ class ProprietarioServiceTest {
     }
     
     @Test
-    void naoDeve_Alterar_oProprietario() {
+    void naoDeveAlterarProprietario() {
         ProprietarioPersistence mock = Mockito.mock(ProprietarioPersistence.class);
 
         List<Proprietario> lista = new ArrayList<>();
@@ -135,9 +146,33 @@ class ProprietarioServiceTest {
         boolean retorno =  proprietarioService.alterarProprietario(proprietario);
         assertTrue(retorno);
     }
+    
+    @Test
+    void deveObterProprietario() {
+        ProprietarioPersistence mock = Mockito.mock(ProprietarioPersistence.class);
+
+        List<Proprietario> lista = new ArrayList<>();
+        Proprietario proprietario = new Proprietario(
+                "007.001.999-21",
+                "James",
+                "Bond",
+                "28/07/73",
+                "London ",
+                "9900000000");
+
+        lista.add(proprietario);
+
+        Mockito.when(mock.salvarProprietarioNoArquivo(Mockito.any(Proprietario.class))).thenReturn(proprietario);
+        Mockito.when(mock.proprietarioRegistradoNaConsulta(proprietario.getCpf())).thenReturn(true);
+
+        ProprietarioService service = new ProprietarioService(mock);
+        service.obterProprietario("007.001.999-21");
+        
+        assertNotNull(proprietario.getCpf());
+    }
 
     @Test
-    void deve_Deletar_oProprietario() {
+    void deveDeletarProprietario() {
         ProprietarioPersistence mock = Mockito.mock(ProprietarioPersistence.class);
 
         List<Proprietario> lista = new ArrayList<>();
@@ -158,5 +193,4 @@ class ProprietarioServiceTest {
         boolean retorno =  proprietarioService.removerProprietario(proprietario.toString());
         assertTrue(retorno);
     }
-
 }

@@ -2,6 +2,7 @@ package com.meli.desafiospringboot2209.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.persistence.ProprietarioPersistence;
 
@@ -81,8 +82,9 @@ public class ProprietarioService {
         return true;
     }
 
-    public void ordemListaProprietariosCrescente() {
+    public List<Proprietario> ordemListaProprietariosCrescente() {
         proprietariosLista.sort((Comparator.comparing(Proprietario::getCpf)));
+		return proprietariosLista;
     }
 
     public boolean proprietarioJaCadastrado(String cpf) {
@@ -91,10 +93,11 @@ public class ProprietarioService {
 
     public Proprietario obterProprietario(String cpf){
         List<Proprietario> proprietarios = proprietarioPersistence.getList(cpf);
-        Optional<Proprietario> any = proprietarios.stream().filter(v -> v.getCpf().equals(cpf)).findAny();
+        Optional<Proprietario> any = proprietarios.stream().filter(proprietario -> proprietario.getCpf().equals(cpf)).findAny();
         if (!any.isPresent()) {
             throw new RuntimeException("Número do cpf não pode ser nulo");
+        } else {
+            return any.get();
         }
-        return any.get();
     }
 }
