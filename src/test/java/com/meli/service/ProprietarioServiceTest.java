@@ -32,17 +32,10 @@ class ProprietarioServiceTest {
         Mockito.when(mock.getList()).thenReturn(lista);
 
         ProprietarioService proprietarioService = new ProprietarioService(mock);
-        proprietarioService.cadastrarProprietario(proprietario);
-
-        assertNotNull(proprietario.getCpf());
-        assertNotNull(proprietario.getNome());
-        assertNotNull(proprietario.getSobrenome());
-        assertNotNull(proprietario.getDataNascimento());
-        assertNotNull(proprietario.getEndereco());
-        assertNotNull(proprietario.getTelefone());
+        proprietarioService.buscarProprietario();
+        boolean retorno = proprietarioService.cadastrarProprietario(proprietario);
         
-        List<Proprietario> ordemCrescente = proprietarioService.ordemListaProprietariosCrescente();
-        assertNotNull(ordemCrescente); 
+        assertTrue(retorno); 
     }
     
     @Test
@@ -86,6 +79,7 @@ class ProprietarioServiceTest {
                 "25/12/88",
                 "Avenida Atlas nº32",
                 "9910000000");
+        
         proprietarioList.add(proprietario);
         
         
@@ -138,6 +132,7 @@ class ProprietarioServiceTest {
         lista.add(proprietario);
 
         Mockito.when(mock.verificaNull(proprietario)).thenReturn(true);
+        Mockito.when(mock.alterarProprietario(proprietario)).thenReturn(true);
 
         ProprietarioService proprietarioService = new ProprietarioService(mock);
         boolean retorno =  proprietarioService.alterarProprietario(proprietario);
@@ -163,7 +158,8 @@ class ProprietarioServiceTest {
         Mockito.when(mock.getList()).thenReturn(lista);
 
         ProprietarioService proprietarioService = new ProprietarioService(mock);
-        boolean retorno =  proprietarioService.removerProprietario(proprietario.toString());
-        assertTrue(retorno);
+        Proprietario proprietario1 = proprietarioService.obterProprietario(proprietario.getCpf());
+        proprietarioService.removerProprietario(proprietario.getCpf());
+        assertNotNull(proprietario1.getCpf());
     }
 }

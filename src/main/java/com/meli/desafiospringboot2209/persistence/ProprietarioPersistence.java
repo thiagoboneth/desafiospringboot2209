@@ -40,7 +40,7 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
     public boolean alterarProprietario(Proprietario proprietario) {
         try {
             String json = ReadFileUtil.readFile(cP);
-
+            Gson gson = new Gson();
             Proprietario registro = proprietario;
             String cpf = registro.getCpf();
 
@@ -53,15 +53,17 @@ public class ProprietarioPersistence implements GetList<Proprietario> {
                     item.comDataNascimento(registro.getDataNascimento());
                     item.comEndereco(registro.getEndereco());
                     item.comTelefone(registro.getTelefone());
-                    //break;
+                    break;
                 }
             }
             objectMapper.writeValue(new File(cP), proprietarios);
         } catch (IOException e) {
+        	e.printStackTrace();
             throw new RuntimeException("Erro ao alterar o proprietário");
         }
         return true;
     }
+    
 
     // Método DELETE OK
     public boolean proprietarioJaCadastrado(String cpf) {
