@@ -8,6 +8,7 @@ import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.persistence.PacientePersistence;
 import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -21,18 +22,19 @@ import java.util.Optional;
 @Service
 public class PacienteService{
 
+    @Autowired
     private PacientePersistence pacientePersistence;
-
-    List<Paciente> pacientesLista = new ArrayList<>();
 
     String arquivo = "pacientes.json";
     String caminho = "db";
     String cP = caminho + "/" + arquivo;
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public PacienteService(PacientePersistence pacienteService) {
-        this.pacientePersistence = pacienteService;
+    @Autowired
+    public PacienteService(PacientePersistence pacientePersistence) {
+        this.pacientePersistence = pacientePersistence;
     }
+
 
     // Método POST - Falta verificar cadastro com parametros nulos
 
@@ -75,11 +77,6 @@ public class PacienteService{
         if(pacienteJaCadastrado(NumeroColeira));
         return pacientePersistence.removerPacientePorId(NumeroColeira);
     }
-
-/*    public void ordemListaProprietariosCrescente() {
-        pacientePersistence.sort((Comparator.comparing(Paciente::getNumeroColeira)));
-    }*/
-
 
     public Paciente obterPaciente(String numeroColeira){
         List<Paciente> pacientes = pacientePersistence.getList();

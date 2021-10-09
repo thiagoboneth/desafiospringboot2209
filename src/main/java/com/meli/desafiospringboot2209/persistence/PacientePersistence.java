@@ -9,6 +9,7 @@ import com.meli.desafiospringboot2209.dto.ConsultaDTO;
 import com.meli.desafiospringboot2209.dto.PacienteDTO;
 import com.meli.desafiospringboot2209.entity.Paciente;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
@@ -50,7 +51,7 @@ public class PacientePersistence implements GetList<Paciente> {
         return true;
 
     }
-
+    @Autowired
     public void ordemListaPacienteCrescente(){
         Collections.sort(listaPacientes,((o1, o2) -> o1.getProprietario().getCpf().compareTo(o2.getProprietario().getCpf())));
     }

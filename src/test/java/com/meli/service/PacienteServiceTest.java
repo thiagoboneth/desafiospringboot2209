@@ -19,8 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class PacienteServiceTest {
@@ -212,7 +211,8 @@ public class PacienteServiceTest {
     }
     @Test
     void obter_paciente() throws IOException {
-        PacienteService mock = Mockito.mock(PacienteService.class);
+        PacientePersistence mock = Mockito.mock(PacientePersistence.class);
+        List<Paciente> list = new ArrayList<>();
 
         Proprietario proprietario = new Proprietario()
                 .comCpf("531.088.254-20")
@@ -233,9 +233,18 @@ public class PacienteServiceTest {
                 .comEspecie("Coelho")
                 .comNumeroColeira("77");
 
+        list.add(paciente);
+        PacienteService pacienteService = new PacienteService(mock);
 
         when(mock.pacienteJaCadastrado(paciente.getNumeroColeira())).thenReturn(false);
-        when(mock.obterPaciente(paciente.getNumeroColeira())).thenReturn(paciente);
-        assertEquals("77", paciente.getNumeroColeira());
+        when(mock.getList()).thenReturn(list);
+        Paciente buscaPaciene = pacienteService.obterPaciente(paciente.getNumeroColeira());
+        assertNotNull("77", buscaPaciene.getNumeroColeira());
+
+        //buscando consulta
+        when(mock.buscarPaciente()).thenReturn(list);
+        List<Paciente> buscaPaciene1 = pacienteService.buscarPaciente();
+        assertNotNull(buscaPaciene1);
+
     }
 }
