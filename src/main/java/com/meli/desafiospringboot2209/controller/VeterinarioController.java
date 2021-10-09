@@ -44,6 +44,6 @@ public class VeterinarioController {
     //Delete ok
     @DeleteMapping("/deletar/{numeroRegistro}")
     public void removerVeterinario(@PathVariable String numeroRegistro) {
-            veterinarioService.removerVeterinarioPorRegistro(numeroRegistro);
+            veterinarioService.removerVeterinario(numeroRegistro);
         }
     }
