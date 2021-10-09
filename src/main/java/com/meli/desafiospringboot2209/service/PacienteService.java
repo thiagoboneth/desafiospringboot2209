@@ -45,12 +45,8 @@ public class PacienteService{
                 pacientePersistence.verificaNull(paciente);
                 pacientePersistence.salvarPacienteNoArquivo(paciente);
                 return true;
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Erro ao cadastrar o proprietário");
-            }
-        } else {
-            throw new RuntimeException("Proprietário já cadastrado");
-        }
+            } catch (RuntimeException e) {throw new RuntimeException("Erro ao cadastrar o proprietário");}
+        } else { throw new RuntimeException("Proprietário já cadastrado");}
     }
 
     // Método DELETE OK
@@ -81,9 +77,7 @@ public class PacienteService{
     public Paciente obterPaciente(String numeroColeira){
         List<Paciente> pacientes = pacientePersistence.getList();
         Optional<Paciente> any = pacientes.stream().filter(paciente -> paciente.getNumeroColeira().equals(numeroColeira)).findAny();
-        if (!any.isPresent()){
-            throw new RuntimeException("Numero de coleira nulo");
-        }
+        if (!any.isPresent()){throw new RuntimeException("Numero de coleira nulo");}
         return any.get();
     }
 }
