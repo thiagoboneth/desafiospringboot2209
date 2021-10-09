@@ -1,5 +1,6 @@
 package com.meli.service;
 
+import com.meli.desafiospringboot2209.entity.Proprietario;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.persistence.VeterinarioPersistence;
 import com.meli.desafiospringboot2209.service.VeterinarioService;
@@ -29,7 +30,7 @@ public class VeterinarioServiceTest {
 
         veterinarioList.add(veterinario);
 
-        Mockito.when(mock.salvarVeterinarioNoArquivo(veterinario)).thenReturn(veterinario);
+        Mockito.when(mock.salvarVeterinarioNoArquivo(Mockito.any(Veterinario.class))).thenReturn(veterinario);
         Mockito.when(mock.getList()).thenReturn(veterinarioList);
 
         VeterinarioService veterinarioService = new VeterinarioService(mock);
@@ -51,7 +52,7 @@ public class VeterinarioServiceTest {
 
         veterinarioList.add(veterinario);
 
-        Mockito.when(mock.salvarVeterinarioNoArquivo(veterinario)).thenReturn(veterinario);
+        Mockito.when(mock.salvarVeterinarioNoArquivo(Mockito.any(Veterinario.class))).thenReturn(veterinario);
         Mockito.when(mock.getList()).thenReturn(veterinarioList);
         assertEquals("001.000.000-22", veterinario.getCpf());
     }
