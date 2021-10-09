@@ -60,14 +60,7 @@ public class PacienteService{
 
     // Método GET OK
     public List<Paciente> buscarPaciente() {
-        try {
-            pacientesLista = objectMapper.readValue(new File(cP), new TypeReference<List<Paciente>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // ordemListaProprietariosCrescente();
-        return pacientesLista;
+        return this.pacientePersistence.buscarPaciente();
     }
 
     // Método PUT - Falta verificar alteracao com parametros nulos
