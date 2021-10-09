@@ -29,13 +29,6 @@ public class ConsultaService {
         this.consultaPersistence = consultaPersistence;
         this.pacientePersistence = pacientePersistence;
     }
-    
-   
-    //public ConsultaService() {
-    //
-    //}
-
-
     /**
      * deve retornar um objeto da consulta marcada contendo todos os dados da consulta. Nao deve ser void
      * @param consulta
@@ -44,14 +37,11 @@ public class ConsultaService {
     public boolean marcaConsulta(Consulta consulta){
         try {
             if(consultaJaCadastrada(consulta.getNumeroConsulta())){
-            	throw new RuntimeException("Erro");
-            }else {
+            	throw new RuntimeException("Erro"); }else {
                 this.consultaPersistence.salvarConsultaNoArquivo(consulta);
                 return true;
             }
-        }catch (RuntimeException | IOException e){
-            throw new RuntimeException("Consulta já cadastrada");
-        }
+        }catch (RuntimeException | IOException e){throw new RuntimeException("Consulta já cadastrada");}
     }
 
     public boolean consultaJaCadastrada(String numeroConsulta) throws IOException {
