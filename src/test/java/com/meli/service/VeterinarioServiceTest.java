@@ -33,7 +33,9 @@ public class VeterinarioServiceTest {
         Mockito.when(mock.salvarVeterinarioNoArquivo(Mockito.any(Veterinario.class))).thenReturn(veterinario);
         Mockito.when(mock.getList()).thenReturn(veterinarioList);
 
+
         VeterinarioService veterinarioService = new VeterinarioService(mock);
+        veterinarioService.buscarVeterinario();
         boolean retorno = veterinarioService.cadastrarVeterinario(veterinario);
         assertTrue(retorno);
     }
@@ -94,12 +96,14 @@ public class VeterinarioServiceTest {
 
          veterinarioList.add(veterinario);
 
-        Mockito.when(mock.removerVeterinarioPorRegistro(veterinario.toString())).thenReturn(true);
+        Mockito.when(mock.removerVeterinario(veterinario.toString())).thenReturn(true);
         Mockito.when(mock.getList()).thenReturn(veterinarioList);
 
         VeterinarioService veterinarioService = new VeterinarioService(mock);
-        boolean retorno =  veterinarioService.removerVeterinarioPorRegistro(veterinario.toString());
-        assertTrue(retorno);
+        Veterinario veterinario1 = veterinarioService.obterVeterinario(veterinario.getNumeroRegistro());
+        veterinarioService.removerVeterinario(veterinario.getNumeroRegistro());
+        assertNotNull(veterinario1.getNumeroRegistro());
     }
+
 }
 
