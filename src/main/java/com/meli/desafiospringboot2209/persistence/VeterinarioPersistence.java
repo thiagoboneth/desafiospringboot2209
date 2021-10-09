@@ -3,6 +3,7 @@ package com.meli.desafiospringboot2209.persistence;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.meli.desafiospringboot2209.dto.VeterinarioDTO;
 import com.meli.desafiospringboot2209.entity.Consulta;
 import com.meli.desafiospringboot2209.entity.Veterinario;
 import com.meli.desafiospringboot2209.util.ReadFileUtil;
@@ -101,36 +102,27 @@ public class VeterinarioPersistence implements GetList {
     }
 
     //Método Delete
-    public boolean removerVeterinarioPorRegistro(String numeroRegistro) {
-        List<Veterinario> veterinariosList = getList();
-        Optional<Veterinario> any = veterinariosList.stream().filter(c -> c.getNumeroRegistro().equals(numeroRegistro)).findAny();
-        if(any.isPresent())
-            veterinariosList.remove(any.get());
-        try {
-            objectMapper.writeValue(new File(cC), veterinariosList);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao deletar ID");
-        }
-        return true;
-    }
-    /*public void removerVeterinarioPorRegistro(String numeroRegistro) {
-        if (!veterinarioRegistradoEmConsulta(numeroRegistro)) {
+    public boolean removerVeterinario(String numeroRegistro) {
+        if(!veterinarioRegistradoEmConsulta(numeroRegistro)){
             List<Veterinario> veterinariosList = getList();
-            Optional<Veterinario> any = veterinariosList.stream().filter(c -> c.getNumeroRegistro().equals(numeroRegistro)).findAny();
-            if (any.isPresent())
+            Optional<Veterinario> any = veterinariosList.stream().filter(c ->
+                    c.getNumeroRegistro().equals(numeroRegistro)).findAny();
+            if(any.isPresent()) {
                 veterinariosList.remove(any.get());
+                return true;
+            }
             try {
                 objectMapper.writeValue(new File(cC), veterinariosList);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Erro ao deletar ID");
             }
-        } else {
+        }
+        else {
             throw new RuntimeException("Não é permitido excluir o veterinario,ele está cadastrada em uma consulta.");
         }
+        return false;
     }
-*/
     // Usado no Método Delete
     public boolean veterinarioRegistradoEmConsulta(String NumeroRegistro) {
         try {

@@ -27,6 +27,10 @@ public class VeterinarioService {
         this.veterinarioPersistence = veterinarioPersistence;
     }
 
+    public VeterinarioService() {
+
+    }
+
     //Método Post
     public boolean cadastrarVeterinario(Veterinario veterinario) {
         if (!veterinarioJaCadastrado(veterinario.getNumeroRegistro(), veterinario.getCpf())) {
@@ -34,12 +38,9 @@ public class VeterinarioService {
                 veterinarioPersistence.verificaNull(veterinario);
                 veterinarioPersistence.salvarVeterinarioNoArquivo(veterinario);
 
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Não é permitido cadastrar o veterinario com algum parâmetro nulo");
+            } catch (RuntimeException e) {throw new RuntimeException("Não é permitido cadastrar o veterinario com algum parâmetro nulo");
             }
-        } else {
-            throw new RuntimeException("Veterinário já cadastrado");
-        }
+        } else { throw new RuntimeException("Veterinário já cadastrado"); }
         return true;
     }
 
@@ -48,8 +49,7 @@ public class VeterinarioService {
         try {
             listaVeterinarios = objectMapper.readValue(new File(cC), new TypeReference<List<Veterinario>>() {
             });
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException e) { e.printStackTrace();
         }
         ordemListaConsultaCrescente();
         return listaVeterinarios;
@@ -70,28 +70,24 @@ public class VeterinarioService {
         try {
             veterinarioPersistence.verificaNull(veterinario);
             veterinarioPersistence.alterarVeterinario(veterinario);
-        }catch (RuntimeException e){
-            throw new RuntimeException("Não é permitido Alterar o veterinario passando algum parâmetro nulo");
+        }catch (RuntimeException e){ throw new RuntimeException("Não é permitido Alterar o veterinario passando algum parâmetro nulo");
         }
         return true;
       }
 
     //Método Delete
-    public boolean removerVeterinarioPorRegistro(String numeroRegistro) {
+    public boolean removerVeterinario(String numeroRegistro) {
         try {
-            veterinarioPersistence.removerVeterinarioPorRegistro(numeroRegistro);
-        }catch (RuntimeException e){
-            throw new RuntimeException("Não é possível deletar um veterinário a qual o paciente está registrado em uma consulta");
-        }
-      return true;
+            veterinarioPersistence.removerVeterinario(numeroRegistro);
+        }catch (RuntimeException e){ throw new RuntimeException("Não é possível deletar um veterinário"); }
+        return true;
     }
 
     //Usado em Consulta
     public Veterinario obterVeterinario(String numeroRegistro) {
         List<Veterinario> veterinarios = veterinarioPersistence.getList();
         Optional<Veterinario> any = veterinarios.stream().filter(v -> v.getNumeroRegistro().equals(numeroRegistro)).findAny();
-        if (!any.isPresent()) {
-            throw new RuntimeException("Numero de veterinário nulo");
+        if (!any.isPresent()) { throw new RuntimeException("Numero de veterinário nulo");
         }
         return any.get();
     }
