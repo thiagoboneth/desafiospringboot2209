@@ -101,8 +101,7 @@ public class VeterinarioServiceTest {
 
         VeterinarioService veterinarioService = new VeterinarioService(mock);
         Veterinario veterinario1 = veterinarioService.obterVeterinario(veterinario.getNumeroRegistro());
-        veterinarioService.removerVeterinario(veterinario.getNumeroRegistro());
-        assertNotNull(veterinario1.getNumeroRegistro());
+        assertTrue(veterinarioService.removerVeterinario(veterinario1.getCpf()));
     }
 
 }

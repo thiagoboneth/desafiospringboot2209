@@ -38,8 +38,7 @@ public class VeterinarioService {
                 veterinarioPersistence.verificaNull(veterinario);
                 veterinarioPersistence.salvarVeterinarioNoArquivo(veterinario);
 
-            } catch (RuntimeException e) {throw new RuntimeException("Não é permitido cadastrar o veterinario com algum parâmetro nulo");
-            }
+            } catch (RuntimeException e) {throw new RuntimeException("Não é permitido cadastrar o veterinario com algum parâmetro nulo"); }
         } else { throw new RuntimeException("Veterinário já cadastrado"); }
         return true;
     }
@@ -47,8 +46,7 @@ public class VeterinarioService {
     //Método Get
     public List<Veterinario> buscarVeterinario() {
         try {
-            listaVeterinarios = objectMapper.readValue(new File(cC), new TypeReference<List<Veterinario>>() {
-            });
+            listaVeterinarios = objectMapper.readValue(new File(cC), new TypeReference<List<Veterinario>>() {});
         } catch (IOException e) { e.printStackTrace();
         }
         ordemListaConsultaCrescente();
@@ -69,8 +67,7 @@ public class VeterinarioService {
     public boolean alterarVeterinario(Veterinario veterinario) {
         try {
             veterinarioPersistence.verificaNull(veterinario);
-            veterinarioPersistence.alterarVeterinario(veterinario);
-        }catch (RuntimeException e){ throw new RuntimeException("Não é permitido Alterar o veterinario passando algum parâmetro nulo");
+            veterinarioPersistence.alterarVeterinario(veterinario); }catch (RuntimeException e){ throw new RuntimeException("Não é permitido Alterar o veterinario passando algum parâmetro nulo");
         }
         return true;
       }
