@@ -59,8 +59,9 @@ public class ProprietarioService {
         try{
             proprietarioPersistence.verificaNull(proprietario);
             proprietarioPersistence.alterarProprietario(proprietario);
-        } catch (RuntimeException e) {throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");}
-        return true;
+            return true;
+        }
+        catch (RuntimeException e) {throw new RuntimeException("Não é permitido cadastrar o proprietário com parâmetros nulos");}
     }
 
     // Método DELETE - Falta implementar a verificacao se o paciente está em uma consulta, logo não pode deletar o proprietário
@@ -68,8 +69,9 @@ public class ProprietarioService {
         try {
             proprietarioPersistence.proprietarioJaCadastrado(cpf);
             proprietarioPersistence.removerProprietario(cpf);
+            return true;
         } catch (RuntimeException e) {throw new RuntimeException("Não é possível deletar um proprietário ao qual o paciente já está com consulta marcada");}
-        return true;
+
     }
 
     public List<Proprietario> ordemListaProprietariosCrescente() {
@@ -82,9 +84,13 @@ public class ProprietarioService {
     }
 
     public Proprietario obterProprietario(String cpf){
-        List<Proprietario> proprietarios = proprietarioPersistence.getList(cpf);
-        Optional<Proprietario> any = proprietarios.stream().filter(proprietario -> proprietario.getCpf().equals(cpf)).findAny();
-        if (!any.isPresent()) {throw new RuntimeException("Número do cpf não pode ser nulo");}
-        else {return any.get();}
+        List<Proprietario> proprietarios = proprietarioPersistence.getList();
+        Optional<Proprietario> any = proprietarios.stream().filter(p -> p.getCpf().equals(cpf)).findAny();
+        if (!any.isPresent()) {
+            throw new RuntimeException("Número do cpf não pode ser nulo");
+        }
+        else {
+            return any.get();
+        }
     }
 }
